@@ -14,16 +14,24 @@ class LoginController extends Controller
 
     public function authenticate(Request $request)
     {
-        $credential = $request->validate([
-            'email' => 'required|email:dns',
-            'password' => 'required'
+    
+        $request->validate([
+            'credential' => 'required',
+            'password' => 'required',
         ]);
-        
-        if (Auth::attempt($credential)) {
+
+        $fieldType = filter_var($request->credential, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        if (Auth::attempt([$fieldType => $request->credential, 'password' => $request->password])) {
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard');
+
+            if (Auth::user()->role_id === '2') {
+                return redirect()->intended('/berandaadmin');
+            }
+
+            return redirect()->intended('/beranda');
         }
 
-        return back()->with('loginError','login failed!');
+        return back()->with('loginError', 'Login failed!');
     }
 }

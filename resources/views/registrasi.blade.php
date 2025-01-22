@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>PERPUS</title>
+    <title>Registrasi</title>
     @vite('resources/css/app.css')
     @vite('resources/css/font.css')
 </head>
@@ -44,11 +44,11 @@
                 </div>
                 <div>
                     <label for="password" class="text-md p-4">Password</label><br>
-                    <input type="password" name="password" id="password" class="rounded-full border-black p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none" placeholder="Password" required>
+                    <input type="password" name="password" id="password" class="rounded-full border-black p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none" maxlength="8" placeholder="Password" required>
                 </div>
                 <div>
                     <label for="password_confirmation" class="text-md p-4">Ulangi Password</label><br>
-                    <input type="password" name="password_confirmation" id="password_confirmation" class="rounded-full border-black p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none" placeholder="Ulangi Password" required>
+                    <input type="password" name="password_confirmation" id="password_confirmation" class="rounded-full border-black p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none" maxlength="8" placeholder="Ulangi Password" required>
                 </div>
             </x-form>
         </div> 

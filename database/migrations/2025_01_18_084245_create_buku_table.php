@@ -20,6 +20,7 @@ return new class extends Migration
             $table->longText('deskripsi')->nullable();
             $table->string('kategori');
             $table->string('status')->default('tersedia');
+            $table->string('foto')->nullable();
             $table->timestamps();
         });
     }

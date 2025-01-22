@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>PERPUS</title>
+    <title>Login</title>
     @vite('resources/css/app.css')
     @vite('resources/css/font.css')
 </head>
@@ -29,21 +29,21 @@
             <x-form action="/login" method="POST" title="login" buttonText="Login">
                 @csrf
                 <div>
-                    <label for="nama" class="text-md p-4">masukan email/username</label><br>
-                    <input type="email" name="email" id="email" class="rounded-full border-black p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none" placeholder="email/username" autofocus required 
-                    @error('email') 
-                        is-invalid 
-                    @enderror> 
-                    @error('email')
+                    <label for="credential" class="text-md p-4">Masukan Email atau Username</label><br>
+                    <input type="text" name="credential" id="credential" class="rounded-full border-black p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none" placeholder="Email atau Username" autofocus required 
+                        @error('credential') 
+                            is-invalid 
+                        @enderror> 
+                    @error('credential')
                         <div class="invalid-feedback text-red-500 text-sm px-2">
                             {{ $message }}
                         </div>
                     @enderror
                 </div>
                 <div>
-                    <label for="nama" class="text-md p-4">password</label><br>
-                    <input type="password" name="password" id="password" class="rounded-full border-black p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none" placeholder="password" required>
-                </div>
+                    <label for="password" class="text-md p-4">Password</label><br>
+                    <input type="password" name="password" id="password" class="rounded-full border-black p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none" placeholder="Password" required>
+                </div>                
             </x-form>
             <p>Punya Akun?<a href="/registrasi" class="px-2 text-blue-500">Registrasi</a></p> 
         </div> 
