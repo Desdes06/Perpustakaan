@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('kategori');
             $table->string('status')->default('tersedia');
             $table->string('foto')->nullable();
+            $table->string('file_buku');
             $table->timestamps();
         });
     }

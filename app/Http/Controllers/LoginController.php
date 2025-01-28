@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class LoginController extends Controller
 {
@@ -25,7 +27,7 @@ class LoginController extends Controller
         if (Auth::attempt([$fieldType => $request->credential, 'password' => $request->password])) {
             $request->session()->regenerate();
 
-            if (Auth::user()->role_id === '2') {
+            if (Auth::user()->role_id == '2') {
                 return redirect()->intended('/berandaadmin');
             }
 
@@ -33,5 +35,15 @@ class LoginController extends Controller
         }
 
         return back()->with('loginError', 'Login failed!');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/login')->with('message', 'Anda telah berhasil logout');
     }
 }

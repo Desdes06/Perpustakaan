@@ -1,3 +1,4 @@
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 <nav class="bg-black" x-data="{ isMenuOpen: false, isProfileOpen: false }">
   <div class="max-w-full px-2 sm:px-6 lg:px-8">
     <div class="relative flex h-20 items-center justify-between">
@@ -35,7 +36,7 @@
       </div>
       <div class="flex items-center justify-between">
         <div class="flex shrink-0 items-center hidden sm:block">
-          <img class="h-8 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" />
+          <img class="h-8 w-auto" src="img/logo.png" alt="Your Company" />
         </div>
         <div class="absolute inset-x-0 flex justify-center">
           <div class="flex space-x-4 hidden sm:ml-6 sm:block">
@@ -80,11 +81,11 @@
             aria-labelledby="user-menu-button"
             tabindex="-1">
             <div class="flex items-center p-2">
-                <div class="bg-slate-800 w-full rounded-md p-2 flex items-center">
-                    <img class="h-8 w-auto px-4" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" />
+                <div class="bg-slate-800 w-full rounded-md p-4 flex items-center space-x-4">
+                    <img class="h-12 w-auto bg-white p-2 rounded-full" src="/img/profile.png" alt="Your Company" />
                     <div class="p-2">
-                        <p class="text-md text-gray-700 text-white font-semibold">desvi</p>
-                        <p class="text-sm text-gray-700 text-white pb-2">desssshhhhhhhhh@gmail</p>
+                        <p class="text-md text-gray-700 text-white font-semibold">{{ $user->username }}</p>
+                        <p class="text-sm text-gray-700 text-white pb-2">{{ $user->email }}</p>
                         <a href="/profile">
                             <button class="text-sm text-gray-700 bg-gray-300 p-2 hover:bg-gray-400 hover:text-white rounded-xl">Lihat Profile</button>
                         </a>

@@ -50,5 +50,15 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class);
-    }  
+    }
+
+    public function pengembalian()
+    {
+        return $this->hasMany(Pengembalian::class, 'id_user');
+    }
+
+    public function pinjam()
+    {
+        return $this->hasMany(Pinjam::class, 'id_user');
+    }
 }

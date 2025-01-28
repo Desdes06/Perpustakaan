@@ -16,6 +16,17 @@ class Buku extends Model
         'deskripsi',
         'kategori',
         'status',
-        'foto'
+        'foto',
+        'file_buku'
     ];
+
+    public function pengembalian()
+    {
+        return $this->hasMany(Pengembalian::class, 'id_buku');
+    }
+
+    public function pinjam()
+    {
+        return $this->hasMany(Pinjam::class, 'id_buku');
+    }
 }
