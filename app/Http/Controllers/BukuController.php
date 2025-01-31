@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Buku;
+use App\Models\Pengembalian;
 use App\Models\Pinjam;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -112,13 +113,18 @@ class BukuController extends Controller
         }
 
         if ($buku->foto) {
-            Storage::delete('public/' . $buku->foto);
+            Storage::disk('public')->delete($buku->foto);
+        }
+
+        if ($buku->file_buku) {
+            Storage::disk('public')->delete($buku->file_buku);
         }
 
         $buku->delete();
-        
+
         return redirect()->back()->with('success', 'Buku berhasil dihapus.');
     }
+
 
     public function baca($id)
     {
@@ -157,11 +163,40 @@ class BukuController extends Controller
 
     public function bukupinjam()
     {
-        
+        $pinjam = Auth::check() 
+        ? Pinjam::with('buku')
+            ->where('id_user', Auth::id())
+            ->get()
+        : collect([]);
+
+        return view('pinjam', compact('pinjam'));
     }
 
-    public function pengembalian()
+    public function pengembalian($id_buku)
     {
-        
+        $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'Anda harus login untuk mengembalikan buku.');
+        }
+
+        // Cek apakah user telah meminjam buku ini
+        $pinjam = Pinjam::where('id_buku', $id_buku)
+                        ->where('id_user', $user->id)
+                        ->first();
+
+        if (!$pinjam) {
+            return redirect()->back()->with('error', 'Anda tidak meminjam buku ini.');
+        }
+
+        $pinjam->delete();
+
+        Pengembalian::create([
+            'id_buku' => $id_buku,
+            'id_user' => $user->id,
+            'tanggal_pengembalian' => now(),
+        ]);
+
+        return redirect()->back()->with('success', 'Buku berhasil dikembalikan.');
     }
 }

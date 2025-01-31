@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Buku;
+use App\Models\Pengembalian;
+use App\Models\Pinjam;
+use App\Models\User;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,5 +25,8 @@ class ViewServiceProvider extends ServiceProvider
     public function boot(): void
     {
         View::share('buku', Buku::all());
+        View::share('user', User::all());
+        View::share('pinjam', Pinjam::with('buku', 'user')->get());
+        view::share('pengembalian', Pengembalian::with('buku', 'user')->get());
     }
 }

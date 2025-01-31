@@ -40,7 +40,7 @@
         </div>
         <div class="absolute inset-x-0 flex justify-center">
           <div class="flex space-x-4 hidden sm:ml-6 sm:block">
-            <a href="/beranda" class="text-sm font-medium text-white hover:text-gray-300" aria-current="page">Dashboard</a>
+            <a href="/beranda" class="text-sm font-medium text-white hover:text-gray-300" aria-current="page">Beranda</a>
             <a href="/pinjam" class="text-sm font-medium text-white hover:text-gray-300">Pinjam</a>
           </div>
         </div>

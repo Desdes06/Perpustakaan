@@ -30,11 +30,11 @@
                 @csrf
                 <div>
                     <label for="credential" class="text-md p-4">Masukan Email atau Username</label><br>
-                    <input type="text" name="credential" id="credential" class="rounded-full border-black p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none" placeholder="Email atau Username" autofocus required 
-                        @error('credential') 
+                    <input type="text" name="email" id="email" class="rounded-full border-black p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none" placeholder="Email" autofocus required 
+                        @error('email') 
                             is-invalid 
                         @enderror> 
-                    @error('credential')
+                    @error('email')
                         <div class="invalid-feedback text-red-500 text-sm px-2">
                             {{ $message }}
                         </div>

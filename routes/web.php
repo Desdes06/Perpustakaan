@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\UserlistController;
+use App\Models\Buku;
 use Illuminate\Support\Facades\Route;
 
 // route untuk view
@@ -16,6 +17,14 @@ Route::get('/beranda', function () {
     return view('dashboard');
 })->middleware('auth');
 
+Route::get('/profile', function () {
+    return view('profile');
+});
+
+Route::get('/pinjam', function () {
+    return view('pinjam');
+});
+
 Route::get('/anggota', function () {
     return view('anggota');
 })->middleware('auth');
@@ -24,13 +33,14 @@ Route::get('/listbuku', function () {
     return view('listbuku');
 })->middleware('auth')->name('listbuku');
 
-Route::get('/profile', function () {
-    return view('profile');
-});
+Route::get('/listpinjam', function () {
+    return view('listpinjam');
+})->middleware('auth')->name('listbuku');
 
-Route::get('/pinjam', function () {
-    return view('pinjam');
-});
+Route::get('/listpengembalian', function () {
+    return view('listpengembalian');
+})->middleware('auth')->name('listbuku');
+
 
 Route::get('/',[RouteController::class, 'routehome']);
 
@@ -58,7 +68,11 @@ Route::post('/login',[LoginController::class, 'authenticate'])->name('verifikasi
 Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth');
 
 // route baca buku
-Route::get('/bacabuku/{id}', [BukuController::class, 'baca'])->name('bacabuku')->middleware('auth');
+Route::get('/bacabuku/{id}', [BukuController::class, 'baca'])->name('baca.buku')->middleware('auth');
 
-// pinjam buku
+// route pinjam buku
 Route::post('/pinjam', [BukuController::class, 'pinjam'])->name('pinjam.buku')->middleware('auth');
+Route::get('/pinjam', [BukuController::class, 'bukupinjam'])->middleware('auth');
+
+// route pengembalian buku
+Route::post('/kembalikan/{id_buku}', [BukuController::class, 'pengembalian'])->name('kembalikanbuku');

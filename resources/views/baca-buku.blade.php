@@ -26,7 +26,7 @@
 <body>
     <div class="space-y-4">
         <div class="bg-gray-900 px-8 p-4 flex justify-between items-center">
-            <a href="/beranda">
+            <a href="/pinjam">
                 <button class="bg-gray-300 hover:bg-gray-400 hover:text-white p-2 rounded-md">kembali</button>
             </a>
             <h1 class="text-2xl font-bold text-center text-white">{{ $buku->judul_buku }}</h1>
