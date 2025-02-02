@@ -15,12 +15,12 @@
     <div class="px-12 pt-4 space-y-4">
         <div class="flex justify-between">
             <h1 class="font-bold text-4xl">BERANDA</h1>
-            <x-sortirpilih></x-sortirpilih>
+            <x-sortirpilih type='beranda'></x-sortirpilih>
         </div>
-        <div class="border-2 p-4 rounded-md space-y-2">  
+        <div class="border-2 p-4 rounded-md space-y-2 ">  
             <div class="grid grid-cols-6 gap-4">
                 @foreach($buku as $b)
-                <div class="bg-gray-200 p-2 hover:shadow-xl h-auto w-72 rounded-xl">
+                <div class="bg-gray-200 p-2 hover:shadow-xl h-auto rounded-xl">
                     @if($b->foto)
                         <img src="{{ asset('storage/' . $b->foto) }}" alt="Cover Buku" class="w-full object-cover rounded-xl">
                     @else
@@ -29,9 +29,9 @@
                     <div class="p-4 space-y-2">
                         <div>
                             <h3 class="font-semibold text-lg">{{ $b->judul_buku }}</h3>
-                            <p class="text-sm text-gray-700">{{ $b->penulis }}</p>
-                            <p class="text-sm text-gray-700">{{ $b->penerbit }}</p>
-                            <p class="text-sm text-gray-700"><span>tanggal terbit : </span>{{ $b->tanggal_terbit }}</p>
+                            <p class="text-md text-gray-700">{{ $b->penulis }}</p>
+                            <p class="text-md text-gray-700">{{ $b->penerbit }}</p>
+                            <p class="text-md text-gray-700"><span>tanggal terbit : </span>{{ $b->tanggal_terbit }}</p>
                         </div>
                         <button data-modal-target="modal-{{ $b->id }}" data-modal-toggle="modal-{{ $b->id }}" 
                             class="p-2 outline-blue-500 outline outline-2 rounded-sm hover:bg-blue-500 hover:text-white" 
@@ -68,6 +68,9 @@
                                             <strong>Penerbit</strong> : {{ $b->penerbit}}
                                         </p>
                                         <p class="text-base leading-relaxed text-black">
+                                            <strong>Kategori</strong> : {{ $b->kategori}}
+                                        </p>
+                                        <p class="text-base leading-relaxed text-black">
                                             <strong>Tanggal Terbit</strong> : {{ $b->tanggal_terbit}}
                                         </p>
                                         <p class="text-base leading-relaxed text-black">
@@ -76,9 +79,22 @@
                                         <form action="/pinjam" method="POST">
                                             @csrf
                                             <input type="hidden" name="id_buku" value="{{ $b->id }}">
-                                            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 justify-end">
-                                                Pinjam
-                                            </button>
+                                        
+                                            @php
+                                                $isAlreadyBorrowed = \App\Models\Pinjam::where('id_user', auth()->id())
+                                                    ->where('id_buku', $b->id)
+                                                    ->exists();
+                                            @endphp
+                                        
+                                            @if($isAlreadyBorrowed)
+                                            <a href="{{ route('baca.buku', ['id' => $b->id]) }}" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 justify-end">
+                                                Baca
+                                            </a>
+                                            @else
+                                                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 justify-end">
+                                                    Pinjam
+                                                </button>
+                                            @endif
                                         </form>
                                     </div>
                                 </div>
@@ -86,8 +102,8 @@
                         </div>
                     </div>
                 </div>
+                @endforeach
             </div>
-            @endforeach
         </div>    
     </div>
 </body>

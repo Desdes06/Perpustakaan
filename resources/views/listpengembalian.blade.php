@@ -19,13 +19,17 @@
     </x-sidebar-admin>
 
     <div class="p-4 space-y-4 sm:ml-64">
-        <x-sortirpilih></x-sortirpilih>
-
+        <div class="flex justify-between">
+            <h1 class="font-bold text-4xl">PENGEMBALIAN</h1>
+            <x-sortirpilih type='listpengembalian'></x-sortirpilih>    
+        </div> 
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-white uppercase bg-gray-800">
                     <tr>
                         <th scope="col" class="px-6 py-3">judul</th>
+                        <th scope="col" class="px-6 py-3">Kategori</th>
+                        <th scope="col" class="px-6 py-3">Penulis</th>
                         <th scope="col" class="px-6 py-3">Nama</th>
                         <th scope="col" class="px-6 py-3">Email</th>
                         <th scope="col" class="px-6 py-3">Tanggal Pengembalian</th>
@@ -35,6 +39,8 @@
                     @foreach($pengembalian as $p)
                     <tr class="odd:bg-gray-900 even:bg-gray-800 border-gray-700 text-white">
                         <td class="px-6 py-3">{{ $p->buku->judul_buku }}</td>
+                        <td class="px-6 py-3">{{ $p->buku->kategori }}</td>
+                        <td class="px-6 py-3">{{ $p->buku->penulis }}</td>
                         <td class="px-6 py-3">{{ $p->user->username }}</td>
                         <td class="px-6 py-3">{{ $p->user->email }}</td>
                         <td class="px-6 py-3">{{ $p->created_at }}</td>

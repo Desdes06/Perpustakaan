@@ -36,7 +36,7 @@
       </div>
       <div class="flex items-center justify-between">
         <div class="flex shrink-0 items-center hidden sm:block">
-          <img class="h-8 w-auto" src="img/logo.png" alt="Your Company" />
+          <img class="h-8 w-auto" src="{{ asset('img/logo.png') }}" alt="Your Company" />
         </div>
         <div class="absolute inset-x-0 flex justify-center">
           <div class="flex space-x-4 hidden sm:ml-6 sm:block">
@@ -63,7 +63,7 @@
               :aria-expanded="isProfileOpen"
               aria-haspopup="true"
             >
-              <img class="h-8 w-8 rounded-full" alt="" />
+            <img class="h-8 w-auto bg-white p-2 rounded-full" src="{{ asset('img/profile.png') }}" alt="Your Company" />
             </button>
           </div>
 
@@ -82,7 +82,7 @@
             tabindex="-1">
             <div class="flex items-center p-2">
                 <div class="bg-slate-800 w-full rounded-md p-4 flex items-center space-x-4">
-                    <img class="h-12 w-auto bg-white p-2 rounded-full" src="/img/profile.png" alt="Your Company" />
+                    <img class="h-12 w-auto bg-white p-2 rounded-full" src="{{ asset('img/profile.png') }}" alt="Your Company" />
                     <div class="p-2">
                         <p class="text-md text-gray-700 text-white font-semibold">{{ $user->username }}</p>
                         <p class="text-sm text-gray-700 text-white pb-2">{{ $user->email }}</p>

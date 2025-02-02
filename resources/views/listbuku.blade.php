@@ -19,7 +19,10 @@
     </x-sidebar-admin>
 
     <div class="p-4 space-y-4 sm:ml-64">
-        <x-sortirpilih></x-sortirpilih>
+        <div class="flex justify-between">
+            <h1 class="font-bold text-4xl">LIST BUKU</h1>
+            <x-sortirpilih type="listbuku"></x-sortirpilih>
+        </div>
 
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -28,6 +31,7 @@
                         <th scope="col" class="px-6 py-3">Cover</th>
                         <th scope="col" class="px-6 py-3">Judul</th>
                         <th scope="col" class="px-6 py-3">Kategori</th>
+                        <th scope="col" class="px-6 py-3">Penulis</th>
                         <th scope="col" class="px-6 py-3">Tanggal Ditambahkan</th>
                         <th scope="col" class="px-6 py-3">Action</th>
                     </tr>
@@ -44,6 +48,7 @@
                         </td>
                         <td class="px-6 py-3">{{ $b->judul_buku }}</td>
                         <td class="px-6 py-3">{{ $b->kategori }}</td>
+                        <td class="px-6 py-3">{{ $b->penulis }}</td>
                         <td class="px-6 py-3">{{ $b->created_at }}</td>
                         <td class="px-6 py-3 space-x-4">
                             <button 
@@ -63,9 +68,9 @@
 
                     <!-- Modal Edit -->
                     <div id="crud-modal-{{$b->id}}" tabindex="-1" aria-hidden="true" 
-                        class="hidden fixed top-0 right-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
+                        class="hidden fixed top-0 right-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-10">
                         <div class="relative w-full max-w-md p-4">
-                            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700 px-4 pb-4">
                                 <div class="flex items-center justify-between p-4 border-b rounded-t dark:border-gray-600">
                                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Edit Buku</h3>
                                     <button type="button" class="text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg w-8 h-8 inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" 
@@ -80,31 +85,51 @@
                                     @csrf
                                     @method('PUT')
                                     <div class="grid gap-4 mb-4">
-                                        <div>
-                                            <label for="judul_buku" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Judul Buku</label>
-                                            <input type="text" name="judul_buku" id="judul_buku" value="{{ $b->judul_buku }}" 
+                                        <div class="flex space-x-2">
+                                            <div>
+                                                <label for="judul_buku" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Judul Buku</label>
+                                                <input type="text" name="judul_buku" id="judul_buku" value="{{ $b->judul_buku }}" 
+                                                    class="bg-gray-50 border text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white">
+                                            </div>
+                                            <div>
+                                                <label for="penulis" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Penulis</label>
+                                                <input type="text" name="penulis" id="penulis" value="{{ $b->penulis }}" 
+                                                    class="bg-gray-50 border text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white">
+                                            </div>
+                                        </div>
+                                        <div class="flex space-x-2">
+                                            <div>
+                                                <label for="penerbit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Penerbit</label>
+                                                <input type="text" name="penerbit" id="penerbit" value="{{ $b->penerbit }}" 
+                                                    class="bg-gray-50 border text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white">
+                                            </div>
+                                            <div>
+                                                <label for="tanggal_terbit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal Terbit</label>
+                                                <input type="date" name="tanggal_terbit" id="tanggal_terbit" value="{{ $b->tanggal_terbit }}" 
+                                                    class="bg-gray-50 border text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white">
+                                            </div>
+                                        </div>
+                                            <div>
+                                                <label for="kategori" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kategori</label>
+                                                <input type="text" name="kategori" id="kategori" value="{{ $b->kategori }}" 
+                                                    class="bg-gray-50 border text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white">
+                                            </div>
+                                        
+                                        <div class="flex flex-row items-center space-x-2">
+                                            <div>
+                                                <label for="foto" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cover Buku</label>
+                                                @if($b->foto)
+                                                    <img src="{{ asset('storage/' . $b->foto) }}" alt="Cover Buku" class="w-32 h-36 object-cover mb-2">
+                                                @endif
+                                            </div>
+                                            <input type="file" name="foto" id="foto"
                                                 class="bg-gray-50 border text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white">
                                         </div>
                                         <div>
-                                            <label for="penulis" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Penulis</label>
-                                            <input type="text" name="penulis" id="penulis" value="{{ $b->penulis }}" 
+                                            <label for="file_buku" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">File Buku</label>
+                                            <input type="file" name="file_buku" id="file_buku"
                                                 class="bg-gray-50 border text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white">
-                                        </div>
-                                        <div>
-                                            <label for="penerbit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Penerbit</label>
-                                            <input type="text" name="penerbit" id="penerbit" value="{{ $b->penerbit }}" 
-                                                class="bg-gray-50 border text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white">
-                                        </div>
-                                        <div>
-                                            <label for="tanggal_terbit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal Terbit</label>
-                                            <input type="date" name="tanggal_terbit" id="tanggal_terbit" value="{{ $b->tanggal_terbit }}" 
-                                                class="bg-gray-50 border text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white">
-                                        </div>
-                                        <div>
-                                            <label for="kategori" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kategori</label>
-                                            <input type="text" name="kategori" id="kategori" value="{{ $b->kategori }}" 
-                                                class="bg-gray-50 border text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white">
-                                        </div>
+                                        </div>                                      
                                         <div>
                                             <label for="deskripsi" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Deskripsi</label>
                                             <textarea name="deskripsi" id="deskripsi" rows="4" 

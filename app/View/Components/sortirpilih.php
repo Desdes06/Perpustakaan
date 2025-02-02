@@ -8,12 +8,13 @@ use Illuminate\View\Component;
 
 class sortirpilih extends Component
 {
+    public $type;
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct($type = "")
     {
-        //
+        $this->type=$type;
     }
 
     /**
@@ -21,6 +22,6 @@ class sortirpilih extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.sortirpilih');
+        return view('components.sortirpilih',  ['type' => $this->type]);
     }
 }

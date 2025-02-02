@@ -161,7 +161,7 @@ class BukuController extends Controller
         return redirect()->back()->with('message', 'Buku berhasil dipinjam.');
     }
 
-    public function bukupinjam()
+    public function listbukupinjam()
     {
         $pinjam = Auth::check() 
         ? Pinjam::with('buku')
@@ -180,7 +180,6 @@ class BukuController extends Controller
             return redirect()->back()->with('error', 'Anda harus login untuk mengembalikan buku.');
         }
 
-        // Cek apakah user telah meminjam buku ini
         $pinjam = Pinjam::where('id_buku', $id_buku)
                         ->where('id_user', $user->id)
                         ->first();
@@ -199,4 +198,56 @@ class BukuController extends Controller
 
         return redirect()->back()->with('success', 'Buku berhasil dikembalikan.');
     }
+
+    public function filter($filter)
+    {
+        if (strpos(url()->previous(),'beranda')){
+            $buku = Buku::where('kategori',$filter)->orWhere('penulis', $filter)->get();
+
+            return view('dashboard', compact('buku'));
+        }
+        elseif (strpos(url()->previous(), 'listpinjam')) {
+            $pinjam = Pinjam::with('buku')->whereHas('buku', function ($query) use ($filter) {
+                $query->where('kategori', $filter)->orWhere('penulis', $filter);
+            })->get();
+
+            return view('listpinjam', compact('pinjam'));
+
+        }elseif (strpos(url()->previous(),'pinjam')) {
+            $pinjam = Pinjam::with('buku')->whereHas('buku', function ($query) use ($filter) {
+                $query->where('kategori', $filter)->orWhere('penulis', $filter);
+            })->get();
+
+            return view('pinjam', compact('pinjam'));
+
+        }elseif (strpos(url()->previous(), 'listbuku')) {
+            $buku = Buku::where('kategori',$filter)->orWhere('penulis', $filter)->get();
+
+            return view('listbuku', compact('buku'));
+
+        }elseif (strpos(url()->previous(), 'listpengembalian')) {
+            $pengembalian = Pengembalian::with('buku')->whereHas('buku', function ($query) use ($filter) {
+                $query->where('kategori', $filter)->orWhere('penulis', $filter);
+            })->get();
+
+            return view('listpengembalian', compact('pengembalian'));
+        }
+    }
+
+    // public function search(Request $request)
+    // {
+    //     $search = $request->input('search');
+
+    //     if (strpos(url()->previous(),'beranda')) {
+    //         $buku = Buku::where('judul_buku', 'like', '%' . $search . '%')->get();
+    //         return view('dashboard', compact('buku'));
+    //     }
+    //     elseif (strpos(url()->previous(), 'pinjam')) {
+    //         $pinjam = Pinjam::with('buku')->whereHas('buku', function ($query) use ($search) {
+    //             $query->where('judul_buku', 'like', '%' . $search . '%');
+    //         })->get();
+    //         dd($pinjam);
+    //         return view('pinjam', compact('pinjam'));
+    //     }
+    // }
 }

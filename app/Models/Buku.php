@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Buku extends Model
 {
@@ -25,7 +26,7 @@ class Buku extends Model
         return $this->hasMany(Pengembalian::class, 'id_buku');
     }
 
-    public function pinjam()
+    public function pinjam(): HasMany
     {
         return $this->hasMany(Pinjam::class, 'id_buku');
     }

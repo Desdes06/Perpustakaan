@@ -35,11 +35,11 @@ Route::get('/listbuku', function () {
 
 Route::get('/listpinjam', function () {
     return view('listpinjam');
-})->middleware('auth')->name('listbuku');
+})->middleware('auth')->name('listpinjam');
 
 Route::get('/listpengembalian', function () {
     return view('listpengembalian');
-})->middleware('auth')->name('listbuku');
+})->middleware('auth')->name('listpengembalian');
 
 
 Route::get('/',[RouteController::class, 'routehome']);
@@ -72,7 +72,14 @@ Route::get('/bacabuku/{id}', [BukuController::class, 'baca'])->name('baca.buku')
 
 // route pinjam buku
 Route::post('/pinjam', [BukuController::class, 'pinjam'])->name('pinjam.buku')->middleware('auth');
-Route::get('/pinjam', [BukuController::class, 'bukupinjam'])->middleware('auth');
+Route::get('/pinjam', [BukuController::class, 'listbukupinjam'])->middleware('auth');
 
 // route pengembalian buku
 Route::post('/kembalikan/{id_buku}', [BukuController::class, 'pengembalian'])->name('kembalikanbuku');
+
+//route filter
+Route::get('/beranda/{filter}', [BukuController::class, 'filter']);
+Route::get('/pinjam/{filter}', [BukuController::class, 'filter']);
+Route::get('/listbuku/{filter}', [BukuController::class, 'filter']);
+Route::get('/listpinjam/{filter}', [BukuController::class, 'filter']);
+Route::get('/listpengembalian/{filter}', [BukuController::class, 'filter']);
