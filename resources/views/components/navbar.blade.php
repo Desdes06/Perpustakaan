@@ -82,7 +82,11 @@
             tabindex="-1">
             <div class="flex items-center p-2">
                 <div class="bg-slate-800 w-full rounded-md p-4 flex items-center space-x-4">
-                    <img class="h-12 w-auto bg-white p-2 rounded-full" src="{{ asset('img/profile.png') }}" alt="Your Company" />
+                  @if ($user->foto)
+                    <img src="{{ asset('storage/' . $user->foto) }}" alt="Foto Profil" class="h-20 w-auto rounded-full">
+                  @else
+                    <img src="{{ asset('img/profile.png') }}" alt="Default Foto" class="bg-gray-200 p-2 h-20 w-auto rounded-full">
+                  @endif
                     <div class="p-2">
                         <p class="text-md text-gray-700 text-white font-semibold">{{ $user->username }}</p>
                         <p class="text-sm text-gray-700 text-white pb-2">{{ $user->email }}</p>

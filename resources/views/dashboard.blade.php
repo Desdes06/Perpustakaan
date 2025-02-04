@@ -60,7 +60,7 @@
                                         </svg>
                                         <span class="sr-only">Close modal</span>
                                     </button>
-                                    <div class="space-y-2">
+                                    <div class="space-y-1">
                                         <p class="text-base leading-relaxed  text-black">
                                             <strong>Penulis</strong> : {{ $b->penulis}}
                                         </p>

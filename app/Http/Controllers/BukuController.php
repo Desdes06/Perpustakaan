@@ -16,6 +16,7 @@ class BukuController extends Controller
         return view('tambahbuku');
     }
 
+    // fungsi untuk menambah data buku
     public function storebuku(Request $request)
     {
         $request->validate([
@@ -62,6 +63,7 @@ class BukuController extends Controller
         return redirect()->route('tambahbuku')->with('succes', 'data buku berhasil di tambah');
     }
 
+    // fungsi untuk mengubah data buku
     public function updatebuku(Request $request, $id)
     {
         $request->validate([
@@ -104,6 +106,7 @@ class BukuController extends Controller
         return redirect()->route('listbuku')->with('success', 'Data buku berhasil diperbarui');
     }
 
+    // fungsi untuk mengahapus buku
     public function destroy($id)
     {
         $buku = Buku::find($id);
@@ -125,7 +128,7 @@ class BukuController extends Controller
         return redirect()->back()->with('success', 'Buku berhasil dihapus.');
     }
 
-
+    // fungsi untuk mengambil file buku
     public function baca($id)
     {
         $buku = Buku::find($id);
@@ -143,7 +146,7 @@ class BukuController extends Controller
         return view('baca-buku', compact('buku', 'path'));
     }
 
-
+    // fungsi untuk meminjam buku
     public function pinjam(Request $request)
     {
         $request->validate([
@@ -161,6 +164,7 @@ class BukuController extends Controller
         return redirect()->back()->with('message', 'Buku berhasil dipinjam.');
     }
 
+    // fungsi untuk mengambil data dari tabel pinjam ke template pinjam
     public function listbukupinjam()
     {
         $pinjam = Auth::check() 
@@ -172,6 +176,7 @@ class BukuController extends Controller
         return view('pinjam', compact('pinjam'));
     }
 
+    // fungsi untuk mengembalikan
     public function pengembalian($id_buku)
     {
         $user = Auth::user();
@@ -199,6 +204,7 @@ class BukuController extends Controller
         return redirect()->back()->with('success', 'Buku berhasil dikembalikan.');
     }
 
+    // fungsi untuk filter buku
     public function filter($filter)
     {
         if (strpos(url()->previous(),'beranda')){
@@ -234,20 +240,46 @@ class BukuController extends Controller
         }
     }
 
-    // public function search(Request $request)
-    // {
-    //     $search = $request->input('search');
+    public function search($type, Request $request)
+    {
+        $search = $request->input('search');
 
-    //     if (strpos(url()->previous(),'beranda')) {
-    //         $buku = Buku::where('judul_buku', 'like', '%' . $search . '%')->get();
-    //         return view('dashboard', compact('buku'));
-    //     }
-    //     elseif (strpos(url()->previous(), 'pinjam')) {
-    //         $pinjam = Pinjam::with('buku')->whereHas('buku', function ($query) use ($search) {
-    //             $query->where('judul_buku', 'like', '%' . $search . '%');
-    //         })->get();
-    //         dd($pinjam);
-    //         return view('pinjam', compact('pinjam'));
-    //     }
-    // }
+        $query = Buku::where('judul_buku', 'like', '%' . $search . '%')
+                    ->orWhere('kategori', 'like', '%' . $search . '%')
+                    ->orWhere('penulis', 'like', '%' . $search . '%');
+
+        dd($query->toSql(), $query->getBindings());
+
+        switch ($type) {
+            case 'beranda':
+                $buku = $query->get();
+                return view('dashboard', compact('buku'));
+            case 'listpinjam':
+                $pinjam = Pinjam::with('buku')->whereHas('buku', function ($q) use ($search) {
+                    $q->where('judul_buku', 'like', '%' . $search . '%')
+                    ->orWhere('kategori', 'like', '%' . $search . '%')
+                    ->orWhere('penulis', 'like', '%' . $search . '%');
+                })->get();
+                return view('listpinjam', compact('pinjam'));
+            case 'pinjam':
+                $pinjam = Pinjam::with('buku')->whereHas('buku', function ($q) use ($search) {
+                    $q->where('judul_buku', 'like', '%' . $search . '%')
+                    ->orWhere('kategori', 'like', '%' . $search . '%')
+                    ->orWhere('penulis', 'like', '%' . $search . '%');
+                })->get();
+                return view('pinjam', compact('pinjam'));
+            case 'listbuku':
+                $buku = $query->get();
+                return view('listbuku', compact('buku'));
+            case 'listpengembalian':
+                $pengembalian = Pengembalian::with('buku')->whereHas('buku', function ($q) use ($search) {
+                    $q->where('judul_buku', 'like', '%' . $search . '%')
+                    ->orWhere('kategori', 'like', '%' . $search . '%')
+                    ->orWhere('penulis', 'like', '%' . $search . '%');
+                })->get();
+                return view('listpengembalian', compact('pengembalian'));
+            default:
+                return redirect()->back()->with('error', 'Tipe tidak valid.');
+        }
+    }
 }

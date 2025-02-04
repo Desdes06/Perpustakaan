@@ -17,17 +17,9 @@ Route::get('/beranda', function () {
     return view('dashboard');
 })->middleware('auth');
 
-Route::get('/profile', function () {
-    return view('profile');
-});
-
 Route::get('/pinjam', function () {
     return view('pinjam');
 });
-
-Route::get('/anggota', function () {
-    return view('anggota');
-})->middleware('auth');
 
 Route::get('/listbuku', function () {
     return view('listbuku');
@@ -46,7 +38,12 @@ Route::get('/',[RouteController::class, 'routehome']);
 
 
 //route menampilkan list user
+Route::get('/anggota', [UserlistController::class, 'halaman'])->middleware('auth');
 Route::get('/anggota', [UserlistController::class, 'userlist'])->middleware('auth');
+
+// profile data dan update
+Route::get('/profile', [UserlistController::class, 'profile'])->middleware('auth');
+Route::put('/profile', [UserlistController::class, 'editProfile'])->name('profile.update');
 
 // route tambah buku
 Route::get('/tambahbuku', [BukuController::class, 'halaman'])->name('tambahbuku')->middleware('auth');
@@ -83,3 +80,6 @@ Route::get('/pinjam/{filter}', [BukuController::class, 'filter']);
 Route::get('/listbuku/{filter}', [BukuController::class, 'filter']);
 Route::get('/listpinjam/{filter}', [BukuController::class, 'filter']);
 Route::get('/listpengembalian/{filter}', [BukuController::class, 'filter']);
+
+//route search
+Route::get('/{type}/search', [BukuController::class, 'search'])->name('search');

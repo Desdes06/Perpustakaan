@@ -17,7 +17,7 @@
         <div class="flex justify-between">
             <h1 class="font-bold text-4xl">PINJAM</h1>
             <x-sortirpilih type='pinjam'></x-sortirpilih>    
-        </div> 
+        </div>
         <div class="border-2 p-4 rounded-md space-y-2 ">
             @if($pinjam->isEmpty())
                 <p>Tidak ada buku yang sedang dipinjam.</p>
