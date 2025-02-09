@@ -11,7 +11,7 @@ class LoginController extends Controller
 {
     public function index() 
     {
-        return view('login');
+        return view('Auth.login');
     }
 
     public function authenticate(Request $request)
@@ -26,13 +26,13 @@ class LoginController extends Controller
             $request->session()->regenerate();
         
             if (Auth::user()->role_id == '2') {
-                return redirect()->intended('/berandaadmin');
+                return redirect()->intended('/Admin/berandaadmin');
             }
         
-            return redirect()->intended('/beranda');
+            return redirect()->intended('/User/beranda');
         }
         
-        return back()->with('loginError', 'Login failed!');
+        return redirect()->back()->with('loginError', 'Login Gagal!');
     }
 
     public function logout(Request $request)
@@ -42,6 +42,6 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/login')->with('message', 'Anda telah berhasil logout');
+        return redirect('/Auth/login')->with('message', 'Anda telah berhasil logout');
     }
 }

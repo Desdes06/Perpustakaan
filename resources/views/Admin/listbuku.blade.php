@@ -14,22 +14,21 @@
 </head>
 
 <body>
-    <x-sidebar-admin>
-        <span class="ms-3">ADMIN PAGE</span>
-    </x-sidebar-admin>
-
+    <x-sidebar-admin></x-sidebar-admin>
     <div class="p-4 space-y-4 sm:ml-64">
         <div class="flex justify-between">
             <h1 class="font-bold text-4xl">LIST BUKU</h1>
-            <x-sortirpilih type="listbuku"></x-sortirpilih>
+            <x-sortirpilih type="Admin/listbuku">Cari judul buku</x-sortirpilih>
         </div>
-
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        @if($buku->isEmpty())
+        <p class="text-black text-center py-4">Buku Tidak Tersedia.</p>
+        @else
+        <div class="relative overflow-x-auto shadow-md">
+            <table class="w-full text-sm text-left text-gray-500">
                 <thead class="text-xs text-white uppercase bg-gray-800">
                     <tr>
                         <th scope="col" class="px-6 py-3">Cover</th>
-                        <th scope="col" class="px-6 py-3">Judul</th>
+                        <th scope="col" class="px-6 py-3">Judul Buku</th>
                         <th scope="col" class="px-6 py-3">Kategori</th>
                         <th scope="col" class="px-6 py-3">Penulis</th>
                         <th scope="col" class="px-6 py-3">Tanggal Ditambahkan</th>
@@ -38,7 +37,7 @@
                 </thead>
                 <tbody>
                     @foreach($buku as $b)
-                    <tr class="odd:bg-gray-900 even:bg-gray-800 border-gray-700 text-white">
+                    <tr class="odd:bg-gray-200 even:bg-gray-300 border-gray-700 text-black">
                         <td class="px-6 py-3 h-28 w-28">
                             @if($b->foto)
                                 <img src="{{ asset('storage/' . $b->foto) }}" alt="Cover Buku" class="w-full object-cover rounded">
@@ -65,7 +64,7 @@
                             </button>
                         </td>
                     </tr>
-
+                    
                     <!-- Modal Edit -->
                     <div id="crud-modal-{{$b->id}}" tabindex="-1" aria-hidden="true" 
                         class="hidden fixed top-0 right-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-10">
@@ -81,7 +80,7 @@
                                         <span class="sr-only">Close modal</span>
                                     </button>
                                 </div>
-                                <form class="p-4" action="{{ route('updatebuku', $b->id) }}" method="POST" enctype="multipart/form-data">
+                                <form class="p-4" action="{{ route('Admin.updatebuku', $b->id) }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
                                     <div class="grid gap-4 mb-4">
@@ -174,6 +173,10 @@
                 </tbody>
             </table>
         </div>
+        <div class="mt-4">
+            {{ $buku->links('vendor.pagination.tailwind') }}
+        </div>
+        @endif
     </div>
 </body>
 

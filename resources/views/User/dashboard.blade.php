@@ -15,12 +15,15 @@
     <div class="px-12 pt-4 space-y-4">
         <div class="flex justify-between">
             <h1 class="font-bold text-4xl">BERANDA</h1>
-            <x-sortirpilih type='beranda'></x-sortirpilih>
+            <x-sortirpilih type='User/beranda'>Cari judul buku</x-sortirpilih>
         </div>
-        <div class="border-2 p-4 rounded-md space-y-2 ">  
+        <div class="border-2 p-4 rounded-md space-y-2 ">
+            @if($buku->isEmpty())
+                <p>Buku Tidak Tersedia.</p>
+            @else
             <div class="grid grid-cols-6 gap-4">
                 @foreach($buku as $b)
-                <div class="bg-gray-200 p-2 hover:shadow-xl h-auto rounded-xl">
+                <div class="bg-gray-200 p-2 hover:shadow-lg h-auto rounded-xl">
                     @if($b->foto)
                         <img src="{{ asset('storage/' . $b->foto) }}" alt="Cover Buku" class="w-full object-cover rounded-xl">
                     @else
@@ -29,9 +32,8 @@
                     <div class="p-4 space-y-2">
                         <div>
                             <h3 class="font-semibold text-lg">{{ $b->judul_buku }}</h3>
-                            <p class="text-md text-gray-700">{{ $b->penulis }}</p>
-                            <p class="text-md text-gray-700">{{ $b->penerbit }}</p>
-                            <p class="text-md text-gray-700"><span>tanggal terbit : </span>{{ $b->tanggal_terbit }}</p>
+                            <p class="text-md text-gray-700">Penulis : {{ $b->penulis }}</p>
+                            <p class="text-md text-gray-700">Kategori : {{ $b->kategori }}</p>
                         </div>
                         <button data-modal-target="modal-{{ $b->id }}" data-modal-toggle="modal-{{ $b->id }}" 
                             class="p-2 outline-blue-500 outline outline-2 rounded-sm hover:bg-blue-500 hover:text-white" 
@@ -60,23 +62,25 @@
                                         </svg>
                                         <span class="sr-only">Close modal</span>
                                     </button>
-                                    <div class="space-y-1">
-                                        <p class="text-base leading-relaxed  text-black">
-                                            <strong>Penulis</strong> : {{ $b->penulis}}
-                                        </p>
-                                        <p class="text-base leading-relaxed text-black">
-                                            <strong>Penerbit</strong> : {{ $b->penerbit}}
-                                        </p>
-                                        <p class="text-base leading-relaxed text-black">
-                                            <strong>Kategori</strong> : {{ $b->kategori}}
-                                        </p>
-                                        <p class="text-base leading-relaxed text-black">
-                                            <strong>Tanggal Terbit</strong> : {{ $b->tanggal_terbit}}
-                                        </p>
-                                        <p class="text-base leading-relaxed text-black">
-                                            <strong>Deskripsi</strong> : {{ $b->deskripsi }}
-                                        </p>
-                                        <form action="/pinjam" method="POST">
+                                    <div class="space-y-1 h-full">
+                                        <div>
+                                            <p class="text-base leading-relaxed  text-black">
+                                                <span class="font-semibold"> Penulis : </span>{{ $b->penulis}}
+                                            </p>
+                                            <p class="text-base leading-relaxed text-black">
+                                                <span class="font-semibold"> Penerbit : </span>{{ $b->penerbit}}
+                                            </p>
+                                            <p class="text-base leading-relaxed text-black">
+                                                <span class="font-semibold"> Kategori : </span>{{ $b->kategori}}
+                                            </p>
+                                            <p class="text-base leading-relaxed text-black">
+                                                <span class="font-semibold"> Tanggal Terbit : </span>{{ $b->tanggal_terbit}}
+                                            </p>
+                                            <p class="text-base leading-relaxed text-black">
+                                                <span class="font-semibold"> Deskripsi :</span> {{ $b->deskripsi }}
+                                            </p>
+                                        </div>
+                                        <form action="/User/pinjam" method="POST" class="pt-4">
                                             @csrf
                                             <input type="hidden" name="id_buku" value="{{ $b->id }}">
                                         
@@ -87,11 +91,11 @@
                                             @endphp
                                         
                                             @if($isAlreadyBorrowed)
-                                            <a href="{{ route('baca.buku', ['id' => $b->id]) }}" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 justify-end">
+                                            <a href="{{ route('User.baca.buku', ['id' => $b->id]) }}" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
                                                 Baca
                                             </a>
                                             @else
-                                                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 justify-end">
+                                                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
                                                     Pinjam
                                                 </button>
                                             @endif
@@ -104,7 +108,11 @@
                 </div>
                 @endforeach
             </div>
-        </div>    
+            <div class="mt-4">
+                {{ $buku->links('vendor.pagination.tailwind') }}
+            </div>
+            @endif 
+        </div>  
     </div>
 </body>
 </html>

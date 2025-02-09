@@ -16,7 +16,7 @@
     <div class="px-12 pt-4 space-y-4"> 
         <div class="flex justify-between">
             <h1 class="font-bold text-4xl">PINJAM</h1>
-            <x-sortirpilih type='pinjam'></x-sortirpilih>    
+            <x-sortirpilih type='User/pinjam'>Cari judul buku</x-sortirpilih>    
         </div>
         <div class="border-2 p-4 rounded-md space-y-2 ">
             @if($pinjam->isEmpty())
@@ -24,7 +24,7 @@
             @else 
             <div class="grid grid-cols-6 gap-4">
                 @foreach($pinjam as $p)       
-                    <div class="bg-gray-200 p-2 hover:shadow-xl h-auto rounded-xl">
+                    <div class="bg-gray-200 p-2 hover:shadow-lg h-auto rounded-xl">
                         @if($p->buku && $p->buku->foto)
                             <img src="{{ asset('storage/' . $p->buku->foto) }}" 
                                 alt="Cover Buku" 
@@ -35,10 +35,9 @@
                         <div class="p-2">
                             <h1 class="text-lg font-semibold">{{ $p->buku->judul_buku }}</h1>
                             <p class="text-md text-gray-700">Penulis : {{ $p->buku->penulis }}</p>
-                            <p class="text-md text-gray-700">Tanggal Terbit : {{ $p->buku->tanggal_terbit }}</p>
-                            <p class="text-md text-gray-700">Penerbit : {{ $p->buku->penerbit }}</p>
+                            <p class="text-md text-gray-700">Kategori : {{ $p->buku->kategori }}</p>
                             <div class="space-x-2 pt-2">
-                                <a href="{{ route('baca.buku', $p->buku->id) }}" 
+                                <a href="{{ route('User.baca.buku', $p->buku->id) }}" 
                                     class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition duration-300">
                                     Baca
                                 </a>
@@ -52,6 +51,9 @@
                         </div>                      
                     </div>
                 @endforeach
+            </div>
+            <div class="mt-4">
+                {{ $pinjam->links('vendor.pagination.tailwind') }}
             </div>      
             @endif
         </div>

@@ -13,7 +13,7 @@
 <body>
     <div class="h-screen p-4 items-center justify-center bg-gray-100 space-y-8">
         <div class="w-full">
-            <a href="/beranda">
+            <a href="/User/beranda">
                 <svg xmlns="http://www.w3.org/2000/svg" 
                     width="35" 
                     height="35" 
@@ -23,7 +23,7 @@
                 </svg>
             </a>
             <div class="relative max-w-sm mx-auto">
-                <form class="max-w-md mx-auto space-y-8" action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+                <form class="max-w-md mx-auto space-y-8" action="{{ route('Auth.profile.update') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="w-full bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
@@ -43,22 +43,21 @@
                             </div>
                         </div> --}}
                         <div class="flex flex-col items-center p-10">
-                            @if ($user->foto)
-                                <img src="{{ asset('storage/' . $user->foto) }}" alt="Foto Profil" class="rounded-full w-auto h-28">
-                            @else
-                                <img src="{{ asset('img/profile.png') }}" alt="Default Foto" class="bg-gray-200 p-2 h-28 w-auto rounded-full">
-                            @endif        
+                            <img id="preview-image" 
+                                 src="{{ $user->foto ? asset('storage/' . $user->foto) : asset('img/profile.png') }}" 
+                                 alt="Foto Profil" 
+                                 class="rounded-full w-auto h-28">
                             <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{{ $user->username }}</h5>
                             <span class="text-sm text-gray-500 dark:text-gray-400">{{ $user->email }}</span>
                             <div class="flex mt-4 md:mt-6 space-x-2">
                                 <div>
                                     <input type="file" name="foto" id="foto" class="hidden" />
                                     <label for="foto" 
-                                        class="flex items-center justify-center px-4 py-2 text-white bg-gray-400 rounded-lg  hover:bg-gray-500 focus:outline-none">
+                                           class="flex items-center justify-center px-4 py-2 text-white bg-gray-400 rounded-lg hover:bg-gray-500 focus:outline-none">
                                         Edit Foto
                                     </label>
                                 </div>
-                                <a href="/logout" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Keluar</a>
+                                <a href="/Auth/logout" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Keluar</a>
                             </div>
                         </div>
                     </div>
@@ -86,5 +85,18 @@
             </div>
         </div>
     </div>
+    <script>
+        document.getElementById('foto').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    // Ubah src gambar dengan gambar baru
+                    document.getElementById('preview-image').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 </body>
 </html>

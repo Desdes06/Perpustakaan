@@ -11,11 +11,6 @@ use Illuminate\Support\Facades\Storage;
 
 class BukuController extends Controller
 {
-    public function halaman()
-    {
-        return view('tambahbuku');
-    }
-
     // fungsi untuk menambah data buku
     public function storebuku(Request $request)
     {
@@ -60,7 +55,7 @@ class BukuController extends Controller
             'file_buku' => $pathfile
             ]);
 
-        return redirect()->route('tambahbuku')->with('succes', 'data buku berhasil di tambah');
+        return redirect()->route('Admin.tambahbuku')->with('success', 'data buku berhasil di tambah');
     }
 
     // fungsi untuk mengubah data buku
@@ -103,7 +98,7 @@ class BukuController extends Controller
 
         $buku->save();
 
-        return redirect()->route('listbuku')->with('success', 'Data buku berhasil diperbarui');
+        return redirect()->route('Admin.buku')->with('success', 'Data buku berhasil diperbarui');
     }
 
     // fungsi untuk mengahapus buku
@@ -143,7 +138,7 @@ class BukuController extends Controller
             return abort(404, 'File PDF tidak ditemukan.');
         }
 
-        return view('baca-buku', compact('buku', 'path'));
+        return view('/User/baca-buku', compact('buku', 'path'));
     }
 
     // fungsi untuk meminjam buku
@@ -164,7 +159,7 @@ class BukuController extends Controller
         return redirect()->back()->with('message', 'Buku berhasil dipinjam.');
     }
 
-    // fungsi untuk mengambil data dari tabel pinjam ke template pinjam
+    // fungsi untuk mengambil data tabel pinjam
     public function listbukupinjam()
     {
         $pinjam = Auth::check() 
@@ -173,7 +168,7 @@ class BukuController extends Controller
             ->get()
         : collect([]);
 
-        return view('pinjam', compact('pinjam'));
+        return view('/User/pinjam', compact('pinjam'));
     }
 
     // fungsi untuk mengembalikan
@@ -205,81 +200,94 @@ class BukuController extends Controller
     }
 
     // fungsi untuk filter buku
-    public function filter($filter)
+    public function filter($filter = null)
     {
-        if (strpos(url()->previous(),'beranda')){
-            $buku = Buku::where('kategori',$filter)->orWhere('penulis', $filter)->get();
+        $search = request('search');
+        $currentPath = request()->path();
+        $path = explode('/', $currentPath)[0] . '/' . explode('/', $currentPath)[1];
+        
+        switch ($path) {
+            case 'User/beranda':
+                $buku = Buku::where(function ($query) use ($filter, $search) {
+                    if ($search) {
+                        $query->where('judul_buku', 'like', '%' . $search . '%');
+                    }
+                    if (!empty($filter)) {
+                        $query->where(function ($query) use ($filter) {
+                            $query->where('kategori', $filter)
+                                ->orWhere('penulis', $filter);
+                        });
+                    }
+                })->paginate(6);
+                return view('User.dashboard', compact('buku'));
 
-            return view('dashboard', compact('buku'));
-        }
-        elseif (strpos(url()->previous(), 'listpinjam')) {
-            $pinjam = Pinjam::with('buku')->whereHas('buku', function ($query) use ($filter) {
-                $query->where('kategori', $filter)->orWhere('penulis', $filter);
-            })->get();
+            case 'Admin/listpinjam':
+                $pinjam = Pinjam::with('buku')->whereHas('buku', function ($query) use ($filter, $search) {
+                    if ($search) {
+                        $query->where('judul_buku', 'like', "%{$search}%");
+                    }
+                    if (!empty($filter)) {
+                        $query->where(function ($q) use ($filter) {
+                            $q->where('kategori', $filter)
+                                ->orWhere('penulis', $filter);
+                        });
+                    }
+                })->paginate(15);
+                return view('Admin.listpinjam', compact('pinjam'));
 
-            return view('listpinjam', compact('pinjam'));
+            case 'User/pinjam':
+                $pinjam = Pinjam::with(['buku' => function ($query) use ($filter, $search) {
+                    if ($search) {
+                        $query->where('judul_buku', 'like', "%{$search}%");
+                    }
+                    if (!empty($filter)) {
+                        $query->where(function ($q) use ($filter) {
+                            $q->where('kategori', $filter)
+                                ->orWhere('penulis', $filter);
+                        });
+                    }
+                }])
+                ->where('id_user', Auth::id())
+                ->whereHas('buku', function ($query) use ($filter, $search) {
+                    if ($search) {
+                        $query->where('judul_buku', 'like', "%{$search}%");
+                    }
+                    if (!empty($filter)) {
+                        $query->where(function ($q) use ($filter) {
+                            $q->where('kategori', $filter)
+                                ->orWhere('penulis', $filter);
+                        });
+                    }
+                })->paginate(6);
+                return view('User.pinjam', compact('pinjam'));
 
-        }elseif (strpos(url()->previous(),'pinjam')) {
-            $pinjam = Pinjam::with('buku')->whereHas('buku', function ($query) use ($filter) {
-                $query->where('kategori', $filter)->orWhere('penulis', $filter);
-            })->get();
+            case 'Admin/listbuku':
+                $buku = Buku::where(function ($query) use ($filter, $search) {
+                    if ($search) {
+                        $query->where('judul_buku', 'like', '%' . $search . '%');
+                    }
+                    if (!empty($filter)) {
+                        $query->where(function ($query) use ($filter) {
+                            $query->where('kategori', $filter)
+                                ->orWhere('penulis', $filter);
+                        });
+                    }
+                })->paginate(6);
+                return view('Admin.listbuku', compact('buku'));
 
-            return view('pinjam', compact('pinjam'));
-
-        }elseif (strpos(url()->previous(), 'listbuku')) {
-            $buku = Buku::where('kategori',$filter)->orWhere('penulis', $filter)->get();
-
-            return view('listbuku', compact('buku'));
-
-        }elseif (strpos(url()->previous(), 'listpengembalian')) {
-            $pengembalian = Pengembalian::with('buku')->whereHas('buku', function ($query) use ($filter) {
-                $query->where('kategori', $filter)->orWhere('penulis', $filter);
-            })->get();
-
-            return view('listpengembalian', compact('pengembalian'));
-        }
-    }
-
-    public function search($type, Request $request)
-    {
-        $search = $request->input('search');
-
-        $query = Buku::where('judul_buku', 'like', '%' . $search . '%')
-                    ->orWhere('kategori', 'like', '%' . $search . '%')
-                    ->orWhere('penulis', 'like', '%' . $search . '%');
-
-        dd($query->toSql(), $query->getBindings());
-
-        switch ($type) {
-            case 'beranda':
-                $buku = $query->get();
-                return view('dashboard', compact('buku'));
-            case 'listpinjam':
-                $pinjam = Pinjam::with('buku')->whereHas('buku', function ($q) use ($search) {
-                    $q->where('judul_buku', 'like', '%' . $search . '%')
-                    ->orWhere('kategori', 'like', '%' . $search . '%')
-                    ->orWhere('penulis', 'like', '%' . $search . '%');
-                })->get();
-                return view('listpinjam', compact('pinjam'));
-            case 'pinjam':
-                $pinjam = Pinjam::with('buku')->whereHas('buku', function ($q) use ($search) {
-                    $q->where('judul_buku', 'like', '%' . $search . '%')
-                    ->orWhere('kategori', 'like', '%' . $search . '%')
-                    ->orWhere('penulis', 'like', '%' . $search . '%');
-                })->get();
-                return view('pinjam', compact('pinjam'));
-            case 'listbuku':
-                $buku = $query->get();
-                return view('listbuku', compact('buku'));
-            case 'listpengembalian':
-                $pengembalian = Pengembalian::with('buku')->whereHas('buku', function ($q) use ($search) {
-                    $q->where('judul_buku', 'like', '%' . $search . '%')
-                    ->orWhere('kategori', 'like', '%' . $search . '%')
-                    ->orWhere('penulis', 'like', '%' . $search . '%');
-                })->get();
-                return view('listpengembalian', compact('pengembalian'));
-            default:
-                return redirect()->back()->with('error', 'Tipe tidak valid.');
+            case 'Admin/listpengembalian':
+                $pengembalian = Pengembalian::with('buku')->whereHas('buku', function ($query) use ($filter, $search) {
+                    if ($search) {
+                        $query->where('judul_buku', 'like', "%{$search}%");
+                    }
+                    if (!empty($filter)) {
+                        $query->where(function ($q) use ($filter) {
+                            $q->where('kategori', $filter)
+                                ->orWhere('penulis', $filter);
+                        });
+                    }
+                })->paginate(15);
+            return view('Admin.listpengembalian', compact('pengembalian'));
         }
     }
 }

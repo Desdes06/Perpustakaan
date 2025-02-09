@@ -40,8 +40,8 @@
         </div>
         <div class="absolute inset-x-0 flex justify-center">
           <div class="flex space-x-4 hidden sm:ml-6 sm:block">
-            <a href="/beranda" class="text-sm font-medium text-white hover:text-gray-300" aria-current="page">Beranda</a>
-            <a href="/pinjam" class="text-sm font-medium text-white hover:text-gray-300">Pinjam</a>
+            <a href="/User/beranda" class="text-sm font-medium text-white hover:text-gray-300" aria-current="page">Beranda</a>
+            <a href="/User/pinjam" class="text-sm font-medium text-white hover:text-gray-300">Pinjam</a>
           </div>
         </div>
       </div>
@@ -90,13 +90,13 @@
                     <div class="p-2">
                         <p class="text-md text-gray-700 text-white font-semibold">{{ $user->username }}</p>
                         <p class="text-sm text-gray-700 text-white pb-2">{{ $user->email }}</p>
-                        <a href="/profile">
+                        <a href="/Auth/profile">
                             <button class="text-sm text-gray-700 bg-gray-300 p-2 hover:bg-gray-400 hover:text-white rounded-xl">Lihat Profile</button>
                         </a>
                     </div>
                 </div>
             </div>
-            <a href="/logout" class="block px-4 py-2 text-sm text-gray-700 flex items-center space-x-2 hover:text-red-500" role="menuitem" tabindex="-1" id="user-menu-item-2">
+            <a href="/Auth/logout" class="block px-4 py-2 text-sm text-gray-700 flex items-center space-x-2 hover:text-red-500" role="menuitem" tabindex="-1" id="user-menu-item-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"/>
                     <path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>

@@ -9,7 +9,7 @@ class RegistrasiController extends Controller
 {
     public function index()
     {
-        return view('registrasi');
+        return view('Auth.registrasi');
     }
 
     public function post(Request $request)
@@ -32,6 +32,6 @@ class RegistrasiController extends Controller
         'password' => bcrypt($request['password']),
         ]);
 
-        return redirect('/login')->with('message', 'Registrasi berhasil, silakan login.');
+        return redirect('/Auth/login')->with('message', 'Registrasi berhasil, silakan login.');
     }
 }

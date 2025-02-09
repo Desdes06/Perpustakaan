@@ -13,10 +13,10 @@ class RouteController extends Controller
         if (Auth::check()) {
             
             if (Auth::user()->role_id == '2') {
-                return redirect()->intended('/berandaadmin');
+                return redirect()->intended('/Admin/berandaadmin');
             }
 
-            return redirect('/beranda');
+            return redirect('/User/beranda');
         }
 
         return view('homepage');

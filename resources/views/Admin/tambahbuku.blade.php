@@ -12,12 +12,26 @@
     @vite('resources/css/font.css')
 </head>
 <body>
-    <div class="flex">
-        <x-sidebar-admin>
-            <span class="ms-3">Tambah Buku</span>
-        </x-sidebar-admin>
-        <div class="p-4 sm:ml-64 w-full"> 
-            <form action="/tambahbuku" method="POST" enctype="multipart/form-data" class="p-12 w-full bg-gray-200 rounded-md">
+    <x-sidebar-admin></x-sidebar-admin>
+        <div class="p-4 space-y-4 sm:ml-64"> 
+            @if (session('success'))
+                <div id="alert-border" class="flex items-center p-4 mb-4 text-green-800 border border-green-300 rounded-lg bg-green-50" role="alert">
+                    <svg class="flex-shrink-0 w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0ZM9 13a1 1 0 0 0 2 0V9a1 1 0 0 0-2 0v4Zm1-6.75a1.062 1.062 0 1 0 0 2.124 1.062 1.062 0 0 0 0-2.124Z"/>
+                    </svg>
+                    <span class="sr-only">Success</span>
+                    <div class="ms-3 text-sm font-medium">
+                            {{ session('success') }}
+                    </div>
+                    <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg p-1.5 hover:bg-green-200 inline-flex items-center justify-center h-8 w-8" data-dismiss-target="#alert-border" aria-label="Close">
+                        <span class="sr-only">Close</span>
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 13L13 1m0 12L1 1"/>
+                        </svg>
+                    </button>
+                </div>
+            @endif
+            <form action="/Admin/tambahbuku" method="POST" enctype="multipart/form-data" class="p-12 w-full bg-gray-200">
                 @csrf
                 <div class="space-y-12 items-center">
                     <div class="border-b border-gray-900/10 pb-12">
@@ -148,7 +162,6 @@
                 </div>
             </form>
         </div>
-    </div>
     <script>
     document.getElementById('file-upload').addEventListener('change', function (event) {
         const file = event.target.files[0];
@@ -163,6 +176,17 @@
             reader.readAsDataURL(file);
         }
     });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const alertBox = document.getElementById('alert-border');
+            if (alertBox) {
+                setTimeout(() => {
+                    alertBox.style.opacity = '0';
+                    setTimeout(() => alertBox.remove(), 500);
+                }, 3000);
+            }
+        });
     </script>
 </body>
 </html>

@@ -1,85 +1,71 @@
 <?php
 
 use App\Http\Controllers\BukuController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\UserlistController;
-use App\Models\Buku;
 use Illuminate\Support\Facades\Route;
 
-// route untuk view
-Route::get('/berandaadmin', function () {
-    return view('BerandaAdmin');
-})->middleware('auth');
-
-Route::get('/beranda', function () {
-    return view('dashboard');
-})->middleware('auth');
-
-Route::get('/pinjam', function () {
-    return view('pinjam');
-});
-
-Route::get('/listbuku', function () {
-    return view('listbuku');
-})->middleware('auth')->name('listbuku');
-
-Route::get('/listpinjam', function () {
-    return view('listpinjam');
-})->middleware('auth')->name('listpinjam');
-
-Route::get('/listpengembalian', function () {
-    return view('listpengembalian');
-})->middleware('auth')->name('listpengembalian');
-
-
 Route::get('/',[RouteController::class, 'routehome']);
-
-
-//route menampilkan list user
-Route::get('/anggota', [UserlistController::class, 'halaman'])->middleware('auth');
-Route::get('/anggota', [UserlistController::class, 'userlist'])->middleware('auth');
-
-// profile data dan update
-Route::get('/profile', [UserlistController::class, 'profile'])->middleware('auth');
-Route::put('/profile', [UserlistController::class, 'editProfile'])->name('profile.update');
-
-// route tambah buku
-Route::get('/tambahbuku', [BukuController::class, 'halaman'])->name('tambahbuku')->middleware('auth');
-Route::post('/tambahbuku',[BukuController::class, 'storebuku'])->middleware('auth');
-
-// route edit data buku
-Route::put('/updatebuku/{id}', [BukuController::class, 'updatebuku'])->name('updatebuku');
-
-// route delete buku
 Route::delete('/buku/{id}', [BukuController::class, 'destroy'])->name('deletebuku');
-
-// route registrasi akun 
-Route::get('/registrasi',[RegistrasiController::class, 'index'])->middleware('guest');
-Route::post('/registrasi',[RegistrasiController::class, 'post'])->name('registrasi akun');
-
-// route login dan logout
-Route::get('/login',[LoginController::class, 'index'])->name('login')->middleware('guest');
-Route::post('/login',[LoginController::class, 'authenticate'])->name('verifikasi');
-Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth');
-
-// route baca buku
-Route::get('/bacabuku/{id}', [BukuController::class, 'baca'])->name('baca.buku')->middleware('auth');
-
-// route pinjam buku
-Route::post('/pinjam', [BukuController::class, 'pinjam'])->name('pinjam.buku')->middleware('auth');
-Route::get('/pinjam', [BukuController::class, 'listbukupinjam'])->middleware('auth');
-
-// route pengembalian buku
 Route::post('/kembalikan/{id_buku}', [BukuController::class, 'pengembalian'])->name('kembalikanbuku');
 
-//route filter
-Route::get('/beranda/{filter}', [BukuController::class, 'filter']);
-Route::get('/pinjam/{filter}', [BukuController::class, 'filter']);
-Route::get('/listbuku/{filter}', [BukuController::class, 'filter']);
-Route::get('/listpinjam/{filter}', [BukuController::class, 'filter']);
-Route::get('/listpengembalian/{filter}', [BukuController::class, 'filter']);
+// route view halaman admin
+Route::group(['prefix'=>'Admin','as'=>'Admin.', 'middleware'=>['auth']], function(){
+    Route::get('/berandaadmin', ['as' => 'beranda', 'uses' => 'App\Http\Controllers\AdminViewController@beranda']);
+    Route::get('/listbuku', ['as' => 'buku', 'uses' => 'App\Http\Controllers\AdminViewController@listbuku']);
+    Route::get('/listpinjam', ['as' => 'pinjam', 'uses' => 'App\Http\Controllers\AdminViewController@listpinjam']);
+    Route::get('/listpengembalian', ['as' => 'pengembalian', 'uses' => 'App\Http\Controllers\AdminViewController@listpengembalian']);
+    Route::get('/tambahbuku', ['as' => 'tambahbuku', 'uses' => 'App\Http\Controllers\AdminViewController@tambahbuku']);
+    Route::get('/anggota', ['as' => 'anggota', 'uses' => 'App\Http\Controllers\AdminViewController@anggota']);
 
-//route search
-Route::get('/{type}/search', [BukuController::class, 'search'])->name('search');
+    //route menampilkan data list user
+    Route::get('/anggota', ['as' => 'listanggota', 'uses' => 'App\Http\Controllers\UserlistController@userlist']);
+    // route menambah data buku
+    Route::post('/tambahbuku',['as' => 'tambahbuku', 'uses' => 'App\Http\Controllers\BukuController@storebuku']);
+    // route edit data buku
+    Route::put('/updatebuku/{id}',['as' => 'updatebuku', 'uses' => 'App\Http\Controllers\BukuController@updatebuku']);
+});
+
+//route view halaman user
+Route::group(['prefix'=>'User','as'=>'User.', 'middleware'=>['auth']], function(){
+    Route::get('/beranda', ['as' => 'beranda', 'uses' => 'App\Http\Controllers\UserViewController@berandauser']);
+    Route::get('/pinjam', ['as' => 'pinjam', 'uses' => 'App\Http\Controllers\UserViewController@halamanpinjam']);
+
+    // route pinjam buku
+    Route::post('/pinjam', ['as' => 'pinjamcreate', 'uses' => 'App\Http\Controllers\BukuController@pinjam']);
+    //route list buku dipinjam 
+    Route::get('/pinjam', ['as' => 'pinjamlist', 'uses' => 'App\Http\Controllers\BukuController@listbukupinjam']);
+    Route::get('/bacabuku/{id}',  ['as' => 'baca.buku', 'uses' => 'App\Http\Controllers\BukuController@baca']);
+});
+
+//route view halaman Auth
+Route::group(['prefix'=>'Auth','as'=>'Auth.','middleware'=>['auth']], function(){
+    Route::get('/profile', ['as' => 'profile', 'uses' => 'App\Http\Controllers\UserlistController@profile']);
+
+    // profile data dan update
+    Route::put('/profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\UserlistController@editprofile']);
+    Route::get('/logout',['as' => 'logout', 'uses' => 'App\Http\Controllers\LoginController@logout']);
+});
+
+// route halaman login
+Route::group(['prefix'=>'Auth','as'=>'Auth', 'middleware' => ['guest']], function(){
+    Route::get('/login',['as' => 'login', 'uses' => 'App\Http\Controllers\LoginController@index']);
+    Route::post('/login',['as' => 'verifikasi', 'uses' => 'App\Http\Controllers\LoginController@authenticate']);
+    Route::get('/registrasi',['as' => 'verifikasi', 'uses' => 'App\Http\Controllers\RegistrasiController@index']);
+    Route::post('/registrasi',['as' => 'registrasiakun', 'uses' => 'App\Http\Controllers\RegistrasiController@post']);
+});
+
+// Routes untuk serch dengan filter
+Route::get('/User/beranda/{filter?}', [BukuController::class, 'filter'])->name('user.beranda');
+Route::get('/User/pinjam/{filter?}', [BukuController::class, 'filter'])->name('user.pinjam');
+Route::get('/Admin/listbuku/{filter?}', [BukuController::class, 'filter'])->name('admin.listbuku');
+Route::get('/Admin/listpinjam/{filter?}', [BukuController::class, 'filter'])->name('admin.listpinjam');
+Route::get('/Admin/listpengembalian/{filter?}', [BukuController::class, 'filter'])->name('admin.listpengembalian');
+
+// Routes untuk search
+Route::get('/User/beranda', [BukuController::class, 'filter'])->name('user.beranda.search');
+Route::get('/User/pinjam', [BukuController::class, 'filter'])->name('user.pinjam.search');
+Route::get('/Admin/listbuku', [BukuController::class, 'filter'])->name('admin.listbuku.search');
+Route::get('/Admin/listpinjam', [BukuController::class, 'filter'])->name('admin.listpinjam.search');
+Route::get('/Admin/listpengembalian', [BukuController::class, 'filter'])->name('admin.listpengembalian.search');
+Route::get('/Admin/anggota', [UserlistController::class, 'userlist'])->name('admin.anggota.search');

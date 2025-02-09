@@ -8,20 +8,23 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 class UserlistController extends Controller
 {
-    public function halaman(){
-        return view('anggota');
-    }
-
-    public function userlist()
+    public function userlist(Request $request)
     {
-        $anggota = User::where('role_id', 1)->get();
-        return view('anggota', compact('anggota'));
+        $search = $request->get('search');
+
+        $anggota = User::where('role_id', 1)
+            ->when($search, function ($query, $search) {
+                $query->where('username', 'like', '%' . $search . '%');
+            })
+            ->paginate(15);
+
+        return view('Admin.anggota', compact('anggota'));
     }
 
     public function profile()
     {
         $user = Auth::user();
-        return view('profile', compact('user'));
+        return view('Auth.profile', compact('user'));
     }
 
     public function editProfile(Request $request)
@@ -47,7 +50,7 @@ class UserlistController extends Controller
 
         $user->save();
 
-        return redirect('/profile')->with('success', 'Profil berhasil diperbarui!');
+        return redirect('/Auth/profile')->with('success', 'Profil berhasil diperbarui!');
     }
 
 }

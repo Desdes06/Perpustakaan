@@ -11,7 +11,7 @@
 <body>
     <div class="flex">
         <div class="text-white h-screen w-3/5 relative p-9"
-             style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('img/book.jpg'); background-size: cover; background-position: center; hover:fill-gray-300">
+             style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ asset('img/book.jpg')}}'); background-size: cover; background-position: center; hover:fill-gray-300">
             <a href="/" class="">
                 <svg xmlns="http://www.w3.org/2000/svg" 
                     width="35" 
@@ -26,7 +26,7 @@
             </div> 
         </div>
         <div class="flex justify-center items-center w-2/5">
-            <x-form action="/registrasi" method="POST" title="Registrasi" buttonText="Registrasi">
+            <x-form action="/Auth/registrasi" method="POST" title="Registrasi" buttonText="Registrasi">
                 @csrf
                 <div>
                     <label for="email" class="text-md p-4">Masukkan Email</label><br>
