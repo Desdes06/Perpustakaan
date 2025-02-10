@@ -101,7 +101,7 @@ class BukuController extends Controller
         return redirect()->route('Admin.buku')->with('success', 'Data buku berhasil diperbarui');
     }
 
-    // fungsi untuk mengahapus buku
+    // fungsi untuk menghapus buku
     public function destroy($id)
     {
         $buku = Buku::find($id);
@@ -157,18 +157,6 @@ class BukuController extends Controller
         ]);
 
         return redirect()->back()->with('message', 'Buku berhasil dipinjam.');
-    }
-
-    // fungsi untuk mengambil data tabel pinjam
-    public function listbukupinjam()
-    {
-        $pinjam = Auth::check() 
-        ? Pinjam::with('buku')
-            ->where('id_user', Auth::id())
-            ->get()
-        : collect([]);
-
-        return view('/User/pinjam', compact('pinjam'));
     }
 
     // fungsi untuk mengembalikan
