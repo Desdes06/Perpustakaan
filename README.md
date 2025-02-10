@@ -27,7 +27,7 @@ composer install
 catatan : PHP versi 8.4.3
 
 ```
-copy paste .env and remove .example or just remove .example
+copy paste .env and hapus .example atau hapus saja .example
 ```
 
 ## Run  
