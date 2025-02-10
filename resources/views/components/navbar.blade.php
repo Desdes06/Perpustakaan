@@ -40,8 +40,13 @@
         </div>
         <div class="absolute inset-x-0 flex justify-center">
           <div class="flex space-x-4 hidden sm:ml-6 sm:block">
-            <a href="/User/beranda" class="text-sm font-medium text-white hover:text-gray-300" aria-current="page">Beranda</a>
-            <a href="/User/pinjam" class="text-sm font-medium text-white hover:text-gray-300">Pinjam</a>
+            @php $currentRoute = request()->path(); @endphp
+            <a href="/User/beranda" class="text-sm font-medium {{ $currentRoute == 'User/beranda' ? 'text-gray-300' : 'text-white' }} hover:text-gray-300">
+                Beranda
+            </a>
+            <a href="/User/pinjam" class="text-sm font-medium {{ $currentRoute == 'User/pinjam' ? 'text-gray-300' : 'text-white' }} hover:text-gray-300">
+                Pinjam
+            </a>
           </div>
         </div>
       </div>
@@ -115,8 +120,8 @@
     <div x-show="isMenuOpen"
     @click.away="isMenuOpen = false" 
     class="space-y-1 px-2 pb-3 pt-2">
-      <a href="/beranda" class="block px-3 py-2 text-base font-medium text-white hover:bg-gray-700" aria-current="page">Dashboard</a>
-      <a href="/pinjam" class="block px-3 py-2 text-base font-medium text-white hover:bg-gray-700">Pinjam</a>
+      <a href="/User/beranda" class="block px-3 py-2 text-base font-medium text-white hover:bg-gray-700" aria-current="page">Dashboard</a>
+      <a href="/User/pinjam" class="block px-3 py-2 text-base font-medium text-white hover:bg-gray-700">Pinjam</a>
     </div>
   </div>
 </nav>

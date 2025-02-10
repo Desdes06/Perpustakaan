@@ -48,7 +48,7 @@ Route::group(['prefix'=>'Auth','as'=>'Auth.','middleware'=>['auth']], function()
 });
 
 // route halaman login
-Route::group(['prefix'=>'Auth','as'=>'Auth', 'middleware' => ['guest']], function(){
+Route::group(['prefix'=>'Auth', 'middleware' => ['guest']], function(){
     Route::get('/login',['as' => 'login', 'uses' => 'App\Http\Controllers\LoginController@index']);
     Route::post('/login',['as' => 'verifikasi', 'uses' => 'App\Http\Controllers\LoginController@authenticate']);
     Route::get('/registrasi',['as' => 'verifikasi', 'uses' => 'App\Http\Controllers\RegistrasiController@index']);
@@ -56,16 +56,16 @@ Route::group(['prefix'=>'Auth','as'=>'Auth', 'middleware' => ['guest']], functio
 });
 
 // Routes untuk serch dengan filter
-Route::get('/User/beranda/{filter?}', [BukuController::class, 'filter'])->name('user.beranda');
-Route::get('/User/pinjam/{filter?}', [BukuController::class, 'filter'])->name('user.pinjam');
-Route::get('/Admin/listbuku/{filter?}', [BukuController::class, 'filter'])->name('admin.listbuku');
-Route::get('/Admin/listpinjam/{filter?}', [BukuController::class, 'filter'])->name('admin.listpinjam');
-Route::get('/Admin/listpengembalian/{filter?}', [BukuController::class, 'filter'])->name('admin.listpengembalian');
+Route::get('/User/beranda/{filter?}', [BukuController::class, 'filter'])->name('user.beranda')->middleware('autth');
+Route::get('/User/pinjam/{filter?}', [BukuController::class, 'filter'])->name('user.pinjam')->middleware('auth');
+Route::get('/Admin/listbuku/{filter?}', [BukuController::class, 'filter'])->name('admin.listbuku')->middleware('auth');
+Route::get('/Admin/listpinjam/{filter?}', [BukuController::class, 'filter'])->name('admin.listpinjam')->middleware('auth');
+Route::get('/Admin/listpengembalian/{filter?}', [BukuController::class, 'filter'])->name('admin.listpengembalian')->middleware('auth');
 
 // Routes untuk search
-Route::get('/User/beranda', [BukuController::class, 'filter'])->name('user.beranda.search');
-Route::get('/User/pinjam', [BukuController::class, 'filter'])->name('user.pinjam.search');
-Route::get('/Admin/listbuku', [BukuController::class, 'filter'])->name('admin.listbuku.search');
-Route::get('/Admin/listpinjam', [BukuController::class, 'filter'])->name('admin.listpinjam.search');
-Route::get('/Admin/listpengembalian', [BukuController::class, 'filter'])->name('admin.listpengembalian.search');
-Route::get('/Admin/anggota', [UserlistController::class, 'userlist'])->name('admin.anggota.search');
+Route::get('/User/beranda', [BukuController::class, 'filter'])->name('user.beranda.search')->middleware('auth');
+Route::get('/User/pinjam', [BukuController::class, 'filter'])->name('user.pinjam.search')->middleware('auth');
+Route::get('/Admin/listbuku', [BukuController::class, 'filter'])->name('admin.listbuku.search')->middleware('auth');
+Route::get('/Admin/listpinjam', [BukuController::class, 'filter'])->name('admin.listpinjam.search')->middleware('auth');
+Route::get('/Admin/listpengembalian', [BukuController::class, 'filter'])->name('admin.listpengembalian.search')->middleware('auth');
+Route::get('/Admin/anggota', [UserlistController::class, 'userlist'])->name('admin.anggota.search')->middleware('auth');

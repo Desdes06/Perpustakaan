@@ -24,9 +24,9 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // View::share('buku', Buku::all());
-        // View::share('user', User::all());
-        // View::share('pinjam', Pinjam::with('buku', 'user')->get());
-        // view::share('pengembalian', Pengembalian::with('buku', 'user')->get());
+        View::share('buku', Buku::all());
+        View::share('user', User::all());
+        View::share('pinjam', Pinjam::with('buku', 'user')->get());
+        view::share('pengembalian', Pengembalian::with('buku', 'user')->get());
     }
 }
