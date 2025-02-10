@@ -56,7 +56,7 @@ Route::group(['prefix'=>'Auth', 'middleware' => ['guest']], function(){
 });
 
 // Routes untuk serch dengan filter
-Route::get('/User/beranda/{filter?}', [BukuController::class, 'filter'])->name('user.beranda')->middleware('autth');
+Route::get('/User/beranda/{filter?}', [BukuController::class, 'filter'])->name('user.beranda')->middleware('auth');
 Route::get('/User/pinjam/{filter?}', [BukuController::class, 'filter'])->name('user.pinjam')->middleware('auth');
 Route::get('/Admin/listbuku/{filter?}', [BukuController::class, 'filter'])->name('admin.listbuku')->middleware('auth');
 Route::get('/Admin/listpinjam/{filter?}', [BukuController::class, 'filter'])->name('admin.listpinjam')->middleware('auth');
