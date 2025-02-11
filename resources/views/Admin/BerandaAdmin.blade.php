@@ -29,7 +29,6 @@
         <div class="flex space-x-4 w-full justify-between">
             <div class="flex-1 max-w-xl p-6 bg-white border border-gray-300 rounded-lg shadow-sm">
                 <div class="flex space-x-4">
-                    <img src={{ asset('img/profile.png') }} alt="" class="h-28 rounded-full">
                     <div>
                         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Jumlah Pengguna</h5>
                         <p class="mb-3 text-lg font-normal text-gray-700">{{ $jumlahUser }} Pengguna Terdaftar</p>
@@ -44,9 +43,8 @@
             </div>
             <div class="flex-1 max-w-xl p-6 bg-white border border-gray-300 rounded-lg shadow-sm">
                 <div class="flex space-x-4">
-                    <img src={{ asset('img/buku.png') }} alt="" class="h-28">
                     <div>
-                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Buku</h5>
+                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Jumlah Buku</h5>
                         <p class="mb-3 text-lg font-normal text-gray-700">{{ $jumlahbuku }} Buku Tersedia</p>
                         <a href="/Admin/listbuku" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                             lihat detail
@@ -59,7 +57,6 @@
             </div>
             <div class="flex-1 max-w-xl p-6 bg-white border border-gray-300 rounded-lg shadow-sm">
                 <div class="flex space-x-4">
-                    <img src={{ asset('img/buku.png') }} alt="" class="h-28">
                     <div>
                         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Pinjam</h5>
                         <p class="mb-3 text-lg font-normal text-gray-700">{{ $jumlahpinjam }} Buku dipinjam</p>
@@ -74,7 +71,6 @@
             </div>
             <div class="flex-1 max-w-xl p-6 bg-white border border-gray-300 rounded-lg shadow-sm">
                 <div class="flex space-x-4">
-                    <img src={{ asset('img/buku.png') }} alt="" class="h-28">
                     <div>
                         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Pengembalian</h5>
                         <p class="mb-3 text-lg font-normal text-gray-700">{{ $pengembalian }} Buku dikembalikan</p>
@@ -87,7 +83,38 @@
                     </div>
                 </div>
             </div>
-        </div>              
+        </div> 
+        <div class="p-6 bg-white border border-gray-300 rounded-lg shadow-sm">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Grafik Pengembalian Buku Per Bulan</h5>
+            <canvas id="chartPengembalian" width="200" height="50"></canvas>
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            const dataPengembalian = @json(array_values($pengembalianPerBulanArray));
+
+            const ctx = document.getElementById('chartPengembalian').getContext('2d');
+            const chartPengembalian = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Buku di kembalikan',
+                        data : dataPengembalian,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>                     
     </div>
 </body>
 </html>
