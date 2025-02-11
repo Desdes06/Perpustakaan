@@ -16,6 +16,7 @@ class UserlistController extends Controller
             ->when($search, function ($query, $search) {
                 $query->where('username', 'like', '%' . $search . '%');
             })
+            ->latest()
             ->paginate(15);
 
         return view('Admin.anggota', compact('anggota'));
