@@ -9,7 +9,7 @@
 
 ## PERPUS
 
-Aplikasi untuk meminjam dan membaca buku secara online, mempermudah literasi, mempermudah merekap buku
+Aplikasi untuk meminjam dan membaca buku secara online, mempermudah literasi, mempermudah dalam mencatat data jumlah buku, peminjaman dan pengembalian buku
 
 <!-- - [Simple, fast routing engine](https://laravel.com/docs/routing).
 - [Powerful dependency injection container](https://laravel.com/docs/container).
