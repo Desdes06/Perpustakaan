@@ -16,7 +16,7 @@
     <div class="p-4 space-y-4 sm:ml-64"> 
         <h1 class="font-bold text-4xl">BERANDA</h1>
     </div>
-    <div class="p-4 space-y-4 sm:ml-64">
+    <div class="px-4 space-y-4 sm:ml-64">
         <div class="p-6 bg-gray-300 rounded-lg shadow-md w-64 w-full"
             style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ asset('img/ungu.jpg')}}'); background-size: cover; background-position: center; hover:fill-gray-300">
             <h1 class="text-2xl text-white">Kalender</h1>
@@ -30,7 +30,7 @@
             <div class="flex-1 max-w-xl p-6 bg-white border border-gray-300 rounded-lg shadow-sm">
                 <div class="flex space-x-4">
                     <div>
-                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Jumlah Pengguna</h5>
+                        <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900">Jumlah Pengguna</h5>
                         <p class="mb-3 text-lg font-normal text-gray-700">{{ $jumlahUser }} Pengguna Terdaftar</p>
                         <a href="/Admin/anggota" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                             lihat detail
@@ -44,7 +44,7 @@
             <div class="flex-1 max-w-xl p-6 bg-white border border-gray-300 rounded-lg shadow-sm">
                 <div class="flex space-x-4">
                     <div>
-                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Jumlah Buku</h5>
+                        <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900">Jumlah Buku</h5>
                         <p class="mb-3 text-lg font-normal text-gray-700">{{ $jumlahbuku }} Buku Tersedia</p>
                         <a href="/Admin/listbuku" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                             lihat detail
@@ -58,7 +58,7 @@
             <div class="flex-1 max-w-xl p-6 bg-white border border-gray-300 rounded-lg shadow-sm">
                 <div class="flex space-x-4">
                     <div>
-                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Pinjam</h5>
+                        <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900">Pinjam</h5>
                         <p class="mb-3 text-lg font-normal text-gray-700">{{ $jumlahpinjam }} Buku dipinjam</p>
                         <a href="/Admin/listpinjam" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                             lihat detail
@@ -72,7 +72,7 @@
             <div class="flex-1 max-w-xl p-6 bg-white border border-gray-300 rounded-lg shadow-sm">
                 <div class="flex space-x-4">
                     <div>
-                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Pengembalian</h5>
+                        <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900">Pengembalian</h5>
                         <p class="mb-3 text-lg font-normal text-gray-700">{{ $pengembalian }} Buku dikembalikan</p>
                         <a href="/Admin/listpengembalian" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                             lihat detail
@@ -85,34 +85,33 @@
             </div>
         </div> 
         <div class="p-6 bg-white border border-gray-300 rounded-lg shadow-sm">
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Grafik Pengembalian Buku Per Bulan</h5>
-            <canvas id="chartPengembalian" width="200" height="50"></canvas>
+            <div id="chartPengembalian" style="height: 400px; width: 100%;"></div>
         </div>
-        
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
         <script>
             const dataPengembalian = @json(array_values($pengembalianPerBulanArray));
 
-            const ctx = document.getElementById('chartPengembalian').getContext('2d');
-            const chartPengembalian = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                    datasets: [{
-                        label: 'Buku di kembalikan',
-                        data : dataPengembalian,
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
+            Highcharts.chart('chartPengembalian', {
+                chart: {
+                    type: 'column'
                 },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+                title: {
+                    text: 'Grafik Pengembalian Buku Per Bulan'
+                },
+                xAxis: {
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Jumlah Buku'
                     }
-                }
+                },
+                series: [{
+                    name: 'Buku Dikembalikan',
+                    data: dataPengembalian,
+                    color: '#36a2eb'
+                }]
             });
         </script>                     
     </div>
