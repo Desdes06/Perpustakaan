@@ -87,15 +87,16 @@
                                             @php
                                                 $isAlreadyBorrowed = \App\Models\Pinjam::where('id_user', auth()->id())
                                                     ->where('id_buku', $b->id)
+                                                    ->where('status_buku', 'dipinjam')
                                                     ->exists();
                                             @endphp
                                         
                                             @if($isAlreadyBorrowed)
-                                            <a href="{{ route('User.baca.buku', ['id' => $b->id]) }}" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
-                                                Baca
-                                            </a>
+                                                <a href="{{ route('User.baca.buku', ['id' => $b->id]) }}" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
+                                                    Baca
+                                                </a>
                                             @else
-                                                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                                                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" data-modal-hide="modal-{{ $b->id }}">
                                                     Pinjam
                                                 </button>
                                             @endif

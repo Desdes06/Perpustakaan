@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Buku extends Model
@@ -16,7 +17,7 @@ class Buku extends Model
         'penerbit',
         'tanggal_terbit',
         'deskripsi',
-        'kategori',
+        'id_kategori',
         'status',
         'foto',
         'file_buku'
@@ -38,4 +39,8 @@ class Buku extends Model
         $query->where('judul_buku', 'like', '%' . request('search') . '%');
     }
 
+    public function kategori(): BelongsTo
+    {
+        return $this->belongsTo(Kategori::class);
+    }
 }

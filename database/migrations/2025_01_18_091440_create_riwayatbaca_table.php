@@ -9,22 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('riwayatbaca', function (Blueprint $table) {
+        Schema::create('riwayat', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_buku')->constrained('buku')->onDelete('cascade');
             $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
-            $table->date('tanggal_baca');
+            $table->foreignId('id_buku')->constrained('buku')->onDelete('cascade');
+            $table->date('tanggal_pinjam');
+            $table->date('tanggal_kembali');
             $table->timestamps();
-        });
+        });        
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('riwayatbaca');
+        Schema::dropIfExists('riwayat');
     }
 };

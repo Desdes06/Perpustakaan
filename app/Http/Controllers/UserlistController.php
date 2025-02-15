@@ -12,7 +12,7 @@ class UserlistController extends Controller
     {
         $search = $request->get('search');
 
-        $anggota = User::where('role_id', 1)
+        $anggota = User::with(['pinjam.buku', 'pengembalian.buku'])->where('role_id', 1)
             ->when($search, function ($query, $search) {
                 $query->where('username', 'like', '%' . $search . '%');
             })

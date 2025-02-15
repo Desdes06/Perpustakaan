@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Buku;
 use App\Models\Pengembalian;
 use App\Models\Pinjam;
+use App\Models\Riwayat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -20,7 +21,7 @@ class BukuController extends Controller
             'penerbit' => 'required',
             'tanggal_terbit' => 'required|date',
             'deskripsi' => 'required',
-            'kategori' => 'required',
+            'id_kategori' => 'required|exists:kategori,id',
             'foto' => 'required|image|mimes:jpeg,png,jpg|max:10240',
             'file_buku' => 'required|mimes:pdf'
         ], [
@@ -29,7 +30,7 @@ class BukuController extends Controller
             'penerbit.required' => 'kolom ini tidak boleh kosong',
             'tanggal_terbit.required' => 'kolom ini tidak boleh kosong',
             'deskripsi.required' => 'kolom ini tidak boleh kosong',
-            'kategori.required' => 'kolom ini tidak boleh kosong',
+            'id_kategori.required' => 'kolom ini tidak boleh kosong',
             'foto.required' => 'foto tidak boleh kosong',
             'file_buku.required' => 'file buku tidak boleh kosong'
         ]);
@@ -43,14 +44,14 @@ class BukuController extends Controller
         if ($request->hasFile('file_buku')){
             $pathfile = $request->file('file_buku')->store('file', 'public');
         }
-
+        
         Buku::create([
             'judul_buku' => $request['judul_buku'],
             'penulis' => $request['penulis'],
             'penerbit' => $request['penerbit'],
             'tanggal_terbit' => $request['tanggal_terbit'],
             'deskripsi' => $request['deskripsi'],
-            'kategori' => $request['kategori'],
+            'id_kategori' => $request['id_kategori'],
             'foto' => $path,
             'file_buku' => $pathfile
             ]);
@@ -67,7 +68,7 @@ class BukuController extends Controller
             'penerbit' => 'required',
             'tanggal_terbit' => 'required|date',
             'deskripsi' => 'required',
-            'kategori' => 'required',
+            'id_kategori' => 'required',
             'foto' => 'image|mimes:jpeg,png,jpg|max:10240',
             'file_buku' => 'mimes:pdf'
         ]);
@@ -79,7 +80,7 @@ class BukuController extends Controller
         $buku->penerbit = $request->penerbit;
         $buku->tanggal_terbit = $request->tanggal_terbit;
         $buku->deskripsi = $request->deskripsi;
-        $buku->kategori = $request->kategori;
+        $buku->id_kategori = $request->kategori;
 
         if ($request->hasFile('foto')) {
             if ($buku->foto) {
@@ -101,39 +102,65 @@ class BukuController extends Controller
         return redirect()->route('Admin.buku')->with('success', 'Data buku berhasil diperbarui');
     }
 
-    // fungsi untuk menghapus buku
-    public function destroy($id)
+    public function destroyMultiple(Request $request) // hapus data buku
     {
-        $buku = Buku::find($id);
+        $ids = explode(',', $request->ids);
 
-        if (!$buku) {
-            return redirect()->back()->with('error', 'Buku tidak ditemukan.');
+        if (empty($ids)) {
+            return redirect()->back()->with('error', 'Tidak ada buku yang dipilih.');
         }
 
-        if ($buku->foto) {
-            Storage::disk('public')->delete($buku->foto);
-        }
+        $bukuList = Buku::whereIn('id', $ids)->get();
 
-        if ($buku->file_buku) {
-            Storage::disk('public')->delete($buku->file_buku);
-        }
+        foreach ($bukuList as $buku) {
+            if ($buku->foto) {
+                Storage::disk('public')->delete($buku->foto);
+            }
 
-        $buku->delete();
+            if ($buku->file_buku) {
+                Storage::disk('public')->delete($buku->file_buku);
+            }
+        }
+        Buku::whereIn('id', $ids)->delete();
 
         return redirect()->back()->with('success', 'Buku berhasil dihapus.');
     }
 
-    // fungsi untuk mengambil file buku
-    public function baca($id)
+    public function deleteSelected(Request $request)// hapus data pengembalian
     {
-        $buku = Buku::find($id);
+        $ids = explode(',', $request->ids);
+        Pengembalian::whereIn('id', $ids)->delete();
+        
+        return redirect()->back()->with('success', 'Data pengembalian berhasil dihapus');
+    }
 
+    public function deletepinjam(Request $request)// hapus data pinjam
+    {
+        $ids = explode(',', $request->ids);
+        Pinjam::whereIn('id', $ids)->delete();
+        
+        return redirect()->back()->with('success', 'Data pinjam berhasil dihapus');
+    }
+
+    public function baca($id) // fungsi untuk membuka file buku
+    {
+        $user = Auth::user();
+
+        $buku = Buku::find($id);
         if (!$buku) {
             return abort(404, 'Buku tidak ditemukan.');
         }
 
-        $path = public_path('storage/' . $buku->file_buku);
+        $pinjam = Pinjam::where('id_user', $user->id)
+                        ->where('id_buku', $id)
+                        ->where('status_buku', 'dipinjam')
+                        ->first();
 
+        if (!$pinjam) {
+            return redirect('User/beranda')->with('error', 'Anda belum meminjam buku ini.');
+        }               
+
+        $path = public_path('storage/' . $buku->file_buku);
         if (!file_exists($path)) {
             return abort(404, 'File PDF tidak ditemukan.');
         }
@@ -141,8 +168,7 @@ class BukuController extends Controller
         return view('/User/baca-buku', compact('buku', 'path'));
     }
 
-    // fungsi untuk meminjam buku
-    public function pinjam(Request $request)
+    public function pinjam(Request $request) // fungsi untuk meminjam buku
     {
         $request->validate([
             'id_buku' => 'required|exists:buku,id',
@@ -159,8 +185,7 @@ class BukuController extends Controller
         return redirect()->back()->with('message', 'Buku berhasil dipinjam.');
     }
 
-    // fungsi untuk mengembalikan
-    public function pengembalian($id_buku)
+    public function pengembalian($id_buku) // fungsi untuk mengembalikan
     {
         $user = Auth::user();
 
@@ -168,27 +193,38 @@ class BukuController extends Controller
             return redirect()->back()->with('error', 'Anda harus login untuk mengembalikan buku.');
         }
 
-        $pinjam = Pinjam::where('id_buku', $id_buku)
-                        ->where('id_user', $user->id)
-                        ->first();
+        Pinjam::where('id_buku', $id_buku)
+                    ->where('id_user', $user->id)
+                    ->update([
+                        'status_buku' => 'dikembalikan',
+                        'tanggal_kembali' => now(),
+                    ]);
+
+        $pinjam =  Pinjam::where('id_buku', $id_buku)
+            ->where('id_user', $user->id)
+            ->first();
 
         if (!$pinjam) {
             return redirect()->back()->with('error', 'Anda tidak meminjam buku ini.');
         }
-
-        $pinjam->delete();
+        
+        Riwayat::create([
+            'id_buku' => $pinjam->id_buku,
+            'id_user' => $pinjam->id_user,
+            'tanggal_pinjam' => $pinjam->tanggal_pinjam,
+            'tanggal_kembali' => now(),
+        ]);
 
         Pengembalian::create([
-            'id_buku' => $id_buku,
-            'id_user' => $user->id,
+            'id_buku' => $pinjam->id_buku,
+            'id_user' => $pinjam->id_user,
             'tanggal_pengembalian' => now(),
         ]);
 
         return redirect()->back()->with('success', 'Buku berhasil dikembalikan.');
     }
 
-    // fungsi untuk filter buku
-    public function filter($filter = null)
+    public function filter($filter = null) // fungsi untuk filter buku, search, dan ambil data
     {
         $search = request('search');
         $currentPath = request()->path();
@@ -197,16 +233,18 @@ class BukuController extends Controller
         switch ($path) {
             case 'User/beranda':
             case 'Admin/listbuku':
-                $buku = Buku::when($search, fn($query) => $query->where('judul_buku', 'like', "%{$search}%"))
-                            ->when($filter, fn($query) => $query->where('kategori', $filter)->orWhere('penulis', $filter))
+                $buku = Buku::with('kategori')
+                            ->when($search, fn($query) => $query->where('judul_buku', 'like', "%{$search}%"))
+                            ->when($filter, fn($query) => $query->where('id_kategori', $filter)->orWhere('penulis', $filter))
                             ->latest()
                             ->paginate(6);
             
                 return view($path === 'User/beranda' ? 'User.dashboard' : 'Admin.listbuku', compact('buku'));
                 
             case 'User/pinjam':
-                $pinjam = Pinjam::with('buku')
-                    ->where('id_user', Auth::id()) 
+                $pinjam = Pinjam::with(['buku', 'user'])
+                    ->where('id_user', Auth::id())
+                    ->where('status_buku', 'dipinjam') 
                     ->when($search, function ($query) use ($search) {
                         return $query->whereHas('buku', function ($q) use ($search) {
                             $q->where('judul_buku', 'like', "%{$search}%");
@@ -214,7 +252,7 @@ class BukuController extends Controller
                     })
                     ->when($filter, function ($query) use ($filter) {
                         return $query->whereHas('buku', function ($q) use ($filter) {
-                            $q->where('kategori', $filter)
+                            $q->where('id_kategori', $filter)
                                 ->orWhere('penulis', $filter);
                         });
                     })
@@ -224,7 +262,8 @@ class BukuController extends Controller
                 return view('User.pinjam', compact('pinjam'));
 
             case 'Admin/listpinjam':
-                $pinjam = Pinjam::with('buku')
+                $pinjam = Pinjam::with(['buku', 'user'])
+                    ->where('status_buku', 'dipinjam')
                     ->when($search, function ($query) use ($search) {
                         return $query->whereHas('buku', function ($q) use ($search) {
                             $q->where('judul_buku', 'like', "%{$search}%");
@@ -232,12 +271,16 @@ class BukuController extends Controller
                     })
                     ->when($filter, function ($query) use ($filter) {
                         return $query->whereHas('buku', function ($q) use ($filter) {
-                            $q->where('kategori', $filter)
+                            $q->where('id_kategori', $filter)
                                 ->orWhere('penulis', $filter);
                         });
                     })
+                    ->when(request('bulan'), function ($query) {
+                        return $query->whereMonth('created_at', request('bulan'))
+                                     ->whereYear('created_at', request('tahun', date('Y')));
+                    })
                     ->latest()
-                    ->paginate(15);
+                    ->paginate(50);
             
                 return view('Admin.listpinjam', compact('pinjam'));                
 
@@ -250,11 +293,15 @@ class BukuController extends Controller
                     })
                     ->when($filter, function ($query) use ($filter) {
                         return $query->whereHas('buku', function ($q) use ($filter) {
-                            $q->where('kategori', $filter)->orWhere('penulis', $filter);
+                            $q->where('id_kategori', $filter)->orWhere('penulis', $filter);
                         });
                     })
+                    ->when(request('bulan'), function ($query) {
+                        return $query->whereMonth('created_at', request('bulan'))
+                                     ->whereYear('created_at', request('tahun', date('Y')));
+                    })
                     ->latest()
-                    ->paginate(15);
+                    ->paginate(50);
                 
             return view('Admin.listpengembalian', compact('pengembalian'));
         }

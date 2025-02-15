@@ -1,50 +1,79 @@
 <?php
 
 use App\Http\Controllers\BukuController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\RouteController;
-use App\Http\Controllers\UserlistController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/',[RouteController::class, 'routehome']);
-Route::delete('/buku/{id}', [BukuController::class, 'destroy'])->name('deletebuku');
-Route::post('/kembalikan/{id_buku}', [BukuController::class, 'pengembalian'])->name('kembalikanbuku');
 
-// route view halaman admin
-Route::group(['prefix'=>'Admin','as'=>'Admin.', 'middleware'=>['auth']], function(){
-    Route::get('/berandaadmin', ['as' => 'beranda', 'uses' => 'App\Http\Controllers\AdminViewController@beranda']);
-    Route::get('/listbuku', ['as' => 'buku', 'uses' => 'App\Http\Controllers\AdminViewController@listbuku']);
-    Route::get('/listpinjam', ['as' => 'pinjam', 'uses' => 'App\Http\Controllers\AdminViewController@listpinjam']);
-    Route::get('/listpengembalian', ['as' => 'pengembalian', 'uses' => 'App\Http\Controllers\AdminViewController@listpengembalian']);
-    Route::get('/tambahbuku', ['as' => 'tambahbuku', 'uses' => 'App\Http\Controllers\AdminViewController@tambahbuku']);
-    Route::get('/anggota', ['as' => 'anggota', 'uses' => 'App\Http\Controllers\AdminViewController@anggota']);
+Route::group(['middleware'=>['auth']], function(){
+    // route view halaman admin
+    Route::group(['prefix'=>'Admin','as'=>'Admin.'], function(){
+        Route::get('/berandaadmin', ['as' => 'beranda', 'uses' => 'App\Http\Controllers\AdminViewController@beranda']);
+        Route::get('/listbuku', ['as' => 'buku', 'uses' => 'App\Http\Controllers\AdminViewController@listbuku']);
+        Route::get('/listpinjam', ['as' => 'pinjam', 'uses' => 'App\Http\Controllers\AdminViewController@listpinjam']);
+        Route::get('/listpengembalian', ['as' => 'pengembalian', 'uses' => 'App\Http\Controllers\AdminViewController@listpengembalian']);
+        Route::get('/tambahbuku', ['as' => 'tambahbuku', 'uses' => 'App\Http\Controllers\AdminViewController@tambahbuku']);
+        Route::get('/anggota', ['as' => 'anggota', 'uses' => 'App\Http\Controllers\AdminViewController@anggota']);
 
-    //route menampilkan data list user
-    Route::get('/anggota', ['as' => 'listanggota', 'uses' => 'App\Http\Controllers\UserlistController@userlist']);
-    // route menambah data buku
-    Route::post('/tambahbuku',['as' => 'tambahbuku', 'uses' => 'App\Http\Controllers\BukuController@storebuku']);
-    // route edit data buku
-    Route::put('/updatebuku/{id}',['as' => 'updatebuku', 'uses' => 'App\Http\Controllers\BukuController@updatebuku']);
-});
+        //route menampilkan data list user
+        Route::get('/anggota', ['as' => 'listanggota', 'uses' => 'App\Http\Controllers\UserlistController@userlist']);
+        // route menambah data buku
+        Route::post('/tambahbuku',['as' => 'tambahbuku', 'uses' => 'App\Http\Controllers\BukuController@storebuku']);
+        // route edit data buku
+        Route::put('/updatebuku/{id}',['as' => 'updatebuku', 'uses' => 'App\Http\Controllers\BukuController@updatebuku']);
+    });
 
-//route view halaman user
-Route::group(['prefix'=>'User','as'=>'User.', 'middleware'=>['auth']], function(){
-    Route::get('/beranda', ['as' => 'beranda', 'uses' => 'App\Http\Controllers\UserViewController@berandauser']);
-    Route::get('/pinjam', ['as' => 'pinjam', 'uses' => 'App\Http\Controllers\UserViewController@halamanpinjam']);
+    //route view halaman user
+    Route::group(['prefix'=>'User','as'=>'User.'], function(){
+        Route::get('/beranda', ['as' => 'beranda', 'uses' => 'App\Http\Controllers\UserViewController@berandauser']);
+        Route::get('/pinjam', ['as' => 'pinjam', 'uses' => 'App\Http\Controllers\UserViewController@halamanpinjam']);
 
-    // route pinjam buku
-    Route::post('/pinjam', ['as' => 'pinjamcreate', 'uses' => 'App\Http\Controllers\BukuController@pinjam']);
-    //route list buku dipinjam 
-    Route::get('/pinjam', ['as' => 'pinjamlist', 'uses' => 'App\Http\Controllers\BukuController@listbukupinjam']);
-    Route::get('/bacabuku/{id}',  ['as' => 'baca.buku', 'uses' => 'App\Http\Controllers\BukuController@baca']);
-});
+        // route pinjam buku
+        Route::post('/pinjam', ['as' => 'pinjamcreate', 'uses' => 'App\Http\Controllers\BukuController@pinjam']);
+        //route list buku dipinjam 
+        Route::get('/pinjam', ['as' => 'pinjamlist', 'uses' => 'App\Http\Controllers\BukuController@listbukupinjam']);
+        Route::get('/bacabuku/{id}',  ['as' => 'baca.buku', 'uses' => 'App\Http\Controllers\BukuController@baca']);
+    });
 
-//route view halaman Auth
-Route::group(['prefix'=>'Auth','as'=>'Auth.','middleware'=>['auth']], function(){
-    Route::get('/profile', ['as' => 'profile', 'uses' => 'App\Http\Controllers\UserlistController@profile']);
+    //route view halaman Auth
+    Route::group(['prefix'=>'Auth','as'=>'Auth.'], function(){
+        Route::get('/profile', ['as' => 'profile', 'uses' => 'App\Http\Controllers\UserlistController@profile']);
 
-    // profile data dan update
-    Route::put('/profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\UserlistController@editprofile']);
-    Route::get('/logout',['as' => 'logout', 'uses' => 'App\Http\Controllers\LoginController@logout']);
+        // profile data dan update
+        Route::put('/profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\UserlistController@editprofile']);
+        Route::get('/logout',['as' => 'logout', 'uses' => 'App\Http\Controllers\LoginController@logout']);
+    });
+
+    // Routes untuk search dengan filter
+    Route::get('/User/beranda/{filter?}', ['uses' => 'App\Http\Controllers\BukuController@filter'])->name('user.beranda');
+    Route::get('/User/pinjam/{filter?}', ['uses' => 'App\Http\Controllers\BukuController@filter'])->name('user.pinjam');
+    Route::get('/Admin/listbuku/{filter?}', ['uses' => 'App\Http\Controllers\BukuController@filter'])->name('admin.listbuku');
+    Route::get('/Admin/listpinjam/{filter?}', ['uses' => 'App\Http\Controllers\BukuController@filter'])->name('admin.listpinjam');
+    Route::get('/Admin/listpengembalian/{filter?}', ['uses' => 'App\Http\Controllers\BukuController@filter'])->name('admin.listpengembalian');
+
+    // Routes untuk search
+    Route::get('/User/beranda', ['uses' => 'App\Http\Controllers\BukuController@filter'])->name('user.beranda.search');
+    Route::get('/User/pinjam', ['uses' => 'App\Http\Controllers\BukuController@filter'])->name('user.pinjam.search');
+    Route::get('/Admin/listbuku', ['uses' => 'App\Http\Controllers\BukuController@filter'])->name('admin.listbuku.search');
+    Route::get('/Admin/listpinjam', ['uses' => 'App\Http\Controllers\BukuController@filter'])->name('admin.listpinjam.search');
+    Route::get('/Admin/listpengembalian', ['uses' => 'App\Http\Controllers\BukuController@filter'])->name('admin.listpengembalian.search');
+    Route::get('/Admin/anggota', ['uses' => 'App\Http\Controllers\UserlistController@userlist'])->name('admin.anggota.search');
+
+    //route action delete
+    Route::delete('/buku/hapus-multiple', ['uses' => 'App\Http\Controllers\BukuController@destroyMultiple'])->name('deletebuku');
+    Route::post('/kembalikan/{id_buku}', ['uses' => 'App\Http\Controllers\BukuController@pengembalian'])->name('kembalikanbuku');
+    Route::delete('/Admin/delete-pengembalian', ['uses' => 'App\Http\Controllers\BukuController@deleteSelected'])->name('admin.delete.pengembalian');
+    Route::delete('/Admin/delete-pinjam', ['uses' => 'App\Http\Controllers\BukuController@deletepinjam'])->name('admin.delete.pinjam');
+
+    // export
+    Route::get('/admin/export-pengembalian', ['uses' => 'App\Http\Controllers\ExportController@exportpengembalian'])->name('admin.export.pengembalian');
+    Route::get('/admin/exportpdf-pengembalian', ['uses' => 'App\Http\Controllers\ExportController@pdfpengembalian'])->name('admin.export.pengembalian.pdf');
+
+    Route::get('/admin/export-pinjam', ['uses' => 'App\Http\Controllers\ExportController@exportpinjam'])->name('admin.export.pinjam');
+    Route::get('/admin/exportpdf-pinjam', ['uses' => 'App\Http\Controllers\ExportController@pdfpinjam'])->name('admin.export.pinjam.pdf');
+
 });
 
 // route halaman login
@@ -54,18 +83,3 @@ Route::group(['prefix'=>'Auth', 'middleware' => ['guest']], function(){
     Route::get('/registrasi',['as' => 'verifikasi', 'uses' => 'App\Http\Controllers\RegistrasiController@index']);
     Route::post('/registrasi',['as' => 'registrasiakun', 'uses' => 'App\Http\Controllers\RegistrasiController@post']);
 });
-
-// Routes untuk serch dengan filter
-Route::get('/User/beranda/{filter?}', [BukuController::class, 'filter'])->name('user.beranda')->middleware('auth');
-Route::get('/User/pinjam/{filter?}', [BukuController::class, 'filter'])->name('user.pinjam')->middleware('auth');
-Route::get('/Admin/listbuku/{filter?}', [BukuController::class, 'filter'])->name('admin.listbuku')->middleware('auth');
-Route::get('/Admin/listpinjam/{filter?}', [BukuController::class, 'filter'])->name('admin.listpinjam')->middleware('auth');
-Route::get('/Admin/listpengembalian/{filter?}', [BukuController::class, 'filter'])->name('admin.listpengembalian')->middleware('auth');
-
-// Routes untuk search
-Route::get('/User/beranda', [BukuController::class, 'filter'])->name('user.beranda.search')->middleware('auth');
-Route::get('/User/pinjam', [BukuController::class, 'filter'])->name('user.pinjam.search')->middleware('auth');
-Route::get('/Admin/listbuku', [BukuController::class, 'filter'])->name('admin.listbuku.search')->middleware('auth');
-Route::get('/Admin/listpinjam', [BukuController::class, 'filter'])->name('admin.listpinjam.search')->middleware('auth');
-Route::get('/Admin/listpengembalian', [BukuController::class, 'filter'])->name('admin.listpengembalian.search')->middleware('auth');
-Route::get('/Admin/anggota', [UserlistController::class, 'userlist'])->name('admin.anggota.search')->middleware('auth');
