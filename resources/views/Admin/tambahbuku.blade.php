@@ -31,7 +31,7 @@
                 </button>
             </div>
         @endif
-        <form action="/Admin/tambahbuku" method="POST" enctype="multipart/form-data" class="p-12 w-full bg-gray-200">
+        <form action="/Admin/tambahbuku" method="POST" enctype="multipart/form-data" class="p-12 w-full bg-gray-200" onsubmit="handleSubmit(event, this.querySelector('button[type=submit]'))">
             @csrf
             <div class="space-y-12 items-center">
                 <div class="border-b border-gray-900/10 pb-12">
@@ -160,11 +160,24 @@
                     </div>
                 </div>
                 <div class="mt-6 flex items-center justify-end gap-x-6">
-                    <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+                    <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Simpan</button>
                 </div>
             </div>
         </form>
     </div>
+    <script>
+        function handleSubmit(event, button) {
+            button.disabled = true;
+            button.classList.add("opacity-50", "cursor-not-allowed");
+            button.innerHTML = "Menyimpan...";
+    
+            setTimeout(() => {
+                button.disabled = false;
+                button.classList.remove("opacity-50", "cursor-not-allowed");
+                button.innerHTML = "Simpan";
+            }, 5000);
+        }
+    </script>
     <script>
         document.getElementById('file-upload').addEventListener('change', function (event) {
             const file = event.target.files[0];
