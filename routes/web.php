@@ -11,18 +11,24 @@ Route::group(['middleware'=>['auth']], function(){
     // route view halaman admin
     Route::group(['prefix'=>'Admin','as'=>'Admin.'], function(){
         Route::get('/berandaadmin', ['as' => 'beranda', 'uses' => 'App\Http\Controllers\AdminViewController@beranda']);
-        Route::get('/listbuku', ['as' => 'buku', 'uses' => 'App\Http\Controllers\AdminViewController@listbuku']);
+        Route::get('/listbuku', ['as' => 'listbuku', 'uses' => 'App\Http\Controllers\AdminViewController@listbuku']);
         Route::get('/listpinjam', ['as' => 'pinjam', 'uses' => 'App\Http\Controllers\AdminViewController@listpinjam']);
         Route::get('/listpengembalian', ['as' => 'pengembalian', 'uses' => 'App\Http\Controllers\AdminViewController@listpengembalian']);
         Route::get('/tambahbuku', ['as' => 'tambahbuku', 'uses' => 'App\Http\Controllers\AdminViewController@tambahbuku']);
         Route::get('/anggota', ['as' => 'anggota', 'uses' => 'App\Http\Controllers\AdminViewController@anggota']);
+        Route::get('/kategori', ['as' => 'viewkategori', 'uses' => 'App\Http\Controllers\KategoriController@kategoridata']);
+        
 
         //route menampilkan data list user
         Route::get('/anggota', ['as' => 'listanggota', 'uses' => 'App\Http\Controllers\UserlistController@userlist']);
         // route menambah data buku
         Route::post('/tambahbuku',['as' => 'tambahbuku', 'uses' => 'App\Http\Controllers\BukuController@storebuku']);
+        // route tambah kategori
+        Route::post('/tambahkategori', ['as' => 'tambahkategori', 'uses' => 'App\Http\Controllers\KategoriController@tambahkategori']);
         // route edit data buku
         Route::put('/updatebuku/{id}',['as' => 'updatebuku', 'uses' => 'App\Http\Controllers\BukuController@updatebuku']);
+        // route edit kategori
+        Route::put('/updatekategori/{id}',['as' => 'updatekategori', 'uses' => 'App\Http\Controllers\KategoriController@update']);
     });
 
     //route view halaman user
@@ -66,6 +72,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::post('/kembalikan/{id_buku}', ['uses' => 'App\Http\Controllers\BukuController@pengembalian'])->name('kembalikanbuku');
     Route::delete('/Admin/delete-pengembalian', ['uses' => 'App\Http\Controllers\BukuController@deleteSelected'])->name('admin.delete.pengembalian');
     Route::delete('/Admin/delete-pinjam', ['uses' => 'App\Http\Controllers\BukuController@deletepinjam'])->name('admin.delete.pinjam');
+    Route::delete('/kategori', ['uses' => 'App\Http\Controllers\KategoriController@destroy'])->name('deletekategori');
 
     // export
     Route::get('/admin/export-pengembalian', ['uses' => 'App\Http\Controllers\ExportController@exportpengembalian'])->name('admin.export.pengembalian');

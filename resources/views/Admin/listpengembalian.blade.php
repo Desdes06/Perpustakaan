@@ -85,7 +85,7 @@
                                 class="w-4 h-4 rounded border-gray-300 bg-gray-400 row-checkbox cursor-pointer">
                         </td>
                         <td class="px-6 py-3">{{ $p->buku->judul_buku }}</td>
-                        <td class="px-6 py-3">{{ $p->buku->kategori }}</td>
+                        <td class="px-6 py-3">{{ $p->buku->kategori->nama_kategori }}</td>
                         <td class="px-6 py-3">{{ $p->buku->penulis }}</td>
                         <td class="px-6 py-3">{{ $p->user->username }}</td>
                         <td class="px-6 py-3">{{ $p->user->email }}</td>
@@ -128,7 +128,7 @@
         @endif
     </div>
     {{-- modal delete --}}
-    <div id="deleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center">
+    <div id="deleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
         <div class="relative bg-white rounded-lg shadow-lg max-w-md w-full m-4">
             <div class="p-6">
                 <h3 class="text-lg font-semibold mb-4">Konfirmasi Penghapusan</h3>

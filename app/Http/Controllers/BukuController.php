@@ -80,7 +80,7 @@ class BukuController extends Controller
         $buku->penerbit = $request->penerbit;
         $buku->tanggal_terbit = $request->tanggal_terbit;
         $buku->deskripsi = $request->deskripsi;
-        $buku->id_kategori = $request->kategori;
+        $buku->id_kategori = $request->id_kategori;
 
         if ($request->hasFile('foto')) {
             if ($buku->foto) {
@@ -99,7 +99,7 @@ class BukuController extends Controller
 
         $buku->save();
 
-        return redirect()->route('Admin.buku')->with('success', 'Data buku berhasil diperbarui');
+        return redirect()->route('admin.listbuku.search')->with('success', 'Data buku berhasil diperbarui');
     }
 
     public function destroyMultiple(Request $request) // hapus data buku
@@ -263,21 +263,23 @@ class BukuController extends Controller
 
             case 'Admin/listpinjam':
                 $pinjam = Pinjam::with(['buku', 'user'])
-                    ->where('status_buku', 'dipinjam')
                     ->when($search, function ($query) use ($search) {
-                        return $query->whereHas('buku', function ($q) use ($search) {
-                            $q->where('judul_buku', 'like', "%{$search}%");
+                        $normalizedSearch = str_replace(' ', '', strtolower($search)); // Normalisasi pencarian
+
+                        return $query->whereHas('buku', function ($q) use ($normalizedSearch) {
+                            $q->whereRaw("REPLACE(LOWER(judul_buku), ' ', '') LIKE ?", ["%{$normalizedSearch}%"])
+                            ->orWhereRaw("REPLACE(LOWER(status_buku), ' ', '') LIKE ?", ["%{$normalizedSearch}%"]);
                         });
                     })
                     ->when($filter, function ($query) use ($filter) {
                         return $query->whereHas('buku', function ($q) use ($filter) {
                             $q->where('id_kategori', $filter)
-                                ->orWhere('penulis', $filter);
+                            ->orWhere('penulis', $filter);
                         });
                     })
                     ->when(request('bulan'), function ($query) {
                         return $query->whereMonth('created_at', request('bulan'))
-                                     ->whereYear('created_at', request('tahun', date('Y')));
+                                    ->whereYear('created_at', request('tahun', date('Y')));
                     })
                     ->latest()
                     ->paginate(50);

@@ -25,7 +25,7 @@
 
         Carbon::setLocale('id');
 
-        $namaBulan = $bulan ? Carbon::createFromFormat('m', $bulan)->translatedFormat('F');
+        $namaBulan = $bulan ? Carbon::createFromFormat('m', $bulan)->translatedFormat('F') : 'Semua Bulan';
     @endphp
 
     <h2>Data Peminjaman Buku - Bulan {{ ucfirst($namaBulan) }} Tahun {{ $tahun }}</h2>
@@ -38,17 +38,19 @@
                 <th>Peminjam</th>
                 <th>Email</th>
                 <th>Tanggal Pinjam</th>
+                <th>status</th>
             </tr>
         </thead>
         <tbody>
             @foreach($pinjam as $item)
                 <tr>
                     <td>{{ $item->buku->judul_buku }}</td>
-                    <td>{{ $item->buku->kategori }}</td>
+                    <td>{{ $item->buku->kategori->nama_kategori }}</td>
                     <td>{{ $item->buku->penulis }}</td>
                     <td>{{ $item->user->username }}</td>
                     <td>{{ $item->user->email }}</td>
                     <td>{{ $item->created_at->format('Y-m-d') }}</td>
+                    <td>{{ $item->status_buku }}</td>
                 </tr>
             @endforeach
         </tbody>

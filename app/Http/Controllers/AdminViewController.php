@@ -30,7 +30,6 @@ class AdminViewController extends Controller
         // Get the pinjam data by month
         $pinjamPerBulan = Pinjam::selectRaw('MONTH(tanggal_pinjam) as bulan, COUNT(*) as jumlah')
             ->whereNotNull('tanggal_pinjam')
-            ->where('status_buku', 'dipinjam')
             ->groupBy('bulan')
             ->orderBy('bulan')
             ->pluck('jumlah', 'bulan')

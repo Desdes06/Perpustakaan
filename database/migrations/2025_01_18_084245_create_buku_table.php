@@ -11,6 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('kategori', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama_kategori')->unique();
+            $table->string('deskripsi')->nullable();
+            $table->timestamps();
+        });
+
         Schema::create('buku', function (Blueprint $table) {
             $table->id();
             $table->string('judul_buku');
@@ -18,7 +25,7 @@ return new class extends Migration
             $table->string('penerbit');
             $table->date('tanggal_terbit');
             $table->longText('deskripsi')->nullable();
-            $table->string('kategori');
+            $table->foreignId('id_kategori')->constrained('kategori')->onDelete('cascade');
             $table->string('status')->default('tersedia');
             $table->string('foto')->nullable();
             $table->string('file_buku');
@@ -32,5 +39,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('buku');
+        Schema::dropIfExists('kategori');
     }
 };

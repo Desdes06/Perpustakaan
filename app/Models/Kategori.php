@@ -14,6 +14,16 @@ class Kategori extends Model
         'deskripsi'
     ];
 
+    public function setNamaKategoriAttribute($value)
+    {
+        $this->attributes['nama_kategori'] = strtolower($value);
+    }
+
+    public function getNamaKategoriAttribute($value)
+    {
+        return ucwords($value);
+    }
+
     public function buku(): HasMany
     {
         return $this->hasMany(Buku::class, 'id_kategori');

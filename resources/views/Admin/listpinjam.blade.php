@@ -17,7 +17,7 @@
     <div class="p-4 space-y-4 sm:ml-64">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-2xl font-semibold">Daftar Pinjam</h2>
-            <x-sortirpilih type='Admin/listpinjam'>Cari judul buku</x-sortirpilih>
+            <x-sortirpilih type='Admin/listpinjam'>Cari</x-sortirpilih>
         </div>
         <div class="flex space-x-2 mb-4">
             <a href="{{ route('admin.listpinjam') }}"
@@ -72,6 +72,7 @@
                         <th scope="col" class="px-6 py-3">Peminjam</th>
                         <th scope="col" class="px-6 py-3">Email</th>
                         <th scope="col" class="px-6 py-3">Tanggal Pinjam</th>
+                        <th scope="col" class="px-6 py-3">Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -84,11 +85,12 @@
                                     class="w-4 h-4 rounded border-gray-300 bg-gray-400 row-checkbox cursor-pointer">
                         </td>
                         <td class="px-6 py-3">{{ $p->buku->judul_buku }}</td>
-                        <td class="px-6 py-3">{{ $p->buku->kategori }}</td>
+                        <td class="px-6 py-3">{{ $p->buku->kategori->nama_kategori }}</td>
                         <td class="px-6 py-3">{{ $p->buku->penulis }}</td>
                         <td class="px-6 py-3">{{ $p->user->username }}</td>
                         <td class="px-6 py-3">{{ $p->user->email }}</td>
                         <td class="px-6 py-3">{{ $p->created_at }}</td>
+                        <td class="px-6 py-3">{{ $p->status_buku }}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -127,7 +129,7 @@
         @endif      
     </div>
     {{-- modal delete --}}
-    <div id="deleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center">
+    <div id="deleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
         <div class="relative bg-white rounded-lg shadow-lg max-w-md w-full m-4">
             <div class="p-6">
                 <h3 class="text-lg font-semibold mb-4">Konfirmasi Penghapusan</h3>

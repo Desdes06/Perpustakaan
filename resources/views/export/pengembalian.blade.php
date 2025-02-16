@@ -44,7 +44,7 @@
             @foreach($pengembalian as $item)
                 <tr>
                     <td>{{ $item->buku->judul_buku }}</td>
-                    <td>{{ $item->buku->kategori }}</td>
+                    <td>{{ $item->buku->kategori->nama_kategori }}</td>
                     <td>{{ $item->buku->penulis }}</td>
                     <td>{{ $item->user->username }}</td>
                     <td>{{ $item->user->email }}</td>
