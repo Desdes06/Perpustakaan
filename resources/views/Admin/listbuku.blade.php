@@ -85,82 +85,6 @@
                                 </button>
                             </td>
                         </tr>
-                        <div id="crud-modal-{{$b->id}}" tabindex="-1" aria-hidden="true" 
-                            class="hidden fixed top-0 right-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-10">
-                            <div class="relative w-full max-w-md p-4">
-                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700 px-4 pb-4">
-                                    <div class="flex items-center justify-between p-4 border-b rounded-t dark:border-gray-600">
-                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Edit Buku</h3>
-                                        <button type="button" class="text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg w-8 h-8 inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" 
-                                            data-modal-toggle="crud-modal-{{$b->id}}">
-                                            <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                                            </svg>
-                                            <span class="sr-only">Close modal</span>
-                                        </button>
-                                    </div>
-                                    <form class="p-4" action="{{ route('Admin.updatebuku', $b->id) }}" method="POST" enctype="multipart/form-data">
-                                        @csrf
-                                        @method('PUT')
-                                        <div class="grid gap-4 mb-4">
-                                            <div class="flex space-x-2">
-                                                <div>
-                                                    <label for="judul_buku" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Judul Buku</label>
-                                                    <input type="text" name="judul_buku" id="judul_buku" value="{{ $b->judul_buku }}" 
-                                                        class="bg-gray-50 border text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white">
-                                                </div>
-                                                <div>
-                                                    <label for="penulis" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Penulis</label>
-                                                    <input type="text" name="penulis" id="penulis" value="{{ $b->penulis }}" 
-                                                        class="bg-gray-50 border text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white">
-                                                </div>
-                                            </div>
-                                            <div class="flex space-x-2">
-                                                <div>
-                                                    <label for="penerbit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Penerbit</label>
-                                                    <input type="text" name="penerbit" id="penerbit" value="{{ $b->penerbit }}" 
-                                                        class="bg-gray-50 border text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white">
-                                                </div>
-                                                <div>
-                                                    <label for="tanggal_terbit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal Terbit</label>
-                                                    <input type="date" name="tanggal_terbit" id="tanggal_terbit" value="{{ $b->tanggal_terbit }}" 
-                                                        class="bg-gray-50 border text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white">
-                                                </div>
-                                            </div>
-                                                <div>
-                                                    <label for="kategori" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kategori</label>
-                                                    <input type="text" name="kategori" id="kategori" value="{{ $b->kategori }}" 
-                                                        class="bg-gray-50 border text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white">
-                                                </div>
-                                            
-                                            <div class="flex flex-row items-center space-x-2">
-                                                <div>
-                                                    <label for="foto" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cover Buku</label>
-                                                    @if($b->foto)
-                                                        <img src="{{ asset('storage/' . $b->foto) }}" alt="Cover Buku" class="w-32 h-36 object-cover mb-2">
-                                                    @endif
-                                                </div>
-                                                <input type="file" name="foto" id="foto"
-                                                    class="bg-gray-50 border text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white">
-                                            </div>
-                                            <div>
-                                                <label for="file_buku" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">File Buku</label>
-                                                <input type="file" name="file_buku" id="file_buku"
-                                                    class="bg-gray-50 border text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white">
-                                            </div>                                      
-                                            <div>
-                                                <label for="deskripsi" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Deskripsi</label>
-                                                <textarea name="deskripsi" id="deskripsi" rows="4" 
-                                                    class="block w-full text-sm bg-gray-50 border rounded-lg focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-600 dark:border-gray-500 dark:text-white">{{ $b->deskripsi }}</textarea>
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="px-5 py-2.5 text-white bg-blue-700 hover:bg-blue-800 rounded-lg focus:ring-4 focus:ring-blue-300">
-                                            Update
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
                     @endforeach
                 </tbody>
             </table>
@@ -178,8 +102,129 @@
             </div>
         @endif
     </div>
+    @foreach($buku as $b)
+    <div id="crud-modal-{{$b->id}}" tabindex="-1" aria-hidden="true" 
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative w-full max-w-2xl p-4">
+            <div class="relative bg-white rounded-lg shadow">
+                <!-- Modal Header -->
+                <div class="flex items-center justify-between p-4 border-b">
+                    <h3 class="text-xl font-semibold text-gray-900">
+                        Edit Buku
+                    </h3>
+                    <button type="button" 
+                        class="text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg w-8 h-8 inline-flex justify-center items-center"
+                        data-modal-toggle="crud-modal-{{$b->id}}">
+                        <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <form class="p-6 space-y-2" action="{{ route('Admin.updatebuku', $b->id) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="judul_buku" class="block text-sm font-medium text-gray-900">Judul Buku</label>
+                            <input type="text" 
+                                name="judul_buku" 
+                                id="judul_buku" 
+                                value="{{ $b->judul_buku }}" 
+                                class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label for="penulis" class="block text-sm font-medium text-gray-900">Penulis</label>
+                            <input type="text" 
+                                name="penulis" 
+                                id="penulis" 
+                                value="{{ $b->penulis }}" 
+                                class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="penerbit" class="block text-sm font-medium text-gray-900">Penerbit</label>
+                            <input type="text" 
+                                name="penerbit" 
+                                id="penerbit" 
+                                value="{{ $b->penerbit }}" 
+                                class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label for="tanggal_terbit" class="block text-sm font-medium text-gray-900">Tanggal Terbit</label>
+                            <input type="date" 
+                                name="tanggal_terbit" 
+                                id="tanggal_terbit" 
+                                value="{{ $b->tanggal_terbit }}" 
+                                class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="id_kategori" class="block text-sm font-medium text-gray-900">Kategori</label>
+                        <select name="id_kategori" 
+                            id="id_kategori" 
+                            class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            @foreach ($kategori as $k)
+                                <option value="{{ $k->id }}" {{ $b->id_kategori == $k->id ? 'selected' : '' }}>
+                                    {{ $k->nama_kategori }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label for="foto" class="block text-sm font-medium text-gray-900">Cover Buku</label>
+                        <div class="flex items-center space-x-4">
+                            @if($b->foto)
+                                <img src="{{ asset('storage/' . $b->foto) }}" 
+                                    alt="Cover Buku" 
+                                    class="w-32 h-40 object-cover rounded">
+                            @endif
+                            <input type="file" 
+                                name="foto" 
+                                id="foto"
+                                accept=".jpeg, .png, .jpg"
+                                class="bg-white mt-2 w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="file_buku" class="block text-sm font-medium text-gray-900">File Buku</label>
+                        <input 
+                            type="file" 
+                            name="file_buku" 
+                            id="file_buku"
+                            accept=".pdf" 
+                            class="bg-white mt-2 w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm">
+                        @if($b->file_buku)
+                            <p class="mt-1 text-sm text-gray-500">File saat ini: {{ basename($b->file_buku) }}</p>
+                        @endif
+                    </div>
+                    <div>
+                        <label for="deskripsi" class="block text-sm font-medium text-gray-900">Deskripsi</label>
+                        <textarea name="deskripsi" 
+                            id="deskripsi" 
+                            rows="4" 
+                            class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{ $b->deskripsi }}</textarea>
+                    </div>
+                    <div class="flex justify-end space-x-3">
+                        <button type="button"
+                            data-modal-toggle="crud-modal-{{$b->id}}"
+                            class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                            Batal
+                        </button>
+                        <button type="submit"
+                            data-modal-toggle="crud-modal-{{$b->id}}"
+                            class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Simpan Perubahan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @endforeach
     {{-- modal delete --}}
-    <div id="deleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center">
+    <div id="deleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
         <div class="relative bg-white rounded-lg shadow-lg max-w-md w-full m-4">
             <div class="p-6">
                 <h3 class="text-lg font-semibold mb-4">Konfirmasi Penghapusan</h3>
