@@ -19,8 +19,7 @@ class PinjamExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        $query = Pinjam::with(['user', 'buku'])
-                ->where('status_buku', 'dipinjam');
+        $query = Pinjam::with(['user', 'buku']);
 
         // Terapkan filter jika ada bulan dan tahun
         if ($this->bulan && $this->tahun) {
@@ -31,17 +30,18 @@ class PinjamExport implements FromCollection, WithHeadings
         return $query->get()->map(function ($pinjam) {
             return [
                 'Judul Buku'   => $pinjam->buku->judul_buku,
-                'Kategori'     => $pinjam->buku->kategori,
+                'Kategori'     => $pinjam->buku->kategori->nama_kategori,
                 'Penulis'      => $pinjam->buku->penulis,
                 'Peminjam'     => $pinjam->user->username,
                 'Email'        => $pinjam->user->email,
                 'Tanggal Pinjam' => $pinjam->created_at->format('Y-m-d'),
+                'Status Buku' => $pinjam->status_buku
             ];
         });
     }
 
     public function headings(): array
     {
-        return ['Judul Buku', 'Kategori', 'Penulis', 'Peminjam', 'Email', 'Tanggal Pinjam'];
+        return ['Judul Buku', 'Kategori', 'Penulis', 'Peminjam', 'Email', 'Tanggal Pinjam', 'Status Buku'];
     }
 }

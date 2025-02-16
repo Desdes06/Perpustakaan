@@ -30,7 +30,7 @@ class PengembalianExport implements FromCollection, WithHeadings
         return $query->get()->map(function ($pengembalian) {
             return [
                 'Judul Buku'   => $pengembalian->buku->judul_buku,
-                'Kategori'     => $pengembalian->buku->kategori,
+                'Kategori'     => $pengembalian->buku->kategori->nama_kategori,
                 'Penulis'      => $pengembalian->buku->penulis,
                 'Peminjam'     => $pengembalian->user->username,
                 'Email'        => $pengembalian->user->email,

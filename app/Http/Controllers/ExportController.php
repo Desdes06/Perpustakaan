@@ -34,8 +34,7 @@ class ExportController extends Controller
         $bulan = $request->query('bulan');
         $tahun = $request->query('tahun', date('Y'));
 
-        $query = Pinjam::with(['user', 'buku'])
-                    ->where('status_buku', 'dipinjam');
+        $query = Pinjam::with(['user', 'buku']);
 
         if ($bulan && $tahun) {
             $query->whereMonth('created_at', $bulan)
