@@ -1,8 +1,7 @@
 <?php
 
-use App\Http\Controllers\BukuController;
-use App\Http\Controllers\ExportController;
 use App\Http\Controllers\RouteController;
+use App\Http\Controllers\VerificationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/',[RouteController::class, 'routehome']);
@@ -35,12 +34,20 @@ Route::group(['middleware'=>['auth']], function(){
     Route::group(['prefix'=>'User','as'=>'User.'], function(){
         Route::get('/beranda', ['as' => 'beranda', 'uses' => 'App\Http\Controllers\UserViewController@berandauser']);
         Route::get('/pinjam', ['as' => 'pinjam', 'uses' => 'App\Http\Controllers\UserViewController@halamanpinjam']);
+        Route::get('/buku', ['as' => 'buku', 'uses' => 'App\Http\Controllers\UserViewController@buku']);
+        Route::get('/riwayat', ['as' => 'riwayat', 'uses' => 'App\Http\Controllers\UserViewController@riwayat']);
 
         // route pinjam buku
         Route::post('/pinjam', ['as' => 'pinjamcreate', 'uses' => 'App\Http\Controllers\BukuController@pinjam']);
         //route list buku dipinjam 
         Route::get('/pinjam', ['as' => 'pinjamlist', 'uses' => 'App\Http\Controllers\BukuController@listbukupinjam']);
         Route::get('/bacabuku/{id}',  ['as' => 'baca.buku', 'uses' => 'App\Http\Controllers\BukuController@baca']);
+        
+        Route::get('/buku-detail/{id}', ['as' => 'detail', 'uses' => 'App\Http\Controllers\BukuController@detail']);
+        Route::post('/komentar', ['as' => 'komentar', 'uses' => 'App\Http\Controllers\BukuController@storekomen']);
+        Route::delete('/comment/{id}', ['as' => 'comment', 'uses' => 'App\Http\Controllers\BukuController@rmkomen']);
+
+        Route::delete('/riwayat/{id}', ['as' => 'riwayat', 'uses' => 'App\Http\Controllers\BukuController@hpsriwayat']);
     });
 
     //route view halaman Auth
@@ -53,15 +60,15 @@ Route::group(['middleware'=>['auth']], function(){
     });
 
     // Routes untuk search dengan filter
-    Route::get('/User/beranda/{filter?}', ['uses' => 'App\Http\Controllers\BukuController@filter'])->name('user.beranda');
     Route::get('/User/pinjam/{filter?}', ['uses' => 'App\Http\Controllers\BukuController@filter'])->name('user.pinjam');
+    Route::get('/User/buku/{filter?}', ['uses' => 'App\Http\Controllers\BukuController@filter'])->name('user.buku');
     Route::get('/Admin/listbuku/{filter?}', ['uses' => 'App\Http\Controllers\BukuController@filter'])->name('admin.listbuku');
     Route::get('/Admin/listpinjam/{filter?}', ['uses' => 'App\Http\Controllers\BukuController@filter'])->name('admin.listpinjam');
     Route::get('/Admin/listpengembalian/{filter?}', ['uses' => 'App\Http\Controllers\BukuController@filter'])->name('admin.listpengembalian');
 
     // Routes untuk search
-    Route::get('/User/beranda', ['uses' => 'App\Http\Controllers\BukuController@filter'])->name('user.beranda.search');
     Route::get('/User/pinjam', ['uses' => 'App\Http\Controllers\BukuController@filter'])->name('user.pinjam.search');
+    Route::get('/User/buku', ['uses' => 'App\Http\Controllers\BukuController@filter'])->name('user.buku.search');
     Route::get('/Admin/listbuku', ['uses' => 'App\Http\Controllers\BukuController@filter'])->name('admin.listbuku.search');
     Route::get('/Admin/listpinjam', ['uses' => 'App\Http\Controllers\BukuController@filter'])->name('admin.listpinjam.search');
     Route::get('/Admin/listpengembalian', ['uses' => 'App\Http\Controllers\BukuController@filter'])->name('admin.listpengembalian.search');
@@ -90,3 +97,7 @@ Route::group(['prefix'=>'Auth', 'middleware' => ['guest']], function(){
     Route::get('/registrasi',['as' => 'verifikasi', 'uses' => 'App\Http\Controllers\RegistrasiController@index']);
     Route::post('/registrasi',['as' => 'registrasiakun', 'uses' => 'App\Http\Controllers\RegistrasiController@post']);
 });
+
+// kode otp
+Route::get('/email/verify', [VerificationController::class, 'show'])->name('verification.show')->middleware('guest');
+Route::post('/email/verify', [VerificationController::class, 'verify'])->name('verification.verify')->middleware('guest');
