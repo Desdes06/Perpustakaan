@@ -32,7 +32,7 @@
             @endphp
 
             @foreach(range(1, 12) as $m)
-                <a href="{{ route('admin.listpinjam', ['bulan' => $m, 'tahun' => request('tahun', date('Y'))]) }}"
+                <a href="{{ route('admin.listpengembalian', ['bulan' => $m, 'tahun' => request('tahun', date('Y'))]) }}"
                     class="px-4 py-2 rounded-lg text-sm font-medium 
                         {{ request('bulan') == $m ? 'bg-gray-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-500 hover:text-white' }}">
                     {{ ucfirst(Carbon::createFromFormat('m', $m)->translatedFormat('F')) }}
