@@ -17,6 +17,7 @@ class Buku extends Model
         'penerbit',
         'tanggal_terbit',
         'deskripsi',
+        'rating',
         'id_kategori',
         'status',
         'foto',
@@ -42,5 +43,10 @@ class Buku extends Model
     public function kategori(): BelongsTo
     {
         return $this->belongsTo(Kategori::class, 'id_kategori');
+    }
+
+    public function ratings(): HasMany
+    {
+        return $this->hasMany(Rating::class, 'id_buku', 'id');
     }
 }
