@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Notifications\SendOtpNotification;
+use Illuminate\Support\Facades\Hash;
 
 class RegistrasiController extends Controller
 {
@@ -22,16 +24,24 @@ class RegistrasiController extends Controller
             'email.required' => 'Email wajib diisi.',
             'email.email' => 'Format email tidak valid.',
             'email.unique' => 'Email sudah terdaftar.',
-            'name.required' => 'Nama wajib diisi.',
-            'name.max' => 'Nama tidak boleh lebih dari 255 karakter.',
+            'username.required' => 'Nama wajib diisi.',
+            'password.min' => 'Password minimal 8 karakter.',
         ]);
 
-        User::create([
-        'username' => $request['username'],
-        'email' => $request['email'],
-        'password' => bcrypt($request['password']),
+        $otp = rand(100000, 999999);
+
+        // Simpan user dengan OTP
+        $user = User::create([
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'otp' => $otp
         ]);
 
-        return redirect('/Auth/login')->with('message', 'Registrasi berhasil, silakan login.');
+        // Kirim OTP ke email user
+        $user->notify(new SendOtpNotification($otp));
+
+        // Redirect ke halaman verifikasi OTP
+        return redirect()->route('verification.show', ['email' => $user->email]);
     }
 }

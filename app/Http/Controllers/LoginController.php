@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -14,22 +15,29 @@ class LoginController extends Controller
 
     public function authenticate(Request $request)
     {
-    
         $request->validate([
             'email' => 'required|email:dns',
             'password' => 'required',
         ]);
-        
+
+        $user = User::where('email', $request->email)->first();
+
+        // Cek apakah user ada dan sudah verifikasi email
+        if ($user && is_null($user->email_verified_at)) {
+            return redirect()->route('verification.show', ['email' => $request->email])
+            ->with('loginError', 'Akun belum terverifikasi! Silakan masukkan kode OTP yang dikirim ke email Anda.');
+        }
+
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $request->session()->regenerate();
-        
+
             if (Auth::user()->role_id == '2') {
                 return redirect()->intended('/Admin/berandaadmin');
             }
-        
+
             return redirect()->intended('/User/beranda');
         }
-        
+
         return redirect()->back()->with('loginError', 'Login Gagal!');
     }
 
