@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Buku;
 use App\Models\Pengembalian;
 use App\Models\Pinjam;
+use App\Models\Rating;
 use App\Models\Riwayat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -151,7 +152,7 @@ class BukuController extends Controller
             return abort(404, 'Buku tidak ditemukan.');
         }
 
-        $pinjam = Pinjam::where('id_user', $user->id)
+        $pinjam = Pinjam::with('buku', 'user')->where('id_user', $user->id)
                         ->where('id_buku', $id)
                         ->where('status_buku', 'dipinjam')
                         ->first();
@@ -185,7 +186,7 @@ class BukuController extends Controller
         return redirect()->back()->with('message', 'Buku berhasil dipinjam.');
     }
 
-    public function pengembalian($id_buku) // fungsi untuk mengembalikan
+    public function pengembalian($id_buku)
     {
         $user = Auth::user();
 
@@ -193,28 +194,31 @@ class BukuController extends Controller
             return redirect()->back()->with('error', 'Anda harus login untuk mengembalikan buku.');
         }
 
-        Pinjam::where('id_buku', $id_buku)
-                    ->where('id_user', $user->id)
-                    ->update([
-                        'status_buku' => 'dikembalikan',
-                        'tanggal_kembali' => now(),
-                    ]);
-
-        $pinjam =  Pinjam::where('id_buku', $id_buku)
+        // Ambil data pinjam berdasarkan ID user dan ID buku (ambil data terbaru jika ada banyak)
+        $pinjam = Pinjam::where('id_buku', $id_buku)
             ->where('id_user', $user->id)
+            ->orderByDesc('tanggal_pinjam') // Ambil peminjaman terakhir
             ->first();
 
         if (!$pinjam) {
             return redirect()->back()->with('error', 'Anda tidak meminjam buku ini.');
         }
-        
-        Riwayat::create([
-            'id_buku' => $pinjam->id_buku,
-            'id_user' => $pinjam->id_user,
-            'tanggal_pinjam' => $pinjam->tanggal_pinjam,
+
+        // Update status buku
+        $pinjam->update([
+            'status_buku' => 'dikembalikan',
             'tanggal_kembali' => now(),
         ]);
 
+        // Pindahkan data ke tabel riwayat
+        Riwayat::create([
+            'id_buku' => $pinjam->id_buku,
+            'id_user' => $pinjam->id_user,
+            'tanggal_pinjam' => $pinjam->tanggal_pinjam, // Menggunakan data yang sesuai
+            'tanggal_kembali' => now(),
+        ]);
+
+        // Tambahkan ke tabel pengembalian
         Pengembalian::create([
             'id_buku' => $pinjam->id_buku,
             'id_user' => $pinjam->id_user,
@@ -224,23 +228,115 @@ class BukuController extends Controller
         return redirect()->back()->with('success', 'Buku berhasil dikembalikan.');
     }
 
-    public function filter($filter = null) // fungsi untuk filter buku, search, dan ambil data
+    public function detail($id)
+    {
+        $userId = Auth::id();
+    
+        $detail = Buku::with(['ratings' => function($query) use ($userId) {
+            $query->orderByRaw("CASE WHEN id_user = ? THEN 0 ELSE 1 END", [$userId])
+                  ->orderBy('created_at', 'desc');
+        },'ratings.user'])->find($id);
+    
+        return view('User.detail-buku', compact('detail'));
+    }
+
+    public function hpsriwayat($id)
+    {
+        $riwayat = Riwayat::find($id);
+
+        if (!$riwayat) {
+            return back()->with('error', 'Riwayat tidak ditemukan.');
+        }
+
+        $riwayat->delete();
+
+        return back()->with('success', 'Riwayat berhasil dihapus.');
+    }
+
+    public function rmkomen($id)
+    {
+        $comment = Rating::find($id);
+
+        if (!$comment) {
+            return back()->with('error', 'Komentar tidak ditemukan.');
+        }
+        
+        if ($comment->id_user !== Auth::id()) {
+            return back()->with('error', 'Anda tidak diizinkan menghapus komentar ini.');
+        }
+
+        $comment->delete();
+
+        return back()->with('success', 'Komentar berhasil dihapus.');
+    }
+
+    public function storekomen(Request $request)
+    {
+        $request->validate([
+            'id_buku' => 'required|exists:buku,id',
+            'rating' => 'required|integer|min:1|max:5',
+            'komentar' => 'required|string',
+        ]);
+
+        $existingRating = Rating::where('id_user', Auth::id())
+                            ->where('id_buku', $request->id_buku)
+                            ->first();
+
+        if ($existingRating) {
+            return back()->with('error', 'Anda sudah memberikan rating untuk buku ini.');
+        }
+
+        // Simpan ulasan ke database
+        Rating::create([
+            'id_user' => Auth::id(),
+            'id_buku' => $request->id_buku,
+            'rating' => $request->rating,
+            'komentar' => $request->komentar,
+        ]);
+
+        // **Hitung rata-rata rating baru**
+        $averageRating = Rating::where('id_buku', $request->id_buku)->avg('rating');
+
+        // **Simpan ke tabel buku**
+        Buku::where('id', $request->id_buku)->update([
+            'rating' => $averageRating
+        ]);
+
+        return back()->with('success', 'Ulasan berhasil dikirim!');
+    }
+
+    public function filter($filter = null)
     {
         $search = request('search');
         $currentPath = request()->path();
         $path = explode('/', $currentPath)[0] . '/' . explode('/', $currentPath)[1];
         
         switch ($path) {
-            case 'User/beranda':
             case 'Admin/listbuku':
-                $buku = Buku::with('kategori')
+                $buku = Buku::orderBy('judul_buku', 'asc')->with('kategori')
                             ->when($search, fn($query) => $query->where('judul_buku', 'like', "%{$search}%"))
                             ->when($filter, fn($query) => $query->where('id_kategori', $filter)->orWhere('penulis', $filter))
-                            ->latest()
-                            ->paginate(6);
+                            ->paginate(50);
             
-                return view($path === 'User/beranda' ? 'User.dashboard' : 'Admin.listbuku', compact('buku'));
-                
+                return view('Admin.listbuku', compact('buku'));
+
+            case 'User/buku':
+                $bukuuser = Buku::with('kategori')
+                    ->orderBy('judul_buku', 'asc')
+                    ->when($search, function ($query) use ($search) {
+                        return $query->where('judul_buku', 'like', "%{$search}%");
+                    })
+                    ->when($filter, function ($query) use ($filter) {
+                        return $query->where(function ($q) use ($filter) {
+                            $q->where('id_kategori', $filter) // Filter kategori
+                                ->orWhere('penulis', 'like', "%{$filter}%"); // Filter penulis
+                        });
+                    })
+                    ->latest('created_at') // Agar hasil terbaru muncul lebih dulu
+                    ->paginate(50);
+            
+                return view('User.buku', compact('bukuuser'));                
+
             case 'User/pinjam':
                 $pinjam = Pinjam::with(['buku', 'user'])
                     ->where('id_user', Auth::id())
@@ -257,7 +353,7 @@ class BukuController extends Controller
                         });
                     })
                     ->latest()
-                    ->paginate(6);
+                    ->paginate(21);
             
                 return view('User.pinjam', compact('pinjam'));
 
