@@ -5,25 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     @vite(['resources/css/app.css','resources/js/app.js'])
     @vite('resources/css/font.css')
 </head>
 <body>
     <div class="flex">
-        <div class="text-white h-screen w-3/5 relative p-9"
-             style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ asset('img/book.jpg')}}'); background-size: cover; background-position: center; hover:fill-gray-300">
-            <a href="/" class="">
-                <svg xmlns="http://www.w3.org/2000/svg" 
-                    width="35" 
-                    height="35" 
-                    class="bi bi-arrow-left fill-current hover:fill-gray-300" 
-                    viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
-                </svg>
-            </a>
-            <div class="flex items-center justify-center h-full">
-                <h1 class="text-7xl font-bold">Selamat Datang!</h1>
-            </div> 
+        <div class="bg-gradient-to-r from-blue-800 to-red-600 h-screen w-3/5 relative text-white">
+            <div class="bg-black/15 h-screen p-9">
+                <a href="/">
+                    <svg xmlns="http://www.w3.org/2000/svg" 
+                        width="35" 
+                        height="35" 
+                        class="bi bi-arrow-left fill-current hover:fill-gray-300" 
+                        viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+                    </svg>
+                </a>
+                <div class="flex flex-col items-center justify-center h-full space-y-2 px-auto">
+                    <h1 class="text-7xl font-bold">Masuk !</h1>
+                    <img class="p-12 mx-auto h-[70vh] w-auto hover:scale-105 transition-transform duration-300" src="{{ asset('img/d_art4.png')}}" alt="">
+                </div> 
+            </div>
         </div>
         <div class="flex flex-col justify-center items-center w-2/5 space-y-2">
             @if(session()->has('loginError'))
@@ -43,11 +46,11 @@
                     </button>
                 </div>
             @endif
-            <x-form action="/Auth/login" method="POST" title="login" buttonText="Login">
+            <x-form action="/Auth/login" method="POST" title="Masuk" buttonText="Login">
                 @csrf
                 <div>
                     <label for="credential" class="text-md p-4">Masukan Email</label><br>
-                    <input type="text" name="email" id="email" class="rounded-full border-black p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none @error('email') is-invalid @enderror" placeholder="Email" autofocus required> 
+                    <input type="text" name="email" id="email" class="rounded-full p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none @error('email') is-invalid @enderror" placeholder="Email" autofocus required> 
                     @error('email')
                         <div class="invalid-feedback text-red-500 text-sm px-2">
                             {{ $message }}
@@ -56,12 +59,42 @@
                 </div>
                 <div>
                     <label for="password" class="text-md p-4">Password</label><br>
-                    <input type="password" name="password" id="password" class="rounded-full border-black p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none" placeholder="Password" required>
+                    <div class="relative">
+                        <input type="password" name="password" id="password" class="rounded-full p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none" placeholder="Password" required>
+                        <button type="button" id="togglePassword" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-800 focus:outline-none">
+                            <i class="fa fa-eye" id="showPasswordIcon"></i>
+                            <i class="fa fa-eye-slash hidden" id="hidePasswordIcon"></i>
+                        </button>
+                    </div>
                 </div>                
             </x-form>
             <p>Punya Akun?<a href="/Auth/registrasi" class="px-2 text-blue-500">Registrasi</a></p> 
         </div> 
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const alertBox = document.getElementById('alert-border');
+            const togglePassword = document.getElementById('togglePassword');
+            const password = document.getElementById('password');
+            const showPasswordIcon = document.getElementById('showPasswordIcon');
+            const hidePasswordIcon = document.getElementById('hidePasswordIcon');
+            
+            // Show/hide password toggle
+            if (togglePassword) {
+                togglePassword.addEventListener('click', function() {
+                    if (password.type === 'password') {
+                        password.type = 'text';
+                        showPasswordIcon.classList.add('hidden');
+                        hidePasswordIcon.classList.remove('hidden');
+                    } else {
+                        password.type = 'password';
+                        showPasswordIcon.classList.remove('hidden');
+                        hidePasswordIcon.classList.add('hidden');
+                    }
+                });
+            }
+        });
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const alertBox = document.getElementById('alert-border');
