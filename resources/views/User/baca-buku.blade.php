@@ -24,10 +24,10 @@
     </style>
 </head>
 <body>
-    <div class="space-y-4">
-        <div class="bg-gray-900 px-8 p-4 flex justify-between items-center">
+    <div class="space-y-2">
+        <div class="bg-[#413C88] p-4 flex justify-between items-center">
             <a href="/User/pinjam">
-                <button class="bg-gray-300 hover:bg-gray-400 hover:text-white p-2 rounded-md">kembali</button>
+                <button class="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white p-2 rounded-md">kembali</button>
             </a>
             <h1 class="text-2xl font-bold text-center text-white">{{ $buku->judul_buku }}</h1>
             <img class="h-8" src="{{ asset('img/logo.png') }}" alt="Your Company" />
