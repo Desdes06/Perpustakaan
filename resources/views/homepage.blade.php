@@ -9,38 +9,63 @@
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.0.0/dist/flowbite.min.js"></script>
     @vite(['resources/css/app.css','resources/js/app.js'])
     @vite('resources/css/font.css')
+    <style>
+        @keyframes fadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .fade-up {
+            animation: fadeUp 0.7s ease-out;
+        }
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+        .delay-400 {
+            animation-delay: 0.4s;
+        }
+        .fade-up {
+            opacity: 0; /* Default state agar tidak langsung muncul */
+            animation-fill-mode: forwards;
+        }
+        html,body{
+            width: 100%;
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body>
-    <div>
-        <div class="text-white h-[60vh] relative"
-             style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('img/book.jpg'); background-size: cover; background-position: center;">
-            <div class="absolute top-0 left-0 right-0 p-10 flex justify-end">
-                <a href="/Auth/login">
-                    <button class="flex gap-4 items-center hover:text-gray-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"/>
-                            <path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
-                        </svg>
-                        <h1 class="text-3xl font-semi-bold flex items-center">Masuk</h1>
-                    </button>
-                </a>
-            </div>
-            <div class="flex flex-col items-center justify-center h-full">
-                <img class="h-28" src="img/logo.png" alt="">
-                <span class="text-4xl font-light mt-2">"Buku Jendela Dunia"</span>
-            </div>
-        </div>
-        <div class="m-8 flex gap-28 items-center justify-center">
-            <div class="bg-white drop-shadow-xl h-72 w-80 p-4 text-bold  rounded-xl">
-                <h1 class="text-3xl font-semi-bold">Membaca Lebih Mudah</h1>
-            </div>
-            <div class="bg-white drop-shadow-xl h-72 w-80 p-4 text-bold  rounded-xl">
-                <h1 class="text-3xl font-semi-bold">Membaca Lebih Mudah</h1>
-            </div>
-            <div class="bg-white drop-shadow-xl h-72 w-80 p-4 text-bold  rounded-xl">
-                <h1 class="text-3xl font-semi-bold">Membaca Lebih Mudah</h1>
+    <div class="transition text-white h-screen relative bg-gradient-to-r from-blue-800 to-red-600">
+        <div class="bg-black/15 h-screen">
+            <div class="flex justify-around items-center h-screen fade-up delay-200">
+                <img class="p-12 h-screen hover:scale-105 transition-transform duration-300" src="img/d_art.png" alt="">
+                <div class="p-10 space-y-8 fade-up delay-400">
+                    <img class="h-28" src="img/logo.png" alt="">
+                    <div class="space-y-8">
+                        <div class="space-y-2">
+                            <p class="text-5xl font-semibold">Selamat Datang !</p>
+                            <p class="text-2xl font-light">
+                                Mau baca buku dan pinjam buku lebih gampang <br> di perpus 🌻🌻🌻
+                            </p>
+                        </div>
+                        <div>
+                            <a href="/Auth/login">
+                                <button type="button" class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Masuk</button>
+                            </a>
+                            <a href="/Auth/registrasi">
+                                <button type="button" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Registrasi</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </div>  
 </body>
 </html>
