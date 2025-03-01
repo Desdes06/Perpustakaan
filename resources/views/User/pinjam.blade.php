@@ -13,42 +13,72 @@
 </head>
 <body>
     <x-navbar></x-navbar>
-    <div class="px-12 pt-4 space-y-4"> 
+    <div class="px-12 py-6 space-y-6 h-screen"> 
         <div class="flex justify-between">
-            <h1 class="font-bold text-4xl">PINJAM</h1>
+            <h1 class="font-semibold text-4xl">Pinjam</h1>
             <x-sortirpilih type='User/pinjam'>Cari judul buku</x-sortirpilih>    
         </div>
-        <div class="border-2 p-4 rounded-md space-y-2 ">
+        <div class="space-y-2">
             @if($pinjam->isEmpty())
-                <p>Tidak ada buku yang sedang dipinjam.</p>
+                <div class="items-center">
+                    <p class="text-center text-xl">Tidak ada buku yang di pinjam</p>
+                    <img class="p-12 mx-auto h-[60vh] w-auto hover:scale-105 transition-transform duration-300" src="{{ asset('img/d_art2.png')}}" alt="">
+                </div>
             @else 
-            <div class="grid grid-cols-6 gap-4">
+            <div class="grid grid-cols-7 gap-12">
                 @foreach($pinjam as $p)       
-                    <div class="bg-gray-200 p-2 hover:shadow-lg h-auto rounded-xl">
-                        @if($p->buku && $p->buku->foto)
-                            <img src="{{ asset('storage/' . $p->buku->foto) }}" 
-                                alt="Cover Buku" 
-                                class="w-full object-cover rounded-xl">
-                        @else
-                            <div class="h-full w-full bg-gray-500 rounded-xl"></div>
-                        @endif
-                        <div class="p-2">
-                            <h1 class="text-lg font-semibold">{{ $p->buku->judul_buku }}</h1>
-                            <p class="text-md text-gray-700">Penulis : {{ $p->buku->penulis }}</p>
-                            <p class="text-md text-gray-700">Kategori : {{ $p->buku->kategori }}</p>
-                            <div class="space-x-2 pt-2">
+                    <div class="bg-[#413C88]/20 hover:shadow-xl">
+                        <a href="{{ route('User.detail', ['id' => $p->buku->id]) }}">
+                            <div class="h-auto">
+                                @if($p->buku && $p->buku->foto)
+                                    <img src="{{ asset('storage/' . $p->buku->foto) }}" alt="Cover Buku" class="w-full object-cover">
+                                @else
+                                    <div class="w-full bg-gray-500"></div>
+                                @endif
+                            </div>
+                            <div class="p-2">
+                                <div>
+                                    <h1 class="text-lg font-semibold">{{ $p->buku->judul_buku }}</h1>
+                                    <p class="text-md text-gray-700"> {{ $p->buku->penulis }}</p>
+                                    <p class="text-md text-gray-700">kategori : {{ $p->buku->kategori->nama_kategori }}</p>
+                                    <div class="flex items-center pt-1">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            @if ($i <= floor($p->buku->rating))
+                                                <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.975a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.388 2.46a1 1 0 00-.364 1.118l1.286 3.974c.3.922-.755 1.688-1.54 1.118l-3.388-2.46a1 1 0 00-1.176 0l-3.388 2.46c-.785.57-1.84-.196-1.54-1.118l1.286-3.974a1 1 0 00-.364-1.118L2.045 9.402c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.975z"/>
+                                                </svg>
+                                            @elseif ($i - 0.5 <= $p->buku->rating)
+                                                <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                                    <defs>
+                                                        <linearGradient id="half-star">
+                                                            <stop offset="50%" stop-color="currentColor" />
+                                                            <stop offset="50%" stop-color="gray" />
+                                                        </linearGradient>
+                                                    </defs>
+                                                    <path fill="url(#half-star)" d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.975a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.388 2.46a1 1 0 00-.364 1.118l1.286 3.974c.3.922-.755 1.688-1.54 1.118l-3.388-2.46a1 1 0 00-1.176 0l-3.388 2.46c-.785.57-1.84-.196-1.54-1.118l1.286-3.974a1 1 0 00-.364-1.118L2.045 9.402c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.975z"/>
+                                                </svg>
+                                            @else
+                                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.975a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.388 2.46a1 1 0 00-.364 1.118l1.286 3.974c.3.922-.755 1.688-1.54 1.118l-3.388-2.46a1 1 0 00-1.176 0l-3.388 2.46c-.785.57-1.84-.196-1.54-1.118l1.286-3.974a1 1 0 00-.364-1.118L2.045 9.402c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.975z"/>
+                                                </svg>
+                                            @endif
+                                        @endfor
+                                    </div>
+                                </div>   
+                            </div>
+                            <div class="p-2">
                                 <a href="{{ route('User.baca.buku', $p->buku->id) }}" 
-                                    class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition duration-300">
+                                    class="bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br text-white px-3 py-2 rounded-md transition duration-300">
                                     Baca
                                 </a>
-                                <form action="{{ route('kembalikanbuku', $p->buku->id) }}" method="POST" class="inline">
+                                <form action="{{ route('kembalikanbuku', $p->buku->id) }}" method="POST" class="inline pl-2">
                                     @csrf
-                                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition duration-300">
+                                    <button type="submit" class="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white px-3 py-2 rounded-md transition duration-300">
                                         Kembalikan
                                     </button>
-                                </form> 
+                                </form>
                             </div> 
-                        </div>                      
+                        </a>                     
                     </div>
                 @endforeach
             </div>
@@ -58,5 +88,6 @@
             @endif
         </div>
     </div>
+    <x-footer></x-footer>
 </body>
 </html>
