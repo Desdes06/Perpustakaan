@@ -67,6 +67,11 @@
                             <i class="fa fa-eye"></i>
                         </button>
                     </div>
+                    @error('password')
+                        <div class="invalid-feedback text-red-500 text-sm px-2">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
             </x-form>
         </div> 

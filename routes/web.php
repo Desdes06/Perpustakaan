@@ -96,6 +96,12 @@ Route::group(['prefix'=>'Auth', 'middleware' => ['guest']], function(){
     Route::post('/login',['as' => 'verifikasi', 'uses' => 'App\Http\Controllers\LoginController@authenticate']);
     Route::get('/registrasi',['as' => 'verifikasi', 'uses' => 'App\Http\Controllers\RegistrasiController@index']);
     Route::post('/registrasi',['as' => 'registrasiakun', 'uses' => 'App\Http\Controllers\RegistrasiController@post']);
+    Route::get('/forgotpassword',['as' => 'forgot', 'uses' => 'App\Http\Controllers\ForgotpasswordController@forgotpassword']);
+    Route::post('/forgotpassword',['as' => 'forgot.password', 'uses' => 'App\Http\Controllers\ForgotpasswordController@email']);
+    Route::get('/reset-password/{token}', function (string $token) {
+        return view('Auth.reset-password', ['token' => $token]);
+    })->name('password.reset');
+    Route::post('/reset-password',['as' => 'password.update', 'uses' => 'App\Http\Controllers\ForgotpasswordController@handling']);
 });
 
 // kode otp
