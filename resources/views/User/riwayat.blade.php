@@ -37,11 +37,11 @@
                         </div>
                         <div class="p-2 w-3/4">
                             <div class="flex justify-between items-center">
-                                <h3 class="font-semibold text-lg">{{ $r->buku->judul_buku }}</h3>
+                                <h3 class="font-semibold text-lg">{{ Str::limit($r->buku->judul_buku,'10') }}</h3>
                                 <p class="text-md text-gray-700">{{ $r->tanggal_pinjam }}</p>
                             </div>
-                            <p class="text-md text-gray-700">{{ $r->buku->penulis }}</p>
-                            <p class="text-md text-gray-700">Kategori : {{ $r->buku->kategori->nama_kategori }}</p>
+                            <p class="text-md text-gray-700">{{ Str::limit($r->buku->penulis,'20') }}</p>
+                            <p class="text-md text-gray-700">Kategori : {{ Str::limit($r->buku->kategori->nama_kategori,'10') }}</p>
                             <div class="flex items-center pt-1">
                                 @for ($i = 1; $i <= 5; $i++)
                                     @if ($i <= floor($r->buku->rating))

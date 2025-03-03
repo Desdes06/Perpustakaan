@@ -119,7 +119,7 @@
                 <div class="w-full p-4 space-y-2 border border-2 rounded-md">
                     <div class="space-y-2">
                         <p class="text-gray-700 font-semibold">Ulasan</p>
-                        @foreach($detail->ratings as $rating)
+                        @foreach($ratings as $rating)
                         <div class="bg-gray-100 p-4 rounded-lg mb-4">
                             <div class="flex space-x-2 items-center">
                                 @if ($rating->user->foto)
@@ -159,6 +159,9 @@
                             </div>
                         </div>
                         @endforeach
+                    </div>
+                    <div class="mt-4">
+                        {{ $ratings->links() }}
                     </div>
                 </div>
                 <div class="p-4 border border-2 rounded-md"> 

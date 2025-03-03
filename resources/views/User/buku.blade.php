@@ -36,9 +36,9 @@
                         </div>
                         <div class="p-2 space-y-2">
                             <div>
-                                <h3 class="font-semibold text-lg">{{ $b->judul_buku }}</h3>
-                                <p class="text-md text-gray-700">{{ $b->penulis }}</p>
-                                <p class="text-md text-gray-700">Kategori : {{ $b->kategori->nama_kategori }}</p>
+                                <h3 class="font-semibold text-lg">{{ Str::limit($b->judul_buku,'10') }}</h3>
+                                <p class="text-md text-gray-700">{{ Str::limit($b->penulis,'20') }}</p>
+                                <p class="text-md text-gray-700">Kategori : {{ Str::limit($b->kategori->nama_kategori,'10') }}</p>
                                 <div class="flex items-center pt-1">
                                     @for ($i = 1; $i <= 5; $i++)
                                         @if ($i <= floor($b->rating))

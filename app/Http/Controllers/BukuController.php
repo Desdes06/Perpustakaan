@@ -231,13 +231,16 @@ class BukuController extends Controller
     public function detail($id)
     {
         $userId = Auth::id();
-    
-        $detail = Buku::with(['ratings' => function($query) use ($userId) {
-            $query->orderByRaw("CASE WHEN id_user = ? THEN 0 ELSE 1 END", [$userId])
-                  ->orderBy('created_at', 'desc');
-        },'ratings.user'])->find($id);
-    
-        return view('User.detail-buku', compact('detail'));
+
+        $detail = Buku::with('kategori')->findOrFail($id);
+
+        $ratings = Rating::with('user')
+            ->where('id_buku', $id)
+            ->orderByRaw("CASE WHEN id_user = ? THEN 0 ELSE 1 END", [$userId])
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
+
+        return view('User.detail-buku', compact('detail', 'ratings'));
     }
 
     public function hpsriwayat($id)
