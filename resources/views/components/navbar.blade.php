@@ -121,6 +121,7 @@
                         aria-orientation="vertical"
                         aria-labelledby="user-menu-button"
                         tabindex="-1">
+                        <a href="/User/riwayat">
                           <div class="p-2 text-center">
                             <button class="flex space-x-2">
                               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black" class="bi bi-clock-history" viewBox="0 0 16 16">
@@ -128,9 +129,10 @@
                                 <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0z"/>
                                 <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5"/>
                               </svg>
-                              <p class="text-sm text-gray-700"><a href="/User/riwayat">Riwayat</a></p>
+                              <p class="text-sm text-gray-700">Riwayat</p>
                             </button>
                           </div>
+                        </a>
                         </div>
                       </div>
                         <p class="text-sm text-gray-700 text-white pb-2">{{ Str::limit($user->email,'24') }}</p>

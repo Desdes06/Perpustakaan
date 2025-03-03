@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Buku;
 use App\Models\Riwayat;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,6 +12,9 @@ class UserViewController extends Controller
 {
     public function berandauser(Request $request)
     {
+
+        $tanggalSekarang = Carbon::now()->locale('id');
+
         if ($request->has('search')) {
 
             return redirect()->route('user.buku.search', ['search' => $request->search]);
@@ -22,7 +26,7 @@ class UserViewController extends Controller
         $buku = Buku::orderBy('judul_buku', 'asc')->with('kategori')
                 ->take(7)->get();
 
-        return view('User.dashboard', compact('buku', 'bukuTerbaru'));
+        return view('User.dashboard', compact('buku', 'bukuTerbaru', 'tanggalSekarang'));
     }
 
     public function halamanpinjam(){
