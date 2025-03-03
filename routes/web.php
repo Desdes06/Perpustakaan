@@ -2,13 +2,15 @@
 
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\VerificationController;
+use App\Http\Middleware\HasAdminMiddleware;
+use App\Http\Middleware\HasUserMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/',[RouteController::class, 'routehome']);
 
 Route::group(['middleware'=>['auth']], function(){
     // route view halaman admin
-    Route::group(['prefix'=>'Admin','as'=>'Admin.'], function(){
+    Route::group(['prefix'=>'Admin','as'=>'Admin.', 'middleware' => [HasAdminMiddleware::class]], function(){
         Route::get('/berandaadmin', ['as' => 'beranda', 'uses' => 'App\Http\Controllers\AdminViewController@beranda']);
         Route::get('/listbuku', ['as' => 'listbuku', 'uses' => 'App\Http\Controllers\AdminViewController@listbuku']);
         Route::get('/listpinjam', ['as' => 'pinjam', 'uses' => 'App\Http\Controllers\AdminViewController@listpinjam']);
@@ -31,7 +33,7 @@ Route::group(['middleware'=>['auth']], function(){
     });
 
     //route view halaman user
-    Route::group(['prefix'=>'User','as'=>'User.'], function(){
+    Route::group(['prefix'=>'User','as'=>'User.','middleware' => [HasUserMiddleware::class]], function(){
         Route::get('/beranda', ['as' => 'beranda', 'uses' => 'App\Http\Controllers\UserViewController@berandauser']);
         Route::get('/pinjam', ['as' => 'pinjam', 'uses' => 'App\Http\Controllers\UserViewController@halamanpinjam']);
         Route::get('/buku', ['as' => 'buku', 'uses' => 'App\Http\Controllers\UserViewController@buku']);
@@ -50,7 +52,7 @@ Route::group(['middleware'=>['auth']], function(){
         Route::delete('/riwayat/{id}', ['as' => 'riwayat', 'uses' => 'App\Http\Controllers\BukuController@hpsriwayat']);
     });
 
-    //route view halaman Auth
+    //route view halaman profile
     Route::group(['prefix'=>'Auth','as'=>'Auth.'], function(){
         Route::get('/profile', ['as' => 'profile', 'uses' => 'App\Http\Controllers\UserlistController@profile']);
 
