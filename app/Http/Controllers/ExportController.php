@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Exports\PinjamExport;
 use App\Models\Pengembalian;
 use App\Models\Pinjam;
-use Barryvdh\DomPDF\PDF;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 
@@ -16,7 +15,7 @@ class ExportController extends Controller
     public function exportpinjam(Request $request)
     {
         $bulan = $request->query('bulan');
-        $tahun = $request->query('tahun', date('Y')); // Default ke tahun ini jika tidak ada
+        $tahun = $request->query('tahun', date('Y'));
 
         return Excel::download(new PinjamExport($bulan, $tahun), 'list-pinjam.xlsx');
     }
@@ -24,7 +23,7 @@ class ExportController extends Controller
     public function exportpengembalian(Request $request)
     {
         $bulan = $request->query('bulan');
-        $tahun = $request->query('tahun', date('Y')); // Default ke tahun ini jika tidak ada
+        $tahun = $request->query('tahun', date('Y'));
 
         return Excel::download(new PengembalianExport($bulan, $tahun), 'list-pengembalian.xlsx');
     }
