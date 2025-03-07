@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\Storage;
 
 class BukuController extends Controller
 {
-    // fungsi untuk menambah data buku
-    public function storebuku(Request $request)
+    public function storebuku(Request $request) // fungsi untuk menambah data buku
     {
         $request->validate([
             'judul_buku' => 'required',
@@ -39,7 +38,6 @@ class BukuController extends Controller
 
         $penerbit = Penerbit::findOrFail($request->penerbit_id);
 
-        // 1️⃣ Simpan buku dulu untuk mendapatkan ID
         $buku = Buku::create([
             'judul_buku' => $request->judul_buku,
             'penulis' => $request->penulis,
@@ -60,7 +58,7 @@ class BukuController extends Controller
         return redirect()->route('Admin.tambahbuku')->with('success', 'Data buku berhasil ditambah dengan ISBN: ' . $isbn);
     }
 
-    private static function generateISBN($buku_id, $penerbit_id)
+    private static function generateISBN($buku_id, $penerbit_id) // generate kode isbn
     {
         $prefix = "978"; 
         $group = "602";
@@ -85,7 +83,7 @@ class BukuController extends Controller
         return "{$prefix}-{$group}-{$publisher}-{$title}-{$check_digit}";
     }
 
-    public function updatebuku(Request $request, $id)
+    public function updatebuku(Request $request, $id) // update data buku
     {
         $request->validate([
             'judul_buku' => 'required',
@@ -214,7 +212,7 @@ class BukuController extends Controller
         return redirect()->back()->with('message', 'Buku berhasil dipinjam.');
     }
 
-    public function pengembalian($id_buku)
+    public function pengembalian($id_buku) // fungsi untuk mengembalikan
     {
         $user = Auth::user();
 
@@ -222,31 +220,27 @@ class BukuController extends Controller
             return redirect()->back()->with('error', 'Anda harus login untuk mengembalikan buku.');
         }
 
-        // Ambil data pinjam berdasarkan ID user dan ID buku (ambil data terbaru jika ada banyak)
         $pinjam = Pinjam::where('id_buku', $id_buku)
             ->where('id_user', $user->id)
-            ->orderByDesc('tanggal_pinjam') // Ambil peminjaman terakhir
+            ->orderByDesc('tanggal_pinjam')
             ->first();
 
         if (!$pinjam) {
             return redirect()->back()->with('error', 'Anda tidak meminjam buku ini.');
         }
 
-        // Update status buku
         $pinjam->update([
             'status_buku' => 'dikembalikan',
             'tanggal_kembali' => now(),
         ]);
 
-        // Pindahkan data ke tabel riwayat
         Riwayat::create([
             'id_buku' => $pinjam->id_buku,
             'id_user' => $pinjam->id_user,
-            'tanggal_pinjam' => $pinjam->tanggal_pinjam, // Menggunakan data yang sesuai
+            'tanggal_pinjam' => $pinjam->tanggal_pinjam,
             'tanggal_kembali' => now(),
         ]);
 
-        // Tambahkan ke tabel pengembalian
         Pengembalian::create([
             'id_buku' => $pinjam->id_buku,
             'id_user' => $pinjam->id_user,
@@ -256,7 +250,7 @@ class BukuController extends Controller
         return redirect()->back()->with('success', 'Buku berhasil dikembalikan.');
     }
 
-    public function detail($id)
+    public function detail($id) // fungsi detail buku
     {
         $userId = Auth::id();
 
@@ -271,7 +265,7 @@ class BukuController extends Controller
         return view('User.detail-buku', compact('detail', 'ratings'));
     }
 
-    public function hpsriwayat($id)
+    public function hpsriwayat($id) // fungsi hps riwayat
     {
         $riwayat = Riwayat::find($id);
 
@@ -284,7 +278,7 @@ class BukuController extends Controller
         return back()->with('success', 'Riwayat berhasil dihapus.');
     }
 
-    public function rmkomen($id)
+    public function rmkomen($id) // fungsi hps komentar
     {
         $comment = Rating::find($id);
 
@@ -301,7 +295,7 @@ class BukuController extends Controller
         return back()->with('success', 'Komentar berhasil dihapus.');
     }
 
-    public function storekomen(Request $request)
+    public function storekomen(Request $request) // fungsi untuk komentar
     {
         $request->validate([
             'id_buku' => 'required|exists:buku,id',
@@ -317,7 +311,6 @@ class BukuController extends Controller
             return back()->with('error', 'Anda sudah memberikan rating untuk buku ini.');
         }
 
-        // Simpan ulasan ke database
         Rating::create([
             'id_user' => Auth::id(),
             'id_buku' => $request->id_buku,
@@ -325,10 +318,8 @@ class BukuController extends Controller
             'komentar' => $request->komentar,
         ]);
 
-        // **Hitung rata-rata rating baru**
         $averageRating = Rating::where('id_buku', $request->id_buku)->avg('rating');
 
-        // **Simpan ke tabel buku**
         Buku::where('id', $request->id_buku)->update([
             'rating' => $averageRating
         ]);
@@ -336,7 +327,7 @@ class BukuController extends Controller
         return back()->with('success', 'Ulasan berhasil dikirim!');
     }
 
-    public function filter($filter = null)
+    public function filter($filter = null) // fungsi untuk ambildata dan filter, search
     {
         $search = request('search');
         $currentPath = request()->path();
@@ -363,11 +354,11 @@ class BukuController extends Controller
                     })
                     ->when($filter, function ($query) use ($filter) {
                         return $query->where(function ($q) use ($filter) {
-                            $q->where('id_kategori', $filter) // Filter kategori
-                                ->orWhere('penulis', 'like', "%{$filter}%"); // Filter penulis
+                            $q->where('id_kategori', $filter)
+                                ->orWhere('penulis', 'like', "%{$filter}%");
                         });
                     })
-                    ->latest('created_at') // Agar hasil terbaru muncul lebih dulu
+                    ->latest('created_at')
                     ->paginate(21);
             
                 return view('User.buku', compact('bukuuser'));                
@@ -395,7 +386,7 @@ class BukuController extends Controller
             case 'Admin/listpinjam':
                 $pinjam = Pinjam::with(['buku', 'user'])
                     ->when($search, function ($query) use ($search) {
-                        $normalizedSearch = str_replace(' ', '', strtolower($search)); // Normalisasi pencarian
+                        $normalizedSearch = str_replace(' ', '', strtolower($search));
 
                         return $query->whereHas('buku', function ($q) use ($normalizedSearch) {
                             $q->whereRaw("REPLACE(LOWER(judul_buku), ' ', '') LIKE ?", ["%{$normalizedSearch}%"])
