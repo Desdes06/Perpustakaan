@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Kategori;
+use App\Models\Penerbit;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Buku>
@@ -33,39 +34,45 @@ class BukuFactory extends Factory
             "Eksplorasi mendalam mengenai ilmu pengetahuan modern dan penerapannya."
         ];
 
-        $faker = \Faker\Factory::create('id_ID'); // Gunakan Bahasa Indonesia
+        $faker = \Faker\Factory::create('id_ID');
+
+        $penerbit = Penerbit::inRandomOrder()->first();
+        $penerbit_id = $penerbit->id ?? 1;
 
         return [
-            'judul_buku' => $faker->randomElement($judulList),  // Judul dalam bahasa Indonesia
-            'penulis' => $faker->name(), // Nama penulis acak
-            'penerbit' => $faker->company(), // Nama penerbit acak
-            'tanggal_terbit' => $faker->date(), // Tanggal terbit acak
-            'deskripsi' => $faker->randomElement($deskripsiList), // Deskripsi dalam bahasa Indonesia
-            'id_kategori' => Kategori::inRandomOrder()->first()->id ?? 1, // Pilih kategori acak
-            'file_buku' => 'file/O3RLsXpk7vYjQc3UJWF7C6CeB9JFqXx4GANeyn6c.pdf', // File dummy
-            'isbn' => $this->generateISBN(),
+            'judul_buku' => $faker->randomElement($judulList),  
+            'penulis' => $faker->name(), 
+            'penerbit_id' => $penerbit_id, 
+            'tanggal_terbit' => $faker->date(), 
+            'deskripsi' => $faker->randomElement($deskripsiList), 
+            'id_kategori' => Kategori::inRandomOrder()->first()->id ?? 1, 
+            'file_buku' => 'file/8QvsNd7peTmJUSW811qDMt6GRKv62fqSSeoisESc.pdf', 
+            'isbn' => self::generateISBN($penerbit->kode_isbn),
         ];
     }
 
-    private function generateISBN()
+    private static function generateISBN($kode_penerbit)
     {
-        $prefix = "978"; // Prefix standar ISBN
-        $group = "602"; // Kode resmi untuk Indonesia
-        $publisher = str_pad(rand(100, 999), 3, "0", STR_PAD_LEFT); // Kode penerbit (3 digit)
-        $title = str_pad(rand(10000, 99999), 5, "0", STR_PAD_LEFT); // Kode judul buku (5 digit)
-    
-        // Gabungkan angka tanpa tanda hubung untuk perhitungan check digit
-        $partial_isbn = $prefix . $group . $publisher . $title;
-    
-        // Hitung check digit menggunakan algoritma ISBN-13
+        $prefix = "978"; 
+        $group = "602";
+
+        $publisher = str_pad($kode_penerbit, 2, "0", STR_PAD_LEFT);
+
+        $crc32_hash = sprintf("%u", crc32(uniqid(mt_rand(), true)));
+        $title = substr($crc32_hash, -4);
+
+
+        $partial_isbn = "{$prefix}{$group}{$publisher}{$title}";
+
+        $partial_isbn = substr($partial_isbn, 0, 12);
+
         $total = 0;
-        for ($i = 0; $i < 12; $i++) { // Hanya 12 digit pertama yang dihitung
+        for ($i = 0; $i < 12; $i++) { 
             $digit = intval($partial_isbn[$i]);
             $total += ($i % 2 == 0) ? $digit : 3 * $digit;
         }
         $check_digit = (10 - ($total % 10)) % 10;
-    
-        // Format hasil ISBN dengan tanda hubung
-        return $prefix . '-' . $group . '-' . $publisher . '-' . $title . '-' . $check_digit;
+
+        return "{$prefix}-{$group}-{$publisher}-{$title}-{$check_digit}";
     }
 }
