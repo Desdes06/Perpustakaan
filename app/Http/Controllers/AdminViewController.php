@@ -19,7 +19,6 @@ class AdminViewController extends Controller
         $jumlahbuku = Buku::count();
         $pengembalian = Pengembalian::count();
 
-        // Get the pengembalian data by month
         $pengembalianPerBulan = Pengembalian::selectRaw('MONTH(tanggal_pengembalian) as bulan, COUNT(*) as jumlah')
             ->whereNotNull('tanggal_pengembalian') 
             ->groupBy('bulan')
@@ -27,7 +26,6 @@ class AdminViewController extends Controller
             ->pluck('jumlah', 'bulan')
             ->toArray();
 
-        // Get the pinjam data by month
         $pinjamPerBulan = Pinjam::selectRaw('MONTH(tanggal_pinjam) as bulan, COUNT(*) as jumlah')
             ->whereNotNull('tanggal_pinjam')
             ->groupBy('bulan')
@@ -35,7 +33,6 @@ class AdminViewController extends Controller
             ->pluck('jumlah', 'bulan')
             ->toArray();
 
-        // Prepare the arrays for each month (1 to 12)
         $pengembalianPerBulanArray = array_fill(1, 12, 0);
         foreach ($pengembalianPerBulan as $bulan => $jumlah) {
             $pengembalianPerBulanArray[$bulan] = $jumlah;
