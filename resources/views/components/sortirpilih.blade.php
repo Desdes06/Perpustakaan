@@ -7,7 +7,7 @@
         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
       </svg>
       </button>
-    <div id="dropdown" class="z-10 hidden bg-white rounded-md shadow-md w-44 dark:bg-gray-700">
+    <div id="dropdown" class="z-10 hidden bg-white rounded-md shadow-md w-44 dark:bg-gray-700 h-80 overflow-y-auto">
         @if($type === 'Admin/anggota')
             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-button">
                 <li>

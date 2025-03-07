@@ -12,7 +12,7 @@
 </head>
 <body>
     <x-navbar></x-navbar>
-    <div class="px-12 py-6 space-y-6 h-screen">
+    <div class="px-12 py-6 space-y-6 min-h-screen">
         <div class="flex justify-between items-center">
             <h1 class="font-semibold text-4xl">Riwayat Pinjam</h1>
             <x-sortirpilih type='User/buku'>Cari judul buku</x-sortirpilih>
@@ -32,7 +32,13 @@
                             @if($r->buku->foto)
                                 <img src="{{ asset('storage/' . $r->buku->foto) }}" alt="Cover Buku" class="w-full object-cover">
                             @else
-                                <div class="w-35 bg-gray-500 rounded-xl"></div>
+                                <div class="w-full h-full bg-gray-400 flex justify-center items-center flex-col">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-card-image" viewBox="0 0 16 16">
+                                        <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                                        <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54L1 12.5v-9a.5.5 0 0 1 .5-.5z"/>
+                                    </svg>
+                                    <p class="text-center text-white text-sm">Tidak Memiliki Cover</p>
+                                </div>
                             @endif
                         </div>
                         <div class="p-2 w-3/4">

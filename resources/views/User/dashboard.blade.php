@@ -12,7 +12,7 @@
 </head>
 <body>
    <x-navbar></x-navbar>
-    <div class="px-12 py-6 space-y-6">
+    <div class="px-12 py-6 space-y-6 min-h-screen">
         <div class="flex justify-between items-center px-20">
             <h1 class="font-semibold text-4xl">Selamat Datang !</h1>
             <x-sortirpilih type='User/buku'>Cari judul buku</x-sortirpilih>
@@ -23,7 +23,7 @@
                     <h1 class="text-2xl text-white">Kalender</h1>
                     <div class="flex space-x-2 pt-2">
                         <div class="text-white text-4xl font-bold">{{ $tanggalSekarang->isoFormat('dddd') }}</div>
-                        <div class="text-gray-400 text-4xl font-bold">{{ $tanggalSekarang->format('d') }}</div>
+                        <div class="text-gray-200 text-4xl font-bold">{{ $tanggalSekarang->format('d') }}</div>
                     </div>
                     <div class="text-gray-300 text-lg pt-1">{{ $tanggalSekarang->isoFormat('MMMM YYYY') }}</div>
                     <img src="{{ asset('img/buku.png') }}" alt="buku" class="h-[20vh] justify-self-end">
@@ -44,12 +44,16 @@
                             <div class="hidden duration-700 ease-in-out bg-indigo-200" data-carousel-item>
                                 <img src="{{ asset('img/d_art3.png') }}" class="absolute block h-[40vh] w-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                             </div>
+                            <div class="hidden duration-700 ease-in-out bg-indigo-200" data-carousel-item>
+                                <img src="{{ asset('img/d_art4.png') }}" class="absolute block h-[40vh] w-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                            </div>
                         </div>
                         <!-- Slider indicators -->
                         <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
                             <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
                             <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
                             <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="2"></button>
+                            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="3"></button>
                         </div>
                         <!-- Slider controls -->
                         <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
@@ -84,7 +88,13 @@
                                 @if($br->foto)
                                     <img src="{{ asset('storage/' . $br->foto) }}" alt="Cover Buku" class="w-full object-cover">
                                 @else
-                                    <div class="w-35 bg-gray-500 rounded-xl"></div>
+                                    <div class="w-35 h-72 bg-gray-400 flex justify-center items-center flex-col">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="white" class="bi bi-card-image" viewBox="0 0 16 16">
+                                            <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                                            <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54L1 12.5v-9a.5.5 0 0 1 .5-.5z"/>
+                                        </svg>
+                                        <p class="text-center text-white">Tidak Memiliki Cover</p>
+                                    </div>
                                 @endif
                             </div>
                             <div class="p-2">
@@ -141,7 +151,13 @@
                                 @if($b->foto)
                                     <img src="{{ asset('storage/' . $b->foto) }}" alt="Cover Buku" class="w-full object-cover">
                                 @else
-                                    <div class="w-35 bg-gray-500 rounded-xl"></div>
+                                    <div class="w-35 h-72 bg-gray-400 flex justify-center items-center flex-col p-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="white" class="bi bi-card-image" viewBox="0 0 16 16">
+                                            <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                                            <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54L1 12.5v-9a.5.5 0 0 1 .5-.5z"/>
+                                        </svg>
+                                        <p class="text-center text-white">Tidak Memiliki Cover</p>
+                                    </div>
                                 @endif
                             </div>
                             <div class="p-2 space-y-2">

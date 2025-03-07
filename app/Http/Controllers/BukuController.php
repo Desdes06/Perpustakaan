@@ -23,7 +23,7 @@ class BukuController extends Controller
             'tanggal_terbit' => 'required|date',
             'deskripsi' => 'required',
             'id_kategori' => 'required|exists:kategori,id',
-            'foto' => 'required|image|mimes:jpeg,png,jpg|max:10240',
+            'foto' => 'image|mimes:jpeg,png,jpg|max:10240',
             'file_buku' => 'required|mimes:pdf'
         ], [
             'judul_buku.required' => 'kolom ini tidak boleh kosong',
@@ -32,16 +32,19 @@ class BukuController extends Controller
             'tanggal_terbit.required' => 'kolom ini tidak boleh kosong',
             'deskripsi.required' => 'kolom ini tidak boleh kosong',
             'id_kategori.required' => 'kolom ini tidak boleh kosong',
-            'foto.required' => 'foto tidak boleh kosong',
+            'foto.max' => 'foto tidak boleh melebihi dari 10Mb',
             'file_buku.required' => 'file buku tidak boleh kosong'
         ]);
 
-        $path = null ;
+        // Generate ISBN secara otomatis
+        $isbn = $this->generateISBN();
+
+        $path = null;
         if ($request->hasFile('foto')){
             $path = $request->file('foto')->store('covers', 'public');
         }
 
-        $pathfile = null ;
+        $pathfile = null;
         if ($request->hasFile('file_buku')){
             $pathfile = $request->file('file_buku')->store('file', 'public');
         }
@@ -53,11 +56,38 @@ class BukuController extends Controller
             'tanggal_terbit' => $request['tanggal_terbit'],
             'deskripsi' => $request['deskripsi'],
             'id_kategori' => $request['id_kategori'],
+            'isbn' => $isbn, // ISBN Otomatis
             'foto' => $path,
             'file_buku' => $pathfile
-            ]);
+        ]);
 
-        return redirect()->route('Admin.tambahbuku')->with('success', 'data buku berhasil di tambah');
+
+        return redirect()->route('Admin.tambahbuku')->with('success', 'Data buku berhasil ditambah dengan ISBN: ' . $isbn);
+    }
+
+    /**
+     * Fungsi untuk membuat ISBN unik
+     */
+    private function generateISBN()
+    {
+        $prefix = "978"; // Prefix standar ISBN
+        $group = "602"; // Kode resmi untuk Indonesia
+        $publisher = str_pad(rand(100, 999), 3, "0", STR_PAD_LEFT); // Kode penerbit (3 digit)
+        $title = str_pad(rand(10000, 99999), 5, "0", STR_PAD_LEFT); // Kode judul buku (5 digit)
+    
+        // Gabungkan angka tanpa tanda hubung untuk perhitungan check digit
+        $partial_isbn = $prefix . $group . $publisher . $title;
+    
+        // Hitung check digit menggunakan algoritma ISBN-13
+        $total = 0;
+        for ($i = 0; $i < 12; $i++) { // Hanya 12 digit pertama yang dihitung
+            $digit = intval($partial_isbn[$i]);
+            $total += ($i % 2 == 0) ? $digit : 3 * $digit;
+        }
+        $check_digit = (10 - ($total % 10)) % 10;
+    
+        // Format hasil ISBN dengan tanda hubung
+        return $prefix . '-' . $group . '-' . $publisher . '-' . $title . '-' . $check_digit;
     }
 
     // fungsi untuk mengubah data buku
@@ -316,16 +346,20 @@ class BukuController extends Controller
         
         switch ($path) {
             case 'Admin/listbuku':
-                $buku = Buku::orderBy('judul_buku', 'asc')->with('kategori')
+                $buku = Buku::with('kategori')
                             ->when($search, fn($query) => $query->where('judul_buku', 'like', "%{$search}%"))
                             ->when($filter, fn($query) => $query->where('id_kategori', $filter)->orWhere('penulis', $filter))
+                            ->when(request('bulan'), function ($query) {
+                                return $query->whereMonth('created_at', request('bulan'))
+                                            ->whereYear('created_at', request('tahun', date('Y')));
+                            })
+                            ->latest('created_at')
                             ->paginate(50);
             
                 return view('Admin.listbuku', compact('buku'));
 
             case 'User/buku':
                 $bukuuser = Buku::with('kategori')
-                    ->orderBy('judul_buku', 'asc')
                     ->when($search, function ($query) use ($search) {
                         return $query->where('judul_buku', 'like', "%{$search}%");
                     })
@@ -336,7 +370,7 @@ class BukuController extends Controller
                         });
                     })
                     ->latest('created_at') // Agar hasil terbaru muncul lebih dulu
-                    ->paginate(50);
+                    ->paginate(21);
             
                 return view('User.buku', compact('bukuuser'));                
 
@@ -355,7 +389,7 @@ class BukuController extends Controller
                                 ->orWhere('penulis', $filter);
                         });
                     })
-                    ->latest()
+                    ->latest('created_at')
                     ->paginate(21);
             
                 return view('User.pinjam', compact('pinjam'));
@@ -380,7 +414,7 @@ class BukuController extends Controller
                         return $query->whereMonth('created_at', request('bulan'))
                                     ->whereYear('created_at', request('tahun', date('Y')));
                     })
-                    ->latest()
+                    ->latest('created_at')
                     ->paginate(50);
             
                 return view('Admin.listpinjam', compact('pinjam'));                
@@ -401,7 +435,7 @@ class BukuController extends Controller
                         return $query->whereMonth('created_at', request('bulan'))
                                      ->whereYear('created_at', request('tahun', date('Y')));
                     })
-                    ->latest()
+                    ->latest('created_at')
                     ->paginate(50);
                 
             return view('Admin.listpengembalian', compact('pengembalian'));

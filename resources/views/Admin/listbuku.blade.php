@@ -20,6 +20,25 @@
             <h1 class="text-2xl font-semibold">Daftar Buku</h1>
             <x-sortirpilih type="Admin/listbuku">Cari judul buku</x-sortirpilih>
         </div>
+        <div class="flex space-x-2 mb-4">
+            <a href="{{ route('admin.listbuku') }}"
+                class="px-4 py-2 rounded-md text-sm font-medium transition
+                {{ request()->is('Admin/listbuku*') && !request('bulan') ? 'bg-gray-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-500 hover:text-white' }}">
+                Semua Buku
+            </a>
+            @php
+                use Carbon\Carbon;
+                Carbon::setLocale('id');
+            @endphp
+
+            @foreach(range(1, 12) as $m)
+                <a href="{{ route('admin.listbuku', ['bulan' => $m, 'tahun' => request('tahun', date('Y'))]) }}"
+                    class="px-4 py-2 rounded-lg text-sm font-medium 
+                        {{ request('bulan') == $m ? 'bg-gray-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-500 hover:text-white' }}">
+                    {{ ucfirst(Carbon::createFromFormat('m', $m)->translatedFormat('F')) }}
+                </a>
+            @endforeach
+        </div>
         @if(session()->has('success'))
             <div id="alert-border" class="flex items-center p-4 mb-4 text-green-800 border border-green-300 rounded-lg bg-green-50" role="alert">
                 <svg class="flex-shrink-0 w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -40,6 +59,15 @@
         @if($buku->isEmpty())
             <p class="text-black text-center py-4">Buku Tidak Tersedia.</p>
         @else
+        <div class="bg-white mt-4">
+            <button id="deleteSelected" 
+                    disabled
+                    class="px-4 py-2 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                    </svg>
+            </button>
+        </div>
             <table class="w-full text-sm text-left text-gray-500">
                 <thead class="text-xs text-white uppercase bg-gray-800">
                     <tr>
@@ -65,11 +93,17 @@
                                         value="{{ $b->id }}"
                                         class="w-4 h-4 rounded border-gray-300 bg-gray-400 row-checkbox cursor-pointer">
                             </td>
-                            <td class="px-6 py-3 h-28 w-28">
+                            <td class="px-6 py-3 h-40 w-40">
                                 @if($b->foto)
-                                    <img src="{{ asset('storage/' . $b->foto) }}" alt="Cover Buku" class="w-full object-cover rounded">
+                                    <img src="{{ asset('storage/' . $b->foto) }}" alt="Cover Buku" class="w-full object-cover">
                                 @else
-                                    <div class="h-28 w-28 bg-gray-500 rounded"></div>
+                                    <div class="w-auto h-40 bg-gray-400 flex justify-center items-center flex-col">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-card-image" viewBox="0 0 16 16">
+                                            <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                                            <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54L1 12.5v-9a.5.5 0 0 1 .5-.5z"/>
+                                        </svg>
+                                        <p class="text-center text-white text-sm">Tidak Memiliki Cover</p>
+                                    </div>
                                 @endif
                             </td>
                             <td class="px-6 py-3">{{ $b->judul_buku }}</td>
@@ -90,15 +124,6 @@
             </table>
             <div class="mt-4">
                 {{ $buku->links('vendor.pagination.tailwind') }}
-            </div>
-            <div class="bg-white mt-4">
-                <button id="deleteSelected" 
-                        disabled
-                        class="px-4 py-2 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                            <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
-                        </svg>
-                </button>
             </div>
         @endif
     </div>

@@ -20,10 +20,10 @@ class UserViewController extends Controller
             return redirect()->route('user.buku.search', ['search' => $request->search]);
         }
 
-        $bukuTerbaru = Buku::orderBy('judul_buku', 'asc')->with('kategori') 
+        $bukuTerbaru = Buku::with('kategori') 
                         ->latest()
                         ->take(7)->get(); 
-        $buku = Buku::orderBy('judul_buku', 'asc')->with('kategori')
+        $buku = Buku::with('kategori')
                 ->take(7)->get();
 
         return view('User.dashboard', compact('buku', 'bukuTerbaru', 'tanggalSekarang'));

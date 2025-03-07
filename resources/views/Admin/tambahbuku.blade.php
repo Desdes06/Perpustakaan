@@ -120,7 +120,7 @@
                             <textarea 
                                 name="deskripsi" 
                                 id="deskripsi" 
-                                rows="3" 
+                                rows="10" 
                                 class="mt-2 w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"></textarea>
                             @error('deskripsi')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>

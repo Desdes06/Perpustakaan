@@ -17,9 +17,18 @@
             <div class="flex flex-col space-y-2">
                 <div class="flex justify-between">
                     <div class="w-full flex space-x-4">
-                        <div>
-                            <img src="{{ asset('storage/' . $detail->foto) }}" alt="Cover Buku" 
-                             class="object-contain max-h-[300px] w-auto rounded-lg">
+                        <div class="h-auto">
+                            @if($detail->foto)
+                                <img src="{{ asset('storage/' . $detail->foto) }}" alt="Cover Buku" class="max-h-[300px] object-cover">
+                            @else
+                                <div class="w-35 h-72 bg-gray-400 flex justify-center items-center flex-col p-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="white" class="bi bi-card-image" viewBox="0 0 16 16">
+                                        <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                                        <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54L1 12.5v-9a.5.5 0 0 1 .5-.5z"/>
+                                    </svg>
+                                    <p class="text-center text-white">Tidak Memiliki Cover</p>
+                                </div>
+                            @endif
                         </div>
                         <div class="space-y-1 items-center">
                             <h3 class="text-2xl font-bold">{{ $detail->judul_buku }}</h3>
@@ -58,6 +67,13 @@
                     </div>
                 </div>
                 <div class="w-full p-4 space-y-2 border border-2 rounded-md">
+                    <div class="space-y-2">
+                        <p class="text-gray-700 font-semibold">ISBN
+                        </p>
+                        <p class="text-gray-700">
+                            {{ $detail->isbn }}
+                        </p>
+                    </div>
                     <div class="space-y-2">
                         <p class="text-gray-700 font-semibold">Penerbit
                         </p>
