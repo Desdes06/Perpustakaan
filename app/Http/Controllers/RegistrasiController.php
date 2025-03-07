@@ -30,7 +30,6 @@ class RegistrasiController extends Controller
 
         $otp = rand(100000, 999999);
 
-        // Simpan user dengan OTP
         $user = User::create([
             'username' => $request->username,
             'email' => $request->email,
@@ -38,10 +37,8 @@ class RegistrasiController extends Controller
             'otp' => $otp
         ]);
 
-        // Kirim OTP ke email user
         $user->notify(new SendOtpNotification($otp));
 
-        // Redirect ke halaman verifikasi OTP
         return redirect()->route('verification.show', ['email' => $user->email]);
     }
 }
