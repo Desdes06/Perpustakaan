@@ -22,7 +22,6 @@ class LoginController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        // Cek apakah user ada dan sudah verifikasi email
         if ($user && is_null($user->email_verified_at)) {
             return redirect()->route('verification.show', ['email' => $request->email])
             ->with('loginError', 'Akun belum terverifikasi! Silakan masukkan kode OTP yang dikirim ke email Anda.');
