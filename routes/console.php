@@ -2,4 +2,4 @@
 
 use Illuminate\Support\Facades\Schedule;
 
-Schedule::command('books:auto-return')->dailyAt('00:00');
+Schedule::command('books:auto-return')->everyTwoSeconds();
