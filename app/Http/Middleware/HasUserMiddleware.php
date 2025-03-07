@@ -16,7 +16,6 @@ class HasUserMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        // Pastikan user sudah login dan memiliki role "admin"
         if (Auth::check() && Auth::user()->role_id === 1) {
             return $next($request);
         }
