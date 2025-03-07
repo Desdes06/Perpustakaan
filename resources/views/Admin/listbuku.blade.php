@@ -80,6 +80,7 @@
                         <th scope="col" class="px-6 py-3">Judul Buku</th>
                         <th scope="col" class="px-6 py-3">Kategori</th>
                         <th scope="col" class="px-6 py-3">Penulis</th>
+                        <th scope="col" class="px-6 py-3">ISBN</th>
                         <th scope="col" class="px-6 py-3">Tanggal Ditambahkan</th>
                         <th scope="col" class="px-6 py-3">Action</th>
                     </tr>
@@ -109,6 +110,7 @@
                             <td class="px-6 py-3">{{ $b->judul_buku }}</td>
                             <td class="px-6 py-3">{{ $b->kategori->nama_kategori}}</td>
                             <td class="px-6 py-3">{{ $b->penulis }}</td>
+                            <td class="px-6 py-3">{{ $b->isbn }}</td>
                             <td class="px-6 py-3">{{ $b->created_at }}</td>
                             <td class="px-6 py-3 space-x-4">
                                 <button 
@@ -169,13 +171,16 @@
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label for="penerbit" class="block text-sm font-medium text-gray-900">Penerbit</label>
-                            <input type="text" 
-                                name="penerbit" 
-                                id="penerbit" 
-                                value="{{ $b->penerbit }}" 
+                            <label for="penerbit_id" class="block text-sm font-medium text-gray-900">Penerbit</label>
+                            <select name="penerbit_id" id="penerbit_id" 
                                 class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                        </div>
+                                @foreach ($penerbit as $p)
+                                    <option value="{{ $p->id }}" {{ $b->penerbit_id == $p->id ? 'selected' : '' }}>
+                                        {{ $p->nama_penerbit }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>                        
                         <div>
                             <label for="tanggal_terbit" class="block text-sm font-medium text-gray-900">Tanggal Terbit</label>
                             <input type="date" 

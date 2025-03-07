@@ -78,7 +78,7 @@
                         <p class="text-gray-700 font-semibold">Penerbit
                         </p>
                         <p class="text-gray-700">
-                            {{ $detail->penerbit }}
+                            {{ $detail->penerbit->nama_penerbit }}
                         </p>
                     </div>
                     <div class="space-y-2">

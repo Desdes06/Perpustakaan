@@ -12,17 +12,16 @@ return new class extends Migration
     public function up()
     {
         Schema::table('buku', function (Blueprint $table) {
-            $table->string('isbn')->unique()->nullable()->after('id_kategori');
+            $table->unsignedBigInteger('penerbit_id')->nullable()->after('id');
+            $table->foreign('penerbit_id')->references('id')->on('penerbit')->onDelete('set null');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::table('buku', function (Blueprint $table) {
-            //
+            $table->dropForeign(['penerbit_id']);
+            $table->dropColumn('penerbit_id');
         });
     }
 };

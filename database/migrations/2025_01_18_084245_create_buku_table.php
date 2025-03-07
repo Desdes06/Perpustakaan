@@ -22,7 +22,6 @@ return new class extends Migration
             $table->id();
             $table->string('judul_buku');
             $table->string('penulis');
-            $table->string('penerbit');
             $table->date('tanggal_terbit');
             $table->longText('deskripsi')->nullable();
             $table->foreignId('id_kategori')->constrained('kategori')->onDelete('cascade');

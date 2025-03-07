@@ -9,10 +9,13 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('buku', function (Blueprint $table) {
-            $table->string('isbn')->unique()->nullable()->after('id_kategori');
+        Schema::create('penerbit', function (Blueprint $table) {
+            $table->id();
+            $table->string('kode_isbn')->unique();
+            $table->string('nama_penerbit');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('buku', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('penerbit');
     }
 };

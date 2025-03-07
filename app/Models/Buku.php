@@ -18,7 +18,7 @@ class Buku extends Model
     protected $fillable = [
         'judul_buku',
         'penulis',
-        'penerbit',
+        'penerbit_id',
         'tanggal_terbit',
         'deskripsi',
         'rating',
@@ -37,6 +37,11 @@ class Buku extends Model
     public function pinjam(): HasMany
     {
         return $this->hasMany(Pinjam::class, 'id_buku');
+    }
+
+    public function penerbit(): BelongsTo
+    {
+        return $this->belongsTo(Penerbit::class, 'id');
     }
 
     public function scopeFilter(Builder $query): void

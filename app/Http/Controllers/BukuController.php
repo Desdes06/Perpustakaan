@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Buku;
+use App\Models\Penerbit;
 use App\Models\Pengembalian;
 use App\Models\Pinjam;
 use App\Models\Rating;
@@ -19,118 +20,115 @@ class BukuController extends Controller
         $request->validate([
             'judul_buku' => 'required',
             'penulis' => 'required',
-            'penerbit' => 'required',
+            'penerbit_id' => 'required|exists:penerbit,id', 
             'tanggal_terbit' => 'required|date',
             'deskripsi' => 'required',
             'id_kategori' => 'required|exists:kategori,id',
             'foto' => 'image|mimes:jpeg,png,jpg|max:10240',
             'file_buku' => 'required|mimes:pdf'
-        ], [
-            'judul_buku.required' => 'kolom ini tidak boleh kosong',
-            'penulis.required' => 'kolom ini tidak boleh kosong',
-            'penerbit.required' => 'kolom ini tidak boleh kosong',
-            'tanggal_terbit.required' => 'kolom ini tidak boleh kosong',
-            'deskripsi.required' => 'kolom ini tidak boleh kosong',
-            'id_kategori.required' => 'kolom ini tidak boleh kosong',
-            'foto.max' => 'foto tidak boleh melebihi dari 10Mb',
-            'file_buku.required' => 'file buku tidak boleh kosong'
+        ],[
+            'judul_buku.required' => 'Kolom ini tidak boleh kosong',
+            'penulis.required' => 'Kolom ini tidak boleh kosong',
+            'penerbit_id.required' => 'Kolom ini tidak boleh kosong',
+            'tanggal_terbit.required' => 'Kolom ini tidak boleh kosong',
+            'deskripsi.required' => 'Kolom ini tidak boleh kosong',
+            'id_kategori.required' => 'Kolom ini tidak boleh kosong',
+            'foto.max' => 'Foto tidak boleh melebihi 10Mb',
+            'file_buku.required' => 'File buku tidak boleh kosong'
         ]);
 
-        // Generate ISBN secara otomatis
-        $isbn = $this->generateISBN();
+        $penerbit = Penerbit::findOrFail($request->penerbit_id);
 
-        $path = null;
-        if ($request->hasFile('foto')){
-            $path = $request->file('foto')->store('covers', 'public');
-        }
-
-        $pathfile = null;
-        if ($request->hasFile('file_buku')){
-            $pathfile = $request->file('file_buku')->store('file', 'public');
-        }
-        
-        Buku::create([
-            'judul_buku' => $request['judul_buku'],
-            'penulis' => $request['penulis'],
-            'penerbit' => $request['penerbit'],
-            'tanggal_terbit' => $request['tanggal_terbit'],
-            'deskripsi' => $request['deskripsi'],
-            'id_kategori' => $request['id_kategori'],
-            'isbn' => $isbn, // ISBN Otomatis
-            'foto' => $path,
-            'file_buku' => $pathfile
+        // 1️⃣ Simpan buku dulu untuk mendapatkan ID
+        $buku = Buku::create([
+            'judul_buku' => $request->judul_buku,
+            'penulis' => $request->penulis,
+            'penerbit_id' => $penerbit->id,
+            'tanggal_terbit' => $request->tanggal_terbit,
+            'deskripsi' => $request->deskripsi,
+            'id_kategori' => $request->id_kategori,
+            'foto' => $request->hasFile('foto') ? $request->file('foto')->store('covers', 'public') : null,
+            'file_buku' => $request->hasFile('file_buku') ? $request->file('file_buku')->store('file', 'public') : null,
         ]);
 
+        $buku_id = $buku->id;
+
+        $isbn = $this->generateISBN($buku_id, $penerbit->id);
+
+        $buku->update(['isbn' => $isbn]);
 
         return redirect()->route('Admin.tambahbuku')->with('success', 'Data buku berhasil ditambah dengan ISBN: ' . $isbn);
     }
 
-    /**
-     * Fungsi untuk membuat ISBN unik
-     */
-    private function generateISBN()
+    private static function generateISBN($buku_id, $penerbit_id)
     {
-        $prefix = "978"; // Prefix standar ISBN
-        $group = "602"; // Kode resmi untuk Indonesia
-        $publisher = str_pad(rand(100, 999), 3, "0", STR_PAD_LEFT); // Kode penerbit (3 digit)
-        $title = str_pad(rand(10000, 99999), 5, "0", STR_PAD_LEFT); // Kode judul buku (5 digit)
-    
-        // Gabungkan angka tanpa tanda hubung untuk perhitungan check digit
-        $partial_isbn = $prefix . $group . $publisher . $title;
-    
-        // Hitung check digit menggunakan algoritma ISBN-13
+        $prefix = "978"; 
+        $group = "602";
+
+        $penerbit = Penerbit::findOrFail($penerbit_id);
+        $publisher = str_pad($penerbit->kode_isbn, 2, "0", STR_PAD_LEFT);
+
+        $crc32_hash = crc32($buku_id . $penerbit_id);
+        $title = substr($crc32_hash, -4);
+
+        $partial_isbn = "{$prefix}{$group}{$publisher}{$title}";
+
+        $partial_isbn = substr($partial_isbn, 0, 12);
+
         $total = 0;
-        for ($i = 0; $i < 12; $i++) { // Hanya 12 digit pertama yang dihitung
+        for ($i = 0; $i < 12; $i++) { 
             $digit = intval($partial_isbn[$i]);
             $total += ($i % 2 == 0) ? $digit : 3 * $digit;
         }
         $check_digit = (10 - ($total % 10)) % 10;
-    
-        // Format hasil ISBN dengan tanda hubung
-        return $prefix . '-' . $group . '-' . $publisher . '-' . $title . '-' . $check_digit;
+
+        return "{$prefix}-{$group}-{$publisher}-{$title}-{$check_digit}";
     }
 
-    // fungsi untuk mengubah data buku
     public function updatebuku(Request $request, $id)
     {
         $request->validate([
             'judul_buku' => 'required',
             'penulis' => 'required', 
-            'penerbit' => 'required',
+            'penerbit_id' => 'required|exists:penerbit,id',
             'tanggal_terbit' => 'required|date',
             'deskripsi' => 'required',
-            'id_kategori' => 'required',
+            'id_kategori' => 'required|exists:kategori,id',
             'foto' => 'image|mimes:jpeg,png,jpg|max:10240',
             'file_buku' => 'mimes:pdf'
         ]);
 
         $buku = Buku::findOrFail($id);
-        
+        $old_penerbit_id = $buku->penerbit_id;
+
         $buku->judul_buku = $request->judul_buku;
         $buku->penulis = $request->penulis;
-        $buku->penerbit = $request->penerbit;
+        $buku->penerbit_id = $request->penerbit_id;
         $buku->tanggal_terbit = $request->tanggal_terbit;
         $buku->deskripsi = $request->deskripsi;
         $buku->id_kategori = $request->id_kategori;
+
+        if ($request->penerbit_id != $old_penerbit_id) {
+            $buku->isbn = self::generateISBN($buku->id, $request->penerbit_id);
+        }
 
         if ($request->hasFile('foto')) {
             if ($buku->foto) {
                 Storage::disk('public')->delete($buku->foto);
             }
-            $path = $request->file('foto')->store('covers', 'public');
-            $buku->foto = $path;
+            $buku->foto = $request->file('foto')->store('covers', 'public');
         }
+
         if ($request->hasFile('file_buku')) {
             if ($buku->file_buku) {
                 Storage::disk('public')->delete($buku->file_buku);
             }
-            $pathfile = $request->file('file_buku')->store('file', 'public');
-            $buku->file_buku = $pathfile;
+            $buku->file_buku = $request->file('file_buku')->store('file', 'public');
         }
 
         $buku->save();
 
-        return redirect()->route('admin.listbuku.search')->with('success', 'Data buku berhasil diperbarui');
+        return redirect()->route('admin.listbuku')->with('success', 'Data buku berhasil diperbarui');
     }
 
     public function destroyMultiple(Request $request) // hapus data buku
@@ -262,7 +260,7 @@ class BukuController extends Controller
     {
         $userId = Auth::id();
 
-        $detail = Buku::with('kategori')->findOrFail($id);
+        $detail = Buku::with(['kategori','penerbit'])->findOrFail($id);
 
         $ratings = Rating::with('user')
             ->where('id_buku', $id)
@@ -346,7 +344,7 @@ class BukuController extends Controller
         
         switch ($path) {
             case 'Admin/listbuku':
-                $buku = Buku::with('kategori')
+                $buku = Buku::with(['kategori','penerbit'])
                             ->when($search, fn($query) => $query->where('judul_buku', 'like', "%{$search}%"))
                             ->when($filter, fn($query) => $query->where('id_kategori', $filter)->orWhere('penulis', $filter))
                             ->when(request('bulan'), function ($query) {
@@ -359,7 +357,7 @@ class BukuController extends Controller
                 return view('Admin.listbuku', compact('buku'));
 
             case 'User/buku':
-                $bukuuser = Buku::with('kategori')
+                $bukuuser = Buku::with(['kategori','penerbit'])
                     ->when($search, function ($query) use ($search) {
                         return $query->where('judul_buku', 'like', "%{$search}%");
                     })

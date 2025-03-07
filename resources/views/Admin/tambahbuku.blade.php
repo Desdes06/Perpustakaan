@@ -64,14 +64,17 @@
                                 @enderror
                             </div>
                             <div>
-                                <label for="penerbit" class="block text-sm font-medium text-gray-900">Penerbit</label>
-                                <input 
-                                    type="text" 
-                                    name="penerbit" 
-                                    id="penerbit" 
-                                    class="mt-2 w-full rounded-md border-0 p-4 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
-                                    placeholder="penerbit">
-                                @error('penerbit')
+                                <label for="penerbit_id" class="block text-sm font-medium text-gray-900">Penerbit</label>
+                                <select 
+                                    name="penerbit_id" 
+                                    id="penerbit_id" 
+                                    class="mt-2 w-full rounded-md border-0 p-4 text-gray-900 shadow-sm ring-1 ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm">
+                                    <option value="">-- Pilih Penerbit --</option>
+                                    @foreach($penerbit as $p)
+                                        <option value="{{ $p->id }}">{{ $p->nama_penerbit }}</option>
+                                    @endforeach
+                                </select>
+                                @error('penerbit_id')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
