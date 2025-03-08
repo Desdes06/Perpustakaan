@@ -8,7 +8,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gradient-to-r from-blue-800 to-red-600 flex items-center justify-center min-h-screen bg-gray-100">
-    <div class="w-full max-w-md p-6 bg-[#D9D8E7] rounded-lg shadow-md">
+    <div class="w-full max-w-md p-6 bg-[#D9D8E7] rounded-lg shadow-md max-sm:mx-4">
         <h2 class="text-2xl font-semibold text-center text-gray-700">Verifikasi OTP</h2>
 
         @if(session('error'))

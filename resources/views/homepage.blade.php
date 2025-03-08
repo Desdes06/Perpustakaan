@@ -30,7 +30,7 @@
             animation-delay: 0.4s;
         }
         .fade-up {
-            opacity: 0; /* Default state agar tidak langsung muncul */
+            opacity: 0;
             animation-fill-mode: forwards;
         }
         html,body{
@@ -43,15 +43,15 @@
 <body>
     <div class="transition text-white h-screen relative bg-gradient-to-r from-blue-800 to-red-600">
         <div class="bg-black/15 h-screen">
-            <div class="flex justify-around items-center h-screen fade-up delay-200">
-                <img class="p-12 h-screen hover:scale-105 transition-transform duration-300" src="img/d_art.png" alt="">
-                <div class="p-10 space-y-8 fade-up delay-400">
-                    <img class="h-28" src="img/logo.png" alt="">
+            <div class="max-sm:flex-col max-sm:justify-center flex justify-around items-center h-screen fade-up delay-200">
+                <img class="max-sm:h-16 max-md:h-20 max-lg:h-24 h-28" src="img/logo.png" alt="">
+                <img class="max-sm:p-2 max-sm:h-60 max-md:p-8 max-md:h-1/2 max-lg:p-10 max-lg:h-3/4 p-12 h-screen hover:scale-105 transition-transform duration-300" src="img/d_art.png" alt="">
+                <div class="p-10 space-y-8 fade-up delay-400 max-sm:p-4 max-sm:flex max-sm:flex-col max-sm:items-center max-sm:text-center">
                     <div class="space-y-8">
                         <div class="space-y-2">
-                            <p class="text-5xl font-semibold">Selamat Datang !</p>
-                            <p class="text-2xl font-light">
-                                Mau baca buku dan pinjam buku lebih gampang <br> di perpus 🌻🌻🌻
+                            <p class="max-sm:text-3xl max-sm:text-center max-lg:text-4xl text-5xl font-semibold">Selamat Datang !</p>
+                            <p class="max-sm:text-sm max-sm:text-center max-lg:text-xl text-2xl font-light">
+                                Mau baca buku dan pinjam buku lebih gampang <br class="hidden lg:block"> di perpus 🌻🌻🌻
                             </p>
                         </div>
                         <div>

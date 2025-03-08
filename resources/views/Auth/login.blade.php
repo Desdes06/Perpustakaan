@@ -10,8 +10,8 @@
     @vite('resources/css/font.css')
 </head>
 <body>
-    <div class="flex">
-        <div class="bg-gradient-to-r from-blue-800 to-red-600 h-screen w-3/5 relative text-white">
+    <div class="flex max-md:flex-col max-md:justify-center max-md:h-screen max-md:items-center max-sm:mx-2 max-md:mx-20">
+        <div class="max-md:hidden bg-gradient-to-r from-blue-800 to-red-600 h-screen max-lg:w-1/2 w-3/5 relative text-white">
             <div class="bg-black/15 h-screen p-9">
                 <a href="/">
                     <svg xmlns="http://www.w3.org/2000/svg" 
@@ -23,14 +23,15 @@
                     </svg>
                 </a>
                 <div class="flex flex-col items-center justify-center h-full space-y-2 px-auto">
-                    <h1 class="text-7xl font-bold">Masuk !</h1>
-                    <img class="p-12 mx-auto h-[70vh] w-auto hover:scale-105 transition-transform duration-300" src="{{ asset('img/d_art4.png')}}" alt="">
+                    <h1 class="max-lg:text-5xl text-7xl font-bold">Masuk !</h1>
+                    <img class="max-lg:p-10 max-lg:h-[50vh] p-12 mx-auto h-[70vh] w-auto hover:scale-105 transition-transform duration-300" src="{{ asset('img/d_art4.png')}}" alt="">
                 </div> 
             </div>
         </div>
-        <div class="flex flex-col justify-center items-center w-2/5 space-y-2">
+        <img class="hidden max-md:block p-2 mx-auto h-[25vh] w-auto hover:scale-105 transition-transform duration-300" src="{{ asset('img/d_art4.png')}}" alt="">
+        <div class="max-lg:px-8 max-md:w-full max-lg:w-1/2 max-md:justify-center flex flex-col justify-center items-center w-2/5">
             @if(session()->has('loginError'))
-                <div id="alert-border" class="w-3/5 flex items-center p-4 mb-4 text-red-800 border border-red-300 rounded-lg bg-red-50" role="alert">
+                <div id="alert-border" class="max-sm:w-full w-3/5 flex items-center p-4 mb-4 text-red-800 border border-red-300 rounded-lg bg-red-50" role="alert">
                     <svg class="flex-shrink-0 w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0ZM9 13a1 1 0 0 0 2 0V9a1 1 0 0 0-2 0v4Zm1-6.75a1.062 1.062 0 1 0 0 2.124 1.062 1.062 0 0 0 0-2.124Z"/>
                     </svg>
@@ -47,7 +48,7 @@
                 </div>
             @endif
             @if(session()->has('status'))
-                <div id="alert-border" class="w-3/5 flex items-center p-4 mb-4 text-green-800 border border-green-300 rounded-lg bg-green-50" role="alert">
+                <div id="alert-border" class="max-sm:w-full w-3/5 flex items-center p-4 mb-4 text-green-800 border border-green-300 rounded-lg bg-green-50" role="alert">
                     <svg class="flex-shrink-0 w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0ZM9 13a1 1 0 0 0 2 0V9a1 1 0 0 0-2 0v4Zm1-6.75a1.062 1.062 0 1 0 0 2.124 1.062 1.062 0 0 0 0-2.124Z"/>
                     </svg>
@@ -66,28 +67,27 @@
             <x-form action="/Auth/login" method="POST" title="Masuk" buttonText="Login">
                 @csrf
                 <div>
-                    <label for="credential" class="text-md p-4">Masukan Email</label><br>
-                    <input type="text" name="email" id="email" class="rounded-full p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none @error('email') is-invalid @enderror" placeholder="Email" autofocus required> 
+                    <label for="credential" class="max-sm:text-sm text-md p-4">Masukan Email</label><br>
+                    <input type="text" name="email" id="email" class="rounded-full max-sm:text-sm p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none @error('email') is-invalid @enderror" placeholder="Email" autofocus required> 
                     @error('email')
                         <div class="invalid-feedback text-red-500 text-sm px-2">
                             {{ $message }}
                         </div>
                     @enderror
                 </div>
-                <div class="space-y-1">
-                    <label for="password" class="text-md p-4">Password</label><br>
+                <div>
+                    <label for="password" class="max-sm:text-sm text-md p-4">Password</label><br>
                     <div class="relative">
-                        <input type="password" name="password" id="password" class="rounded-full p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none" placeholder="Password" required>
+                        <input type="password" name="password" id="password" class="rounded-full max-sm:text-sm p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none" placeholder="Password" required>
                         <button type="button" id="togglePassword" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-800 focus:outline-none">
                             <i class="fa fa-eye" id="showPasswordIcon"></i>
                             <i class="fa fa-eye-slash hidden" id="hidePasswordIcon"></i>
                         </button>
                     </div>
-                    <a href="/Auth/forgotpassword" class="px-4 text-blue-500">Lupa Password</a>
+                    <a href="/Auth/forgotpassword" class="max-sm:text-sm px-4 text-blue-500">Lupa Password</a>
                 </div>                
             </x-form>
-            <div>
-                <p class="text-center"></p>
+            <div class="max-sm:text-sm pt-2">
                 <p class="text-center">Punya Akun?<a href="/Auth/registrasi" class="px-2 text-blue-500">Registrasi</a></p> 
             </div>
         </div> 
@@ -117,8 +117,15 @@
         });
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+         document.addEventListener('DOMContentLoaded', function () {
             const alertBox = document.getElementById('alert-border');
+            const closeButton = alertBox?.querySelector('[data-dismiss-target]');
+
+            if (alertBox && closeButton) {
+                closeButton.addEventListener('click', function () {
+                    alertBox.style.display = 'none';
+                });
+            }
         });
     </script>
 </body>

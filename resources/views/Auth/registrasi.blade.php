@@ -10,8 +10,8 @@
     @vite('resources/css/font.css')
 </head>
 <body>
-    <div class="flex">
-        <div class="bg-gradient-to-r from-blue-800 to-red-600 text-white h-screen w-3/5 relative">
+    <div class="flex max-md:flex-col max-md:justify-center max-md:h-screen max-md:items-center max-sm:mx-2 max-md:mx-20">
+        <div class="max-md:hidden bg-gradient-to-r from-blue-800 to-red-600 h-screen max-lg:w-1/2 w-3/5 relative text-white">
             <div class="bg-black/15 h-screen p-9">
                 <a href="/Auth/login" class="">
                     <svg xmlns="http://www.w3.org/2000/svg" 
@@ -23,17 +23,18 @@
                     </svg>
                 </a>
                 <div class="flex flex-col items-center justify-center h-full space-y-2 px-auto">
-                    <h1 class="text-7xl font-bold text-center">Registrasi!</h1>
-                    <img class="p-12 mx-auto h-[70vh] w-auto hover:scale-105 transition-transform duration-300" src="{{ asset('img/d_art3.png')}}" alt="">
+                    <h1 class="max-lg:text-5xl text-7xl font-bold text-center">Registrasi!</h1>
+                    <img class="max-lg:p-10 max-lg:h-[50vh] p-12 mx-auto h-[70vh] w-auto hover:scale-105 transition-transform duration-300" src="{{ asset('img/d_art3.png')}}" alt="">
                 </div> 
             </div>
         </div>
-        <div class="flex justify-center items-center w-2/5">
+        <img class="hidden max-md:block p-2 mx-auto h-[25vh] w-auto hover:scale-105 transition-transform duration-300" src="{{ asset('img/d_art3.png')}}" alt="">
+        <div class="max-lg:px-8 max-md:w-full max-lg:w-1/2 max-md:justify-center flex flex-col justify-center items-center w-2/5">
             <x-form action="/Auth/registrasi" method="POST" title="Registrasi" buttonText="Registrasi">
                 @csrf
                 <div>
-                    <label for="email" class="text-md p-4">Masukkan Email</label><br>
-                    <input type="email" name="email" id="email" class="rounded-full p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none" placeholder="Email" autofocus required 
+                    <label for="email" class="max-sm:text-sm text-md p-4">Masukkan Email</label><br>
+                    <input type="email" name="email" id="email" class="max-sm:text-sm rounded-full p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none" placeholder="Email" autofocus required 
                     @error('email') is-invalid @enderror> 
                     @error('email')
                         <div class="invalid-feedback text-red-500 text-sm px-2">
@@ -42,13 +43,13 @@
                     @enderror
                 </div>
                 <div>
-                    <label for="username" class="text-md p-4">Masukkan Username</label><br>
-                    <input type="text" name="username" id="username" class="rounded-full p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none" placeholder="Username" required>
+                    <label for="username" class="max-sm:text-sm text-md p-4">Masukkan Username</label><br>
+                    <input type="text" name="username" id="username" class="max-sm:text-sm rounded-full p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none" placeholder="Username" required>
                 </div>
                 <div>
-                    <label for="password" class="text-md p-4">Password</label><br>
+                    <label for="password" class="max-sm:text-sm text-md p-4">Password</label><br>
                     <div class="relative">
-                        <input type="password" name="password" id="password" class="rounded-full p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none" minlength="8" placeholder="Password" required>
+                        <input type="password" name="password" id="password" class="max-sm:text-sm rounded-full p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none" minlength="8" placeholder="Password" required>
                         <button type="button" id="togglePassword" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-800 focus:outline-none">
                             <i class="fa fa-eye"></i>
                         </button>
@@ -60,9 +61,9 @@
                     @enderror
                 </div>
                 <div>
-                    <label for="password_confirmation" class="text-md p-4">Ulangi Password</label><br>
+                    <label for="password_confirmation" class="max-sm:text-sm text-md p-4">Ulangi Password</label><br>
                     <div class="relative">
-                        <input type="password" name="password_confirmation" id="password_confirmation" class="rounded-full p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none" minlength="8" placeholder="Ulangi Password" required>
+                        <input type="password" name="password_confirmation" id="password_confirmation" class="max-sm:text-sm rounded-full p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none" minlength="8" placeholder="Ulangi Password" required>
                         <button type="button" id="toggleConfirmPassword" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-800 focus:outline-none">
                             <i class="fa fa-eye"></i>
                         </button>

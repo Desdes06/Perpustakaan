@@ -2,9 +2,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <form action="{{ $action }}" method="POST" 
-    class="bg-[#413C88]/20 shadow-md w-3/5 p-8 rounded-xl flex flex-col space-y-4">
+    class="max-lg:w-full bg-[#413C88]/20 shadow-md w-3/5 max-sm:p-4 p-8 rounded-xl flex flex-col space-y-4">
     @csrf
-    <h1 class="text-3xl font-bold mx-auto">{{ $title }}</h1>
+    <h1 class="max-sm:text-xl text-3xl font-bold mx-auto">{{ $title }}</h1>
 
     {{ $slot }}
 
