@@ -12,9 +12,9 @@
 </head>
 <body>
     <x-navbar></x-navbar>
-    <div class="px-12 py-6 space-y-6 min-h-screen">
-        <div class="flex justify-between items-center">
-            <h1 class="font-semibold text-4xl">Buku</h1>
+    <div class="px-12 py-6 space-y-6 min-h-screen max-sm:p-2">
+        <div class="flex justify-between items-center max-sm:flex-col max-sm:space-y-2">
+            <h1 class="max-sm:text-xl font-semibold text-4xl">Buku</h1>
             <x-sortirpilih type='User/buku'>Cari judul buku</x-sortirpilih>
         </div>
         @if($bukuuser->isEmpty())
@@ -23,7 +23,7 @@
                 <img class="p-12 mx-auto h-[60vh] w-auto hover:scale-105 transition-transform duration-300" src="{{ asset('img/d_art2.png')}}" alt="">
             </div>
         @else
-            <div class="grid grid-cols-7 gap-12">
+            <div class="grid grid-cols-7 gap-12 max-sm:grid-cols-2 max-sm:gap-2">
                 @foreach($bukuuser as $b)
                 <div class="bg-[#413C88]/20 hover:shadow-xl">
                     <a href="{{ route('User.detail', ['id' => $b->id]) }}">

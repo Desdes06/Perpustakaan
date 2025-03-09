@@ -44,7 +44,7 @@
     <div class="transition text-white h-screen relative bg-gradient-to-r from-blue-800 to-red-600">
         <div class="bg-black/15 h-screen">
             <div class="max-sm:flex-col max-sm:justify-center flex justify-around items-center h-screen fade-up delay-200">
-                <img class="md:hidden max-sm:h-16 max-md:h-20 max-lg:h-24 h-28" src="img/logo.png" alt="">
+                <img class="sm:hidden max-sm:h-16 max-md:h-20 max-lg:h-24 h-28" src="img/logo.png" alt="">
                 <img class="max-sm:p-2 max-sm:h-60 max-md:p-8 max-md:h-1/2 max-lg:p-10 max-lg:h-3/4 p-12 h-screen hover:scale-105 transition-transform duration-300" src="img/d_art.png" alt="">
                 <div class="p-10 space-y-8 fade-up delay-400 max-sm:p-4 max-sm:flex max-sm:flex-col max-sm:items-center max-sm:text-center">
                     <img class="max-sm:hidden max-sm:h-16 max-md:h-20 max-lg:h-24 h-28" src="img/logo.png" alt="">

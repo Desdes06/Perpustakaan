@@ -22,9 +22,9 @@ class UserViewController extends Controller
 
         $bukuTerbaru = Buku::with('kategori') 
                         ->latest()
-                        ->take(7)->get(); 
+                        ->take(7)->paginate(6); 
         $buku = Buku::with('kategori')
-                ->take(7)->get();
+                ->take(7)->paginate(6);
 
         return view('User.dashboard', compact('buku', 'bukuTerbaru', 'tanggalSekarang'));
     }

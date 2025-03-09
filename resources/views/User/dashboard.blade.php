@@ -12,40 +12,40 @@
 </head>
 <body>
    <x-navbar></x-navbar>
-    <div class="px-12 py-6 space-y-6 min-h-screen">
-        <div class="flex justify-between items-center px-20">
-            <h1 class="font-semibold text-4xl">Selamat Datang !</h1>
+    <div class="px-12 py-6 space-y-6 min-h-screen max-sm:p-2">
+        <div class="flex justify-between items-center px-20 max-sm:px-2 max-sm:flex-col max-sm:space-y-2">
+            <h1 class="font-semibold max-sm:text-xl text-4xl">Selamat Datang !</h1>
             <x-sortirpilih type='User/buku'>Cari judul buku</x-sortirpilih>
         </div>
         <div class="space-y-12 pb-12">
-            <div class="flex justify-around items-center space-x-2 px-20">
-                <div class="p-6 rounded-lg shadow-md w-3/5 h-96 bg-[#413C88]">
+            <div class="flex justify-around items-center space-x-2 px-20 max-sm:px-0">
+                <div class="max-lg:hidden p-6 rounded-lg shadow-md w-3/5 h-96 bg-[#413C88]">
                     <h1 class="text-2xl text-white">Kalender</h1>
                     <div class="flex space-x-2 pt-2">
                         <div class="text-white text-4xl font-bold">{{ $tanggalSekarang->isoFormat('dddd') }}</div>
                         <div class="text-gray-200 text-4xl font-bold">{{ $tanggalSekarang->format('d') }}</div>
                     </div>
                     <div class="text-gray-300 text-lg pt-1">{{ $tanggalSekarang->isoFormat('MMMM YYYY') }}</div>
-                    <img src="{{ asset('img/buku.png') }}" alt="buku" class="h-[20vh] justify-self-end">
+                    <img src="{{ asset('img/buku.png') }}" alt="buku" class="max-lg:h-[10vh] h-[20vh] justify-self-end">
                 </div> 
-                <div class="w-4/5">
+                <div class="max-lg:w-full w-4/5">
                     <div id="default-carousel" class="relative w-full" data-carousel="slide">
                         <!-- Carousel wrapper -->
                         <div class="relative h-56 overflow-hidden rounded-lg md:h-96 z-0">
                             <!-- Item 1 -->
                             <div class="hidden duration-700 ease-in-out bg-indigo-200" data-carousel-item>
-                                <img src="{{ asset('img/d_art.png') }}" class="absolute block h-[40vh] w-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                                <img src="{{ asset('img/d_art.png') }}" class="absolute block max-md:h-[25vh] h-[40vh] w-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                             </div>
                             <!-- Item 2 -->
                             <div class="hidden duration-700 ease-in-out bg-indigo-200" data-carousel-item>
-                                <img src="{{ asset('img/d_art2.png') }}" class="absolute block h-[40vh] w-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                                <img src="{{ asset('img/d_art2.png') }}" class="absolute block max-md:h-[25vh] h-[40vh] w-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                             </div>
                             <!-- Item 3 -->
                             <div class="hidden duration-700 ease-in-out bg-indigo-200" data-carousel-item>
-                                <img src="{{ asset('img/d_art3.png') }}" class="absolute block h-[40vh] w-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                                <img src="{{ asset('img/d_art3.png') }}" class="absolute block max-md:h-[25vh] h-[40vh] w-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                             </div>
                             <div class="hidden duration-700 ease-in-out bg-indigo-200" data-carousel-item>
-                                <img src="{{ asset('img/d_art4.png') }}" class="absolute block h-[40vh] w-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                                <img src="{{ asset('img/d_art4.png') }}" class="absolute block max-md:h-[25vh] h-[40vh] w-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                             </div>
                         </div>
                         <!-- Slider indicators -->
@@ -75,12 +75,12 @@
                     </div>
                 </div>
             </div>
-            <div class="space-y-4 bg-[#413C88]/20 p-8 rounded-md">
-                <p class="text-3xl font-semibold">Terbaru</p>
+            <div class="space-y-4 bg-[#413C88]/20 p-8 rounded-md max-sm:p-2">
+                <p class="max-sm:text-xl text-3xl font-semibold">Terbaru</p>
                 @if($bukuTerbaru->isEmpty())
                     <p>Buku Tidak Tersedia.</p>
                 @else
-                <div class="grid grid-cols-7 gap-14 ">
+                <div class="grid grid-cols-7 gap-14 max-sm:grid-cols-2 max-sm:gap-2 max-md:grid-cols-3 max-md:gap-2 max-lg:grid-cols-4 max-lg:gap-4">
                     @foreach($bukuTerbaru as $br)
                     <div class="bg-white hover:shadow-xl">
                         <a href="{{ route('User.detail', ['id' => $br->id]) }}">
@@ -132,18 +132,21 @@
                     @endforeach
                 </div>
                 @endif 
+                <div class="mt-4">
+                    {{ $bukuTerbaru->links('vendor.pagination.tailwind') }}
+                </div>
             </div>
             <div class="space-y-4">
                 <div class="flex justify-between items-center">
-                    <p class="text-3xl font-semibold">Semua Buku</p>
-                    <a href="buku" class="text-blue-500 hover:text-blue-700">
+                    <p class="max-sm:text-xl text-3xl font-semibold">Semua Buku</p>
+                    <a href="buku" class="max-sm:text-sm text-blue-500 hover:text-blue-700">
                         Lihat Semua
                     </a>
                 </div>
                 @if($buku->isEmpty())
                     <p>Buku Tidak Tersedia.</p>
                 @else
-                <div class="grid grid-cols-7 gap-12">
+                <div class="grid grid-cols-7 gap-12 max-sm:grid-cols-2 max-sm:gap-2 max-md:grid-cols-3 max-md:gap-2 max-lg:grid-cols-4 max-lg:gap-4">
                     @foreach($buku as $b)
                     <div class="bg-[#413C88]/20 hover:shadow-xl">
                         <a href="{{ route('User.detail', ['id' => $b->id]) }}">
@@ -194,7 +197,10 @@
                     </div>
                     @endforeach
                 </div>
-                @endif 
+                @endif
+                <div class="mt-4">
+                    {{ $buku->links('vendor.pagination.tailwind') }}
+                </div> 
             </div>
         </div>
     </div>  

@@ -10,27 +10,42 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css','resources/js/app.js'])
     @vite('resources/css/font.css')
-    <style>
+    <style> 
         #pdf-viewer {
             width: 100%;
             height: 90vh;
             overflow: auto;
             border: 2px solid #ddd;
         }
+
         canvas {
             display: block;
             margin: 0 auto;
+        }
+
+        /* Untuk layar tablet dan di bawahnya (<= 768px) */
+        @media (max-width: 768px) {
+            canvas {
+                width: 100%;
+            }
+        }
+
+        /* Untuk layar HP kecil (<= 425px) */
+        @media (max-width: 425px) {
+            #pdf-viewer {
+                height: 80vh; 
+            }
         }
     </style>
 </head>
 <body>
     <div class="space-y-2">
-        <div class="bg-[#413C88] p-4 flex justify-between items-center">
+        <div class="bg-[#413C88] max-sm:p-2 p-4 flex justify-between items-center">
             <a href="/User/pinjam">
-                <button class="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white p-2 rounded-md">kembali</button>
+                <button class="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br max-sm:text-sm text-white p-2 rounded-md">kembali</button>
             </a>
-            <h1 class="text-2xl font-bold text-center text-white">{{ $buku->judul_buku }}</h1>
-            <img class="h-8" src="{{ asset('img/logo.png') }}" alt="Your Company" />
+            <h1 class="max-sm:text-sm text-2xl font-bold text-center text-white">{{ $buku->judul_buku }}</h1>
+            <img class="max-sm:h-5 h-8" src="{{ asset('img/logo.png') }}" alt="Your Company" />
         </div>
         <div id="pdf-viewer"></div>
     </div>
