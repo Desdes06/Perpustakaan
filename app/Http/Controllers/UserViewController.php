@@ -12,19 +12,21 @@ class UserViewController extends Controller
 {
     public function berandauser(Request $request)
     {
-
         $tanggalSekarang = Carbon::now()->locale('id');
 
         if ($request->has('search')) {
-
             return redirect()->route('user.buku.search', ['search' => $request->search]);
         }
 
-        $bukuTerbaru = Buku::with('kategori') 
-                        ->latest()
-                        ->take(7)->paginate(6); 
+        // Mengambil 7 buku terbaru berdasarkan created_at
+        $bukuTerbaru = Buku::with('kategori')
+                        ->orderBy('created_at', 'desc')
+                        ->take(7)
+                        ->get(); 
+
+        // Mengambil semua buku dengan paginasi 6 per halaman
         $buku = Buku::with('kategori')
-                ->take(7)->paginate(6);
+                    ->paginate(6);
 
         return view('User.dashboard', compact('buku', 'bukuTerbaru', 'tanggalSekarang'));
     }

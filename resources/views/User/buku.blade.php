@@ -14,7 +14,7 @@
     <x-navbar></x-navbar>
     <div class="px-12 py-6 space-y-6 min-h-screen max-sm:p-2">
         <div class="flex justify-between items-center max-sm:flex-col max-sm:space-y-2">
-            <h1 class="max-sm:text-xl font-semibold text-4xl">Buku</h1>
+            <h1 class="max-sm:text-xl max-md:text-3xl font-semibold text-4xl">Buku</h1>
             <x-sortirpilih type='User/buku'>Cari judul buku</x-sortirpilih>
         </div>
         @if($bukuuser->isEmpty())
@@ -23,7 +23,7 @@
                 <img class="p-12 mx-auto h-[60vh] w-auto hover:scale-105 transition-transform duration-300" src="{{ asset('img/d_art2.png')}}" alt="">
             </div>
         @else
-            <div class="grid grid-cols-7 gap-12 max-sm:grid-cols-2 max-sm:gap-2">
+            <div class="grid grid-cols-7 gap-12 max-sm:grid-cols-2 max-sm:gap-6 max-md:grid-cols-3 max-md:gap-5 max-lg:grid-cols-4 max-lg:gap-4">
                 @foreach($bukuuser as $b)
                 <div class="bg-[#413C88]/20 hover:shadow-xl">
                     <a href="{{ route('User.detail', ['id' => $b->id]) }}">
@@ -31,20 +31,20 @@
                             @if($b->foto)
                                 <img src="{{ asset('storage/' . $b->foto) }}" alt="Cover Buku" class="w-full object-cover">
                             @else
-                                <div class="w-35 h-72 bg-gray-400 flex justify-center items-center flex-col p-2">
+                                <div class="w-full max-sm:h-60 h-80 bg-gray-400 flex justify-center items-center flex-col p-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="white" class="bi bi-card-image" viewBox="0 0 16 16">
                                         <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
                                         <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54L1 12.5v-9a.5.5 0 0 1 .5-.5z"/>
                                     </svg>
-                                    <p class="text-center text-white">Tidak Memiliki Cover</p>
+                                    <p class="max-sm:text-sm text-center text-white">Tidak Memiliki Cover</p>
                                 </div>
                             @endif
                         </div>
                         <div class="p-2 space-y-2">
                             <div>
-                                <h3 class="font-semibold text-lg">{{ Str::limit($b->judul_buku,'10') }}</h3>
-                                <p class="text-md text-gray-700">{{ Str::limit($b->penulis,'20') }}</p>
-                                <p class="text-md text-gray-700">Kategori : {{ Str::limit($b->kategori->nama_kategori,'10') }}</p>
+                                <h3 class="max-sm:text-sm font-semibold text-lg">{{ Str::limit($b->judul_buku,'10') }}</h3>
+                                <p class="max-sm:text-sm text-md text-gray-700">{{ Str::limit($b->penulis,'20') }}</p>
+                                <p class="max-sm:text-sm text-md text-gray-700">Kategori : {{ Str::limit($b->kategori->nama_kategori,'10') }}</p>
                                 <div class="flex items-center pt-1">
                                     @for ($i = 1; $i <= 5; $i++)
                                         @if ($i <= floor($b->rating))

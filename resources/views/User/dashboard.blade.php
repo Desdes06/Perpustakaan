@@ -13,12 +13,12 @@
 <body>
    <x-navbar></x-navbar>
     <div class="px-12 py-6 space-y-6 min-h-screen max-sm:p-2">
-        <div class="flex justify-between items-center px-20 max-sm:px-2 max-sm:flex-col max-sm:space-y-2">
-            <h1 class="font-semibold max-sm:text-xl text-4xl">Selamat Datang !</h1>
+        <div class="flex justify-between items-center px-20 max-sm:px-0 max-sm:flex-col max-sm:space-y-2">
+            <h1 class="font-semibold max-sm:text-xl max-md:text-3xl text-4xl">Selamat Datang !</h1>
             <x-sortirpilih type='User/buku'>Cari judul buku</x-sortirpilih>
         </div>
         <div class="space-y-12 pb-12">
-            <div class="flex justify-around items-center space-x-2 px-20 max-sm:px-0">
+            <div class="flex justify-around items-center space-x-2 max-sm:space-x-0 px-20 max-sm:px-0">
                 <div class="max-lg:hidden p-6 rounded-lg shadow-md w-3/5 h-96 bg-[#413C88]">
                     <h1 class="text-2xl text-white">Kalender</h1>
                     <div class="flex space-x-2 pt-2">
@@ -49,14 +49,14 @@
                             </div>
                         </div>
                         <!-- Slider indicators -->
-                        <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
+                        <div class="absolute flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
                             <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
                             <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
                             <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="2"></button>
                             <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="3"></button>
                         </div>
                         <!-- Slider controls -->
-                        <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+                        <button type="button" class="absolute top-0 start-0 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
                             <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
                                 <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
@@ -64,7 +64,7 @@
                                 <span class="sr-only">Previous</span>
                             </span>
                         </button>
-                        <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+                        <button type="button" class="absolute top-0 end-0 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
                             <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
                                 <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
@@ -80,7 +80,7 @@
                 @if($bukuTerbaru->isEmpty())
                     <p>Buku Tidak Tersedia.</p>
                 @else
-                <div class="grid grid-cols-7 gap-14 max-sm:grid-cols-2 max-sm:gap-2 max-md:grid-cols-3 max-md:gap-2 max-lg:grid-cols-4 max-lg:gap-4">
+                <div class="grid grid-cols-7 gap-14 max-sm:grid-cols-2 max-sm:gap-6 max-md:grid-cols-3 max-md:gap-5 max-lg:grid-cols-4 max-lg:gap-4">
                     @foreach($bukuTerbaru as $br)
                     <div class="bg-white hover:shadow-xl">
                         <a href="{{ route('User.detail', ['id' => $br->id]) }}">
@@ -88,20 +88,20 @@
                                 @if($br->foto)
                                     <img src="{{ asset('storage/' . $br->foto) }}" alt="Cover Buku" class="w-full object-cover">
                                 @else
-                                    <div class="w-35 h-72 bg-gray-400 flex justify-center items-center flex-col">
+                                    <div class="w-full max-sm:h-60 h-80 bg-gray-400 flex justify-center items-center flex-col">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="white" class="bi bi-card-image" viewBox="0 0 16 16">
                                             <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
                                             <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54L1 12.5v-9a.5.5 0 0 1 .5-.5z"/>
                                         </svg>
-                                        <p class="text-center text-white">Tidak Memiliki Cover</p>
+                                        <p class="max-sm:text-sm text-center text-white">Tidak Memiliki Cover</p>
                                     </div>
                                 @endif
                             </div>
                             <div class="p-2">
                                 <div>
-                                    <h3 class="font-semibold text-lg">{{ Str::limit($br->judul_buku,'10')  }}</h3>
-                                    <p class="text-md text-gray-700">{{ Str::limit($br->penulis,'20') }}</p>
-                                    <p class="text-md text-gray-700">Kategori : {{ Str::limit($br->kategori->nama_kategori,'10') }}</p>
+                                    <h3 class="max-sm:text-sm font-semibold text-lg">{{ Str::limit($br->judul_buku,'10')  }}</h3>
+                                    <p class="max-sm:text-sm text-md text-gray-700">{{ Str::limit($br->penulis,'20') }}</p>
+                                    <p class="max-sm:text-sm text-md text-gray-700">Kategori : {{ Str::limit($br->kategori->nama_kategori,'10') }}</p>
                                     <div class="flex items-center pt-1">
                                         @for ($i = 1; $i <= 5; $i++)
                                             @if ($i <= floor($br->rating))
@@ -132,9 +132,6 @@
                     @endforeach
                 </div>
                 @endif 
-                <div class="mt-4">
-                    {{ $bukuTerbaru->links('vendor.pagination.tailwind') }}
-                </div>
             </div>
             <div class="space-y-4">
                 <div class="flex justify-between items-center">
@@ -146,7 +143,7 @@
                 @if($buku->isEmpty())
                     <p>Buku Tidak Tersedia.</p>
                 @else
-                <div class="grid grid-cols-7 gap-12 max-sm:grid-cols-2 max-sm:gap-2 max-md:grid-cols-3 max-md:gap-2 max-lg:grid-cols-4 max-lg:gap-4">
+                <div class="grid grid-cols-7 gap-12 max-sm:grid-cols-2 max-sm:gap-6 max-md:grid-cols-3 max-md:gap-5 max-lg:grid-cols-4 max-lg:gap-4">
                     @foreach($buku as $b)
                     <div class="bg-[#413C88]/20 hover:shadow-xl">
                         <a href="{{ route('User.detail', ['id' => $b->id]) }}">
@@ -154,20 +151,20 @@
                                 @if($b->foto)
                                     <img src="{{ asset('storage/' . $b->foto) }}" alt="Cover Buku" class="w-full object-cover">
                                 @else
-                                    <div class="w-35 h-72 bg-gray-400 flex justify-center items-center flex-col p-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="white" class="bi bi-card-image" viewBox="0 0 16 16">
+                                    <div class="w-full max-sm:h-60 h-72 bg-gray-400 flex justify-center items-center flex-col p-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="white" class="max-sm:w-12 max-sm:h-12 bi bi-card-image" viewBox="0 0 16 16">
                                             <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
                                             <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54L1 12.5v-9a.5.5 0 0 1 .5-.5z"/>
                                         </svg>
-                                        <p class="text-center text-white">Tidak Memiliki Cover</p>
+                                        <p class="max-sm:text-sm text-center text-white">Tidak Memiliki Cover</p>
                                     </div>
                                 @endif
                             </div>
                             <div class="p-2 space-y-2">
                                 <div>
-                                    <h3 class="font-semibold text-lg">{{ Str::limit($b->judul_buku,'10') }}</h3>
-                                    <p class="text-md text-gray-700">{{ Str::limit($b->penulis,'20') }}</p>
-                                    <p class="text-md text-gray-700">Kategori : {{ Str::limit($b->kategori->nama_kategori,'10') }}</p>
+                                    <h3 class="max-sm:text-sm font-semibold text-lg">{{ Str::limit($b->judul_buku,'10') }}</h3>
+                                    <p class="max-sm:text-sm text-md text-gray-700">{{ Str::limit($b->penulis,'20') }}</p>
+                                    <p class="max-sm:text-sm text-md text-gray-700">Kategori : {{ Str::limit($b->kategori->nama_kategori,'10') }}</p>
                                     <div class="flex items-center pt-1">
                                         @for ($i = 1; $i <= 5; $i++)
                                             @if ($i <= floor($b->rating))

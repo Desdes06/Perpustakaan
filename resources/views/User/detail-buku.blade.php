@@ -11,38 +11,38 @@
         @vite('resources/css/font.css')
     </head>
 <body> 
-    <div class="container mx-auto p-4">
-        <div class="bg-white shadow-md rounded-lg p-6 w-full border relative">
+    <div class="container mx-auto p-4 max-sm:p-2">
+        <div class="bg-white shadow-md rounded-lg max-sm:p-4 p-6 w-full border relative">
             <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-800 to-red-600 rounded-t-lg"></div>
             <div class="flex flex-col space-y-2">
-                <div class="flex justify-between">
+                <div class="flex justify-between max-sm:space-x-4">
                     <div class="w-full flex space-x-4">
                         <div class="h-auto">
                             @if($detail->foto)
-                                <img src="{{ asset('storage/' . $detail->foto) }}" alt="Cover Buku" class="max-h-[300px] object-cover">
+                                <img src="{{ asset('storage/' . $detail->foto) }}" alt="Cover Buku" class="max-sm:h-[200px] max-h-[300px] object-cover">
                             @else
-                                <div class="w-35 h-72 bg-gray-400 flex justify-center items-center flex-col p-2">
+                                <div class="max-sm:w-32 max-sm:h-48 w-35 h-72 bg-gray-400 flex justify-center items-center flex-col p-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="white" class="bi bi-card-image" viewBox="0 0 16 16">
                                         <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
                                         <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54L1 12.5v-9a.5.5 0 0 1 .5-.5z"/>
                                     </svg>
-                                    <p class="text-center text-white">Tidak Memiliki Cover</p>
+                                    <p class="max-sm:text-sm text-center text-white">Tidak Memiliki Cover</p>
                                 </div>
                             @endif
                         </div>
                         <div class="space-y-1 items-center">
-                            <h3 class="text-2xl font-bold">{{ $detail->judul_buku }}</h3>
-                            <p class="text-gray-700">
+                            <h3 class="max-sm:text-lg text-2xl font-bold">{{ Str::limit($detail->judul_buku) }}</h3>
+                            <p class="max-sm:text-sm text-gray-700">
                                 <span class="font-semibold">{{ $detail->penulis }}
                             </p>
                             <div class="flex items-center">
                                 @for ($i = 1; $i <= 5; $i++)
                                     @if ($i <= floor($detail->rating))
-                                        <svg class="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <svg class="max-sm:w-4 max-sm:h-4 w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
                                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.975a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.388 2.46a1 1 0 00-.364 1.118l1.286 3.974c.3.922-.755 1.688-1.54 1.118l-3.388-2.46a1 1 0 00-1.176 0l-3.388 2.46c-.785.57-1.84-.196-1.54-1.118l1.286-3.974a1 1 0 00-.364-1.118L2.045 9.402c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.975z"/>
                                         </svg>
                                     @elseif ($i - 0.5 <= $detail->rating)
-                                        <svg class="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <svg class="max-sm:w-4 max-sm:h-4 w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
                                             <defs>
                                                 <linearGradient id="half-star">
                                                     <stop offset="50%" stop-color="currentColor" />
@@ -52,7 +52,7 @@
                                             <path fill="url(#half-star)" d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.975a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.388 2.46a1 1 0 00-.364 1.118l1.286 3.974c.3.922-.755 1.688-1.54 1.118l-3.388-2.46a1 1 0 00-1.176 0l-3.388 2.46c-.785.57-1.84-.196-1.54-1.118l1.286-3.974a1 1 0 00-.364-1.118L2.045 9.402c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.975z"/>
                                         </svg>
                                     @else
-                                        <svg class="w-6 h-6 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                                        <svg class="max-sm:w-4 max-sm:h-4 w-6 h-6 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
                                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.975a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.388 2.46a1 1 0 00-.364 1.118l1.286 3.974c.3.922-.755 1.688-1.54 1.118l-3.388-2.46a1 1 0 00-1.176 0l-3.388 2.46c-.785.57-1.84-.196-1.54-1.118l1.286-3.974a1 1 0 00-.364-1.118L2.045 9.402c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.975z"/>
                                         </svg>
                                     @endif
@@ -62,43 +62,47 @@
                     </div>
                     <div>
                         <a href="/User/buku">
-                            <button class="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white p-2 rounded-md">kembali</button>
+                            <button class="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white p-2 rounded-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+                                </svg>
+                            </button>
                         </a>
                     </div>
                 </div>
-                <div class="w-full p-4 space-y-2 border border-2 rounded-md">
+                <div class="w-full max-sm:p-2 p-4 space-y-2 border border-2 rounded-md">
                     <div class="space-y-2">
-                        <p class="text-gray-700 font-semibold">ISBN
+                        <p class="max-sm:text-sm text-gray-700 font-semibold">ISBN
                         </p>
-                        <p class="text-gray-700">
+                        <p class="max-sm:text-sm text-gray-700">
                             {{ $detail->isbn }}
                         </p>
                     </div>
                     <div class="space-y-2">
-                        <p class="text-gray-700 font-semibold">Penerbit
+                        <p class="max-sm:text-sm text-gray-700 font-semibold">Penerbit
                         </p>
-                        <p class="text-gray-700">
+                        <p class="max-sm:text-sm text-gray-700">
                             {{ $detail->penerbit->nama_penerbit }}
                         </p>
                     </div>
                     <div class="space-y-2">
                         <hr>
-                        <p class="text-gray-700 font-semibold">Kategori</p>
-                        <p class="text-gray-700">
+                        <p class="max-sm:text-sm text-gray-700 font-semibold">Kategori</p>
+                        <p class="max-sm:text-sm text-gray-700">
                             {{ $detail->kategori->nama_kategori ?? 'Tidak Ada' }}
                         </p>
                     </div>
                     <div class="space-y-2">
                         <hr>
-                        <p class="text-gray-700 font-semibold">Tanggal Terbit</p>
-                        <p class="text-gray-700">
+                        <p class="max-sm:text-sm text-gray-700 font-semibold">Tanggal Terbit</p>
+                        <p class="max-sm:text-sm text-gray-700">
                             {{ $detail->tanggal_terbit }}
                         </p>
                     </div>
                     <div class="space-y-2">
                         <hr>
-                        <p class="text-gray-700 font-semibold">Deskripsi</p>
-                        <p class="text-gray-700">
+                        <p class="max-sm:text-sm text-gray-700 font-semibold">Deskripsi</p>
+                        <p class="max-sm:text-sm text-gray-700 overflow-auto max-h-[200px]">
                             {{ $detail->deskripsi }}
                         </p>
                     </div>
@@ -113,11 +117,11 @@
                                     ->exists();
                             @endphp
                             @if($isAlreadyBorrowed)
-                                <a href="{{ route('User.baca.buku', ['id' => $detail->id]) }}" class="px-4 py-2 bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br text-white rounded-md">
+                                <a href="{{ route('User.baca.buku', ['id' => $detail->id]) }}" class="max-sm:text-sm px-4 py-2 bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br text-white rounded-md">
                                     Baca
                                 </a>
                             @else
-                                <button type="submit" id="pinjamButton" class="px-4 py-2 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white rounded-md">
+                                <button type="submit" id="pinjamButton" class="max-sm:text-sm px-4 py-2 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white rounded-md">
                                     Pinjam
                                 </button>
                             @endif
@@ -125,41 +129,41 @@
                         @if($isAlreadyBorrowed)
                             <form action="{{ route('kembalikanbuku', $detail->id) }}" method="POST" class="inline pl-2">
                                 @csrf
-                                <button type="submit" class="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white px-4 py-2 rounded-md transition duration-300">
+                                <button type="submit" class="max-sm:text-sm bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white px-4 py-2 rounded-md transition duration-300">
                                     Kembalikan
                                 </button>
                             </form>
                         @endif
                     </div>
                 </div>
-                <div class="w-full p-4 space-y-2 border border-2 rounded-md">
+                <div class="w-full p-4 max-sm:p-2 space-y-2 border border-2 rounded-md">
                     <div class="space-y-2">
                         <p class="text-gray-700 font-semibold">Ulasan</p>
                         @foreach($ratings as $rating)
-                        <div class="bg-gray-100 p-4 rounded-lg mb-4">
+                        <div class="bg-gray-100 p-4 max-sm:p-2 rounded-lg mb-4">
                             <div class="flex space-x-2 items-center">
                                 @if ($rating->user->foto)
                                 <img src="{{ asset('storage/' . $rating->user->foto) }}" alt="Foto Profil" class="h-12 w-auto rounded-full">
                                 @else
                                     <img src="{{ asset('img/profile.png') }}" alt="Default Foto" class="bg-white p-2 h-12 w-auto rounded-full">
                                 @endif
-                            <p class="font-bold">{{ $rating->user->username }}</p>
+                            <p class="max-sm:text-sm font-bold">{{ $rating->user->username }}</p>
                             </div>
                             <div class="flex items-center pb-2">
                                 @for ($i = 1; $i <= 5; $i++)
                                     @if ($i <= $rating->rating)
-                                        <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <svg class="max-sm:w-4 max-sm:h-4 w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
                                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.975a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.388 2.46a1 1 0 00-.364 1.118l1.286 3.974c.3.922-.755 1.688-1.54 1.118l-3.388-2.46a1 1 0 00-1.176 0l-3.388 2.46c-.785.57-1.84-.196-1.54-1.118l1.286-3.974a1 1 0 00-.364-1.118L2.045 9.402c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.975z"/>
                                         </svg>
                                     @else
-                                        <svg class="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                                        <svg class="max-sm:w-4 max-sm:h-4 w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
                                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.975a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.388 2.46a1 1 0 00-.364 1.118l1.286 3.974c.3.922-.755 1.688-1.54 1.118l-3.388-2.46a1 1 0 00-1.176 0l-3.388 2.46c-.785.57-1.84-.196-1.54-1.118l1.286-3.974a1 1 0 00-.364-1.118L2.045 9.402c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.975z"/>
                                         </svg>
                                     @endif
                                 @endfor
                             </div>
                             <hr>
-                            <p class="text-gray-700 mt-2">{{ $rating->komentar }}</p>
+                            <p class="max-sm:text-sm text-gray-700 mt-2">{{ $rating->komentar }}</p>
                             <div class="mt-2">
                                 @if ($rating->user->id == Auth::id())
                                     <form action="{{ route('User.comment', ['id' => $rating->id])}}" method="POST" onsubmit="return confirm('Yakin ingin menghapus komentar ini?');">
@@ -186,26 +190,26 @@
                             <span class="font-semibold">Rating :</span>
                         </p>
                         <div class="flex items-center ml-2" id="rating">
-                            <svg class="w-6 h-6 text-gray-300 hover:text-yellow-400 cursor-pointer" fill="currentColor" viewBox="0 0 20 20" data-star="1">
+                            <svg class="max-sm:w-4 max-sm:w-4 w-6 h-6 text-gray-300 hover:text-yellow-400 cursor-pointer" fill="currentColor" viewBox="0 0 20 20" data-star="1">
                                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.356 4.176a1 1 0 00.95.69h4.356c.969 0 1.372 1.24.588 1.81l-3.525 2.61a1 1 0 00-.364 1.118l1.356 4.176c.3.921-.755 1.688-1.54 1.118l-3.525-2.61a1 1 0 00-1.176 0l-3.525 2.61c-.785.57-1.84-.197-1.54-1.118l1.356-4.176a1 1 0 00-.364-1.118L2.049 9.603c-.785-.57-.381-1.81.588-1.81h4.356a1 1 0 00.95-.69l1.356-4.176z"></path>
                             </svg>
-                            <svg class="w-6 h-6 text-gray-300 hover:text-yellow-400 cursor-pointer" fill="currentColor" viewBox="0 0 20 20" data-star="2">
+                            <svg class="max-sm:w-4 max-sm:w-4 w-6 h-6 text-gray-300 hover:text-yellow-400 cursor-pointer" fill="currentColor" viewBox="0 0 20 20" data-star="2">
                                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.356 4.176a1 1 0 00.95.69h4.356c.969 0 1.372 1.24.588 1.81l-3.525 2.61a1 1 0 00-.364 1.118l1.356 4.176c.3.921-.755 1.688-1.54 1.118l-3.525-2.61a1 1 0 00-1.176 0l-3.525 2.61c-.785.57-1.84-.197-1.54-1.118l1.356-4.176a1 1 0 00-.364-1.118L2.049 9.603c-.785-.57-.381-1.81.588-1.81h4.356a1 1 0 00.95-.69l1.356-4.176z"></path>
                             </svg>
-                            <svg class="w-6 h-6 text-gray-300 hover:text-yellow-400 cursor-pointer" fill="currentColor" viewBox="0 0 20 20" data-star="3">
+                            <svg class="max-sm:w-4 max-sm:w-4 w-6 h-6 text-gray-300 hover:text-yellow-400 cursor-pointer" fill="currentColor" viewBox="0 0 20 20" data-star="3">
                                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.356 4.176a1 1 0 00.95.69h4.356c.969 0 1.372 1.24.588 1.81l-3.525 2.61a1 1 0 00-.364 1.118l1.356 4.176c.3.921-.755 1.688-1.54 1.118l-3.525-2.61a1 1 0 00-1.176 0l-3.525 2.61c-.785.57-1.84-.197-1.54-1.118l1.356-4.176a1 1 0 00-.364-1.118L2.049 9.603c-.785-.57-.381-1.81.588-1.81h4.356a1 1 0 00.95-.69l1.356-4.176z"></path>
                             </svg>
-                            <svg class="w-6 h-6 text-gray-300 hover:text-yellow-400 cursor-pointer" fill="currentColor" viewBox="0 0 20 20" data-star="4">
+                            <svg class="max-sm:w-4 max-sm:w-4 w-6 h-6 text-gray-300 hover:text-yellow-400 cursor-pointer" fill="currentColor" viewBox="0 0 20 20" data-star="4">
                                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.356 4.176a1 1 0 00.95.69h4.356c.969 0 1.372 1.24.588 1.81l-3.525 2.61a1 1 0 00-.364 1.118l1.356 4.176c.3.921-.755 1.688-1.54 1.118l-3.525-2.61a1 1 0 00-1.176 0l-3.525 2.61c-.785.57-1.84-.197-1.54-1.118l1.356-4.176a1 1 0 00-.364-1.118L2.049 9.603c-.785-.57-.381-1.81.588-1.81h4.356a1 1 0 00.95-.69l1.356-4.176z"></path>
                             </svg>
-                            <svg class="w-6 h-6 text-gray-300 hover:text-yellow-400 cursor-pointer" fill="currentColor" viewBox="0 0 20 20" data-star="5">
+                            <svg class="max-sm:w-4 max-sm:w-4 w-6 h-6 text-gray-300 hover:text-yellow-400 cursor-pointer" fill="currentColor" viewBox="0 0 20 20" data-star="5">
                                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.356 4.176a1 1 0 00.95.69h4.356c.969 0 1.372 1.24.588 1.81l-3.525 2.61a1 1 0 00-.364 1.118l1.356 4.176c.3.921-.755 1.688-1.54 1.118l-3.525-2.61a1 1 0 00-1.176 0l-3.525 2.61c-.785.57-1.84-.197-1.54-1.118l1.356-4.176a1 1 0 00-.364-1.118L2.049 9.603c-.785-.57-.381-1.81.588-1.81h4.356a1 1 0 00.95-.69l1.356-4.176z"></path>
                             </svg>
                         </div>
                     </div>
                     
                     <p class="text-gray-700">
-                        <span class="font-semibold">Komentar</span>
+                        <span class="font-semibold max-sm:text-sm">Komentar</span>
                     </p>
                     <form action="{{ route('User.komentar') }}" method="POST" class="text-black" onsubmit="handle(event, this)">
                         @csrf
@@ -216,7 +220,7 @@
                                 type="text"
                                 name="komentar" 
                                 id="komentar" 
-                                class="mt-2 w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                                class="max-sm:text-sm mt-2 w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
                                 placeholder="Tulis ulasan Anda...">
                         </input>
                         </div>

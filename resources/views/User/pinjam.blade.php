@@ -15,7 +15,7 @@
     <x-navbar></x-navbar>
     <div class="px-12 py-6 space-y-6 min-h-screen max-sm:p-2"> 
         <div class="flex items-center justify-between max-sm:flex-col max-sm:space-y-2">
-            <h1 class="max-sm:text-xl font-semibold text-4xl">Pinjam</h1>
+            <h1 class="max-sm:text-xl max-md:text-3xl font-semibold text-4xl">Pinjam</h1>
             <x-sortirpilih type='User/pinjam'>Cari judul buku</x-sortirpilih>    
         </div>
         <div class="space-y-2">
@@ -25,7 +25,7 @@
                     <img class="p-12 mx-auto h-[60vh] w-auto hover:scale-105 transition-transform duration-300" src="{{ asset('img/d_art2.png')}}" alt="">
                 </div>
             @else 
-            <div class="grid grid-cols-7 gap-12 max-sm:grid-cols-2 max-sm:gap-2">
+            <div class="grid grid-cols-7 gap-12 max-sm:grid-cols-2 max-sm:gap-6 max-md:grid-cols-3 max-md:gap-5 max-lg:grid-cols-4 max-lg:gap-4">
                 @foreach($pinjam as $p)       
                     <div class="bg-[#413C88]/20 hover:shadow-xl">
                         <a href="{{ route('User.detail', ['id' => $p->buku->id]) }}">
@@ -33,20 +33,20 @@
                                 @if($p->buku && $p->buku->foto)
                                     <img src="{{ asset('storage/' . $p->buku->foto) }}" alt="Cover Buku" class="w-full object-cover">
                                 @else
-                                    <div class="w-35 h-80 bg-gray-400 flex justify-center items-center flex-col">
+                                    <div class="w-full max-sm:h-60 h-80 bg-gray-400 flex justify-center items-center flex-col">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="white" class="bi bi-card-image" viewBox="0 0 16 16">
                                             <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
                                             <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54L1 12.5v-9a.5.5 0 0 1 .5-.5z"/>
                                         </svg>
-                                        <p class="text-center text-white">Tidak Memiliki Cover</p>
+                                        <p class="max-sm:text-sm text-center text-white">Tidak Memiliki Cover</p>
                                     </div>
                                 @endif
                             </div>
                             <div class="p-2">
                                 <div>
-                                    <h1 class="text-lg font-semibold">{{ Str::limit($p->buku->judul_buku,'10') }}</h1>
-                                    <p class="text-md text-gray-700"> {{ Str::limit($p->buku->penulis,'20') }}</p>
-                                    <p class="text-md text-gray-700">kategori : {{ Str::limit($p->buku->kategori->nama_kategori,'10') }}</p>
+                                    <h1 class="max-sm:text-sm text-lg font-semibold">{{ Str::limit($p->buku->judul_buku,'10') }}</h1>
+                                    <p class="max-sm:text-sm text-md text-gray-700"> {{ Str::limit($p->buku->penulis,'20') }}</p>
+                                    <p class="max-sm:text-sm text-md text-gray-700">kategori : {{ Str::limit($p->buku->kategori->nama_kategori,'10') }}</p>
                                     <div class="flex items-center pt-1">
                                         @for ($i = 1; $i <= 5; $i++)
                                             @if ($i <= floor($p->buku->rating))
@@ -72,7 +72,7 @@
                                     </div>
                                 </div>   
                             </div>
-                            <div class="p-2 flex space-x-1">
+                            <div class="pb-2 pt-1 px-2 flex space-x-1">
                                 <a href="{{ route('User.baca.buku', $p->buku->id) }}" title="Baca"
                                     class="bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br text-white px-3 py-2 rounded-md transition duration-300">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16">

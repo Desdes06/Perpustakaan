@@ -1,5 +1,5 @@
 
-<form class="max-w-2xl max-lg:w-80 max-md:w-full">
+<form class="max-w-2xl max-lg:w-80">
   <div class="flex">
       <button id="dropdown-button" data-dropdown-toggle="dropdown" class="shrink-0 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100" type="button">
           Filter
@@ -59,7 +59,7 @@
                   type="search" 
                   name="search" 
                   id="search" 
-                  class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-md border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" 
+                  class="max-sm:text-sm block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-md border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" 
                   placeholder="{{ $slot }}"
                   value="{{ request('search') }}"
               />

@@ -5,7 +5,7 @@
       <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
         <!-- Mobile menu button -->
         <button type="button" @click="isMenuOpen = !isMenuOpen"
-          class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+          class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 sm:hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
           aria-controls="mobile-menu"
           :aria-expanded="isMenuOpen"
         >
@@ -62,8 +62,22 @@
           </svg>
         </button> --}}
 
+        <div class="sm:hidden">
+          <a href="/Auth/profile">
+            <button type="button"
+              class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+            >
+            @if ($user->foto)
+              <img src="{{ asset('storage/' . $user->foto) }}" alt="Foto Profil" class="h-10 w-auto rounded-full">
+            @else
+              <img src="{{ asset('img/profile.png') }}" alt="Default Foto" class="bg-gray-200 p-1 h-10 w-auto rounded-full">
+            @endif
+            </button>
+          </a>
+        </div>
+  
         <!-- Profile dropdown -->
-        <div class="relative ml-3">
+        <div class="relative ml-3 max-sm:hidden">
           <div>
             <button type="button" @click="isProfileOpen = !isProfileOpen"
               class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -161,9 +175,9 @@
     <div x-show="isMenuOpen"
     @click.away="isMenuOpen = false" 
     class="space-y-1 px-2 pb-3 pt-2">
-      <a href="/User/beranda" class="block px-3 py-2 text-base font-medium text-white hover:bg-gray-700" aria-current="page">Beranda</a>
-      <a href="/User/buku" class="block px-3 py-2 text-base font-medium text-white hover:bg-gray-700">Buku</a>
-      <a href="/User/pinjam" class="block px-3 py-2 text-base font-medium text-white hover:bg-gray-700">Pinjam</a>
+      <a href="/User/beranda" class="max-sm:text-sm block px-3 py-2 text-base font-medium text-white hover:text-gray-400" aria-current="page">Beranda</a>
+      <a href="/User/buku" class="max-sm:text-sm block px-3 py-2 text-base font-medium text-white hover:text-gray-400">Buku</a>
+      <a href="/User/pinjam" class="max-sm:text-sm block px-3 py-2 text-base font-medium text-white hover:text-gray-400">Pinjam</a>
     </div>
   </div>
 </nav>
