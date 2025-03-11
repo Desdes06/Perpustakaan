@@ -18,6 +18,7 @@ Route::group(['middleware'=>['auth']], function(){
         Route::get('/tambahbuku', ['as' => 'tambahbuku', 'uses' => 'App\Http\Controllers\AdminViewController@tambahbuku']);
         Route::get('/anggota', ['as' => 'anggota', 'uses' => 'App\Http\Controllers\AdminViewController@anggota']);
         Route::get('/kategori', ['as' => 'viewkategori', 'uses' => 'App\Http\Controllers\KategoriController@kategoridata']);
+        Route::get('/penerbit', ['as' => 'penerbit', 'uses' => 'App\Http\Controllers\PenerbitController@Penerbitdata']);
         
 
         //route menampilkan data list user
@@ -26,10 +27,14 @@ Route::group(['middleware'=>['auth']], function(){
         Route::post('/tambahbuku',['as' => 'tambahbuku', 'uses' => 'App\Http\Controllers\BukuController@storebuku']);
         // route tambah kategori
         Route::post('/tambahkategori', ['as' => 'tambahkategori', 'uses' => 'App\Http\Controllers\KategoriController@tambahkategori']);
+        // route tambah penerbit
+        Route::post('/tambahpenerbit', ['as' => 'tambahpenerbit', 'uses' => 'App\Http\Controllers\PenerbitController@tambahpenerbit']);
         // route edit data buku
         Route::put('/updatebuku/{id}',['as' => 'updatebuku', 'uses' => 'App\Http\Controllers\BukuController@updatebuku']);
         // route edit kategori
         Route::put('/updatekategori/{id}',['as' => 'updatekategori', 'uses' => 'App\Http\Controllers\KategoriController@update']);
+        // route edit penerbit
+        Route::put('/updatepenerbit/{id}',['as' => 'updatepenerbit', 'uses' => 'App\Http\Controllers\PenerbitController@update']);
     });
 
     //route view halaman user
@@ -82,6 +87,7 @@ Route::group(['middleware'=>['auth']], function(){
     Route::delete('/Admin/delete-pengembalian', ['uses' => 'App\Http\Controllers\BukuController@deleteSelected'])->name('admin.delete.pengembalian');
     Route::delete('/Admin/delete-pinjam', ['uses' => 'App\Http\Controllers\BukuController@deletepinjam'])->name('admin.delete.pinjam');
     Route::delete('/kategori', ['uses' => 'App\Http\Controllers\KategoriController@destroy'])->name('deletekategori');
+    Route::delete('/penerbit', ['uses' => 'App\Http\Controllers\PenerbitController@destroy'])->name('deletepenerbit');
 
     // export
     Route::get('/admin/export-pengembalian', ['uses' => 'App\Http\Controllers\ExportController@exportpengembalian'])->name('admin.export.pengembalian');

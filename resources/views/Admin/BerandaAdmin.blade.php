@@ -26,65 +26,98 @@
                 <div class="text-gray-400 text-4xl font-bold">{{ $tanggalSekarang->format('d') }}</div>
             </div>
             <div class="text-gray-300 text-lg pt-1">{{ $tanggalSekarang->isoFormat('MMMM YYYY') }}</div>
-        </div> 
-        <div class="flex space-x-4 w-full justify-between">
-            <div class="flex-1 max-w-xl p-6 bg-white border border-gray-300 rounded-lg shadow-sm">
-                <div class="flex space-x-4">
-                    <div>
-                        <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900">Jumlah Pengguna</h5>
-                        <p class="mb-3 text-lg font-normal text-gray-700">{{ $jumlahUser }} Pengguna Terdaftar</p>
-                        <a href="/Admin/anggota" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                            lihat detail
-                            <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                            </svg>
-                        </a>
-                    </div>
+        </div>
+        <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 h-full">
+            <!-- Bagian Data -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full md:w-1/2">
+                <!-- Card Jumlah Pengguna -->
+                <div class="p-4 bg-white border border-gray-300 rounded-lg shadow-sm">
+                    <h5 class="mb-1 text-xl font-semibold text-gray-900">Jumlah Pengguna</h5>
+                    <p class="text-md text-gray-700">{{ $jumlahUser }} Pengguna Terdaftar</p>
+                    <a href="/Admin/anggota" class="inline-flex items-center mt-2 px-2 py-1 text-md text-white bg-blue-700 rounded hover:bg-blue-800">
+                        Lihat Detail
+                        <svg class="w-3 h-3 ml-1" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                        </svg>
+                    </a>
+                </div>
+                <!-- Card Jumlah Buku -->
+                <div class="p-4 bg-white border border-gray-300 rounded-lg shadow-sm">
+                    <h5 class="mb-1 text-xl font-semibold text-gray-900">Jumlah Buku</h5>
+                    <p class="text-md text-gray-700">{{ $jumlahbuku }} Buku Tersedia</p>
+                    <a href="/Admin/listbuku" class="inline-flex items-center mt-2 px-2 py-1 text-md text-white bg-blue-700 rounded hover:bg-blue-800">
+                        Lihat Detail
+                        <svg class="w-3 h-3 ml-1" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                        </svg>
+                    </a>
+                </div>
+                <!-- Card Pinjam -->
+                <div class="p-4 bg-white border border-gray-300 rounded-lg shadow-sm">
+                    <h5 class="mb-1 text-xl font-semibold text-gray-900">Pinjam</h5>
+                    <p class="text-md text-gray-700">{{ $jumlahpinjam }} Buku Dipinjam</p>
+                    <a href="/Admin/listpinjam" class="inline-flex items-center mt-2 px-2 py-1 text-md text-white bg-blue-700 rounded hover:bg-blue-800">
+                        Lihat Detail
+                        <svg class="w-3 h-3 ml-1" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                        </svg>
+                    </a>
+                </div>
+                <!-- Card Pengembalian -->
+                <div class="p-4 bg-white border border-gray-300 rounded-lg shadow-sm">
+                    <h5 class="mb-1 text-xl font-semibold text-gray-900">Pengembalian</h5>
+                    <p class="text-md text-gray-700">{{ $pengembalian }} Buku Dikembalikan</p>
+                    <a href="/Admin/listpengembalian" class="inline-flex items-center mt-2 px-2 py-1 text-md text-white bg-blue-700 rounded hover:bg-blue-800">
+                        Lihat Detail
+                        <svg class="w-3 h-3 ml-1" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                        </svg>
+                    </a>
                 </div>
             </div>
-            <div class="flex-1 max-w-xl p-6 bg-white border border-gray-300 rounded-lg shadow-sm">
-                <div class="flex space-x-4">
-                    <div>
-                        <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900">Jumlah Buku</h5>
-                        <p class="mb-3 text-lg font-normal text-gray-700">{{ $jumlahbuku }} Buku Tersedia</p>
-                        <a href="/Admin/listbuku" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                            lihat detail
-                            <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                            </svg>
-                        </a>
+        
+            <!-- Bagian Carousel -->
+            <div class="w-full md:w-1/2">
+                <div id="default-carousel" class="relative w-full" data-carousel="slide">
+                    <div class="relative h-40 md:h-64 overflow-hidden rounded-lg">
+                        <div class="hidden duration-700 ease-in-out bg-indigo-200" data-carousel-item>
+                            <img src="{{ asset('img/d_art.png') }}" class="absolute block h-full w-auto left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        </div>
+                        <div class="hidden duration-700 ease-in-out bg-indigo-200" data-carousel-item>
+                            <img src="{{ asset('img/d_art2.png') }}" class="absolute block h-full w-auto left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        </div>
+                        <div class="hidden duration-700 ease-in-out bg-indigo-200" data-carousel-item>
+                            <img src="{{ asset('img/d_art3.png') }}" class="absolute block h-full w-auto left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        </div>
+                        <div class="hidden duration-700 ease-in-out bg-indigo-200" data-carousel-item>
+                            <img src="{{ asset('img/d_art4.png') }}" class="absolute block h-full w-auto left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        </div>
                     </div>
+                    <!-- Slider indicators -->
+                    <div class="z-30 absolute flex -translate-x-1/2 bottom-2 left-1/2 space-x-2">
+                        <button type="button" class="w-2.5 h-2.5 rounded-full bg-white" data-carousel-slide-to="0"></button>
+                        <button type="button" class="w-2.5 h-2.5 rounded-full bg-gray-300" data-carousel-slide-to="1"></button>
+                        <button type="button" class="w-2.5 h-2.5 rounded-full bg-gray-300" data-carousel-slide-to="2"></button>
+                        <button type="button" class="w-2.5 h-2.5 rounded-full bg-gray-300" data-carousel-slide-to="3"></button>
+                    </div>
+                    <!-- Slider controls -->
+                    <button type="button" class="z-30 absolute top-0 left-0 flex items-center justify-center h-full px-2" data-carousel-prev>
+                        <span class="inline-flex items-center justify-center w-6 h-6 bg-white/30 rounded-full group-hover:bg-white/50">
+                            <svg class="w-3 h-3 text-gray-800" fill="none" viewBox="0 0 6 10" stroke="currentColor" stroke-width="2">
+                                <path d="M5 1 1 5l4 4"/>
+                            </svg>
+                        </span>
+                    </button>
+                    <button type="button" class="z-30 absolute top-0 right-0 flex items-center justify-center h-full px-2" data-carousel-next>
+                        <span class="inline-flex items-center justify-center w-6 h-6 bg-white/30 rounded-full group-hover:bg-white/50">
+                            <svg class="w-3 h-3 text-gray-800" fill="none" viewBox="0 0 6 10" stroke="currentColor" stroke-width="2">
+                                <path d="m1 9 4-4-4-4"/>
+                            </svg>
+                        </span>
+                    </button>
                 </div>
             </div>
-            <div class="flex-1 max-w-xl p-6 bg-white border border-gray-300 rounded-lg shadow-sm">
-                <div class="flex space-x-4">
-                    <div>
-                        <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900">Pinjam</h5>
-                        <p class="mb-3 text-lg font-normal text-gray-700">{{ $jumlahpinjam }} Buku dipinjam</p>
-                        <a href="/Admin/listpinjam" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                            lihat detail
-                            <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="flex-1 max-w-xl p-6 bg-white border border-gray-300 rounded-lg shadow-sm">
-                <div class="flex space-x-4">
-                    <div>
-                        <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900">Pengembalian</h5>
-                        <p class="mb-3 text-lg font-normal text-gray-700">{{ $pengembalian }} Buku dikembalikan</p>
-                        <a href="/Admin/listpengembalian" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                            lihat detail
-                            <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div> 
+        </div>                  
         <div class="p-2">
             <select id="chartOption" class="p-2 border rounded">
                 <option value="semua">Semua Data</option>
