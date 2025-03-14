@@ -41,7 +41,7 @@
     </style>
 </head>
 <body>
-    <div class="transition text-white h-screen relative bg-gradient-to-r from-blue-800 to-red-600">
+    <div class="transition text-white h-screen relative bg-gradient-to-r from-purple-400 to-cyan-300">
         <div class="bg-black/15 h-screen">
             <div class="max-sm:flex-col max-sm:justify-center flex justify-around items-center h-screen fade-up delay-200">
                 <img class="sm:hidden max-sm:h-16 max-md:h-20 max-lg:h-24 h-28" src="img/logo.png" alt="">

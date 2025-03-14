@@ -15,7 +15,7 @@
     <x-navbar></x-navbar>
     <div class="px-12 py-6 space-y-6 min-h-screen max-sm:p-2"> 
         <div class="flex items-center justify-between max-sm:flex-col max-sm:space-y-2">
-            <h1 class="max-sm:text-xl max-md:text-3xl font-semibold text-4xl">Pinjam</h1>
+            <h1 class="max-sm:text-xl max-md:text-3xl font-semibold text-4xl">Daftar Pinjam</h1>
             <x-sortirpilih type='User/pinjam'>Cari judul buku</x-sortirpilih>    
         </div>
         <div class="space-y-2">

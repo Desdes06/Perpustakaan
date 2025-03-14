@@ -1,11 +1,11 @@
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-<nav class="bg-gradient-to-r from-blue-800 to-red-600" x-data="{ isMenuOpen: false, isProfileOpen: false, isSettingOpen: false }">
+<nav class="bg-gradient-to-r from-purple-400 to-cyan-300" x-data="{ isMenuOpen: false, isProfileOpen: false, isSettingOpen: false }">
   <div class="max-w-full p-2 sm:px-6 lg:px-8 mx-5">
     <div class="relative flex max-sm:h-14 h-20 items-center justify-between">
       <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
         <!-- Mobile menu button -->
         <button type="button" @click="isMenuOpen = !isMenuOpen"
-          class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 sm:hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+          class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 sm:hover:bg-gray-700 hover:text-white"
           aria-controls="mobile-menu"
           :aria-expanded="isMenuOpen"
         >
@@ -16,7 +16,7 @@
             fill="none"
             viewBox="0 0 24 24"
             stroke-width="1.5"
-            stroke="currentColor"
+            stroke="black"
             aria-hidden="true"
           >
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
@@ -27,7 +27,7 @@
             fill="none"
             viewBox="0 0 24 24"
             stroke-width="1.5"
-            stroke="currentColor"
+            stroke="black"
             aria-hidden="true"
           >
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -41,15 +41,12 @@
         <div class="absolute inset-x-0 flex justify-center">
           <div class="flex space-x-4 hidden sm:ml-6 sm:block">
             @php $currentRoute = request()->path(); @endphp
-            <a href="/User/beranda" class="text-sm font-medium {{ $currentRoute == 'User/beranda' ? 'text-gray-300' : 'text-white' }} hover:text-gray-300">
-                Beranda
-            </a>
-            <a href="/User/buku" class="text-sm font-medium {{ $currentRoute == 'User/buku' ? 'text-gray-300' : 'text-white' }} hover:text-gray-300">
-              Buku
-            </a>
-            <a href="/User/pinjam" class="text-sm font-medium {{ $currentRoute == 'User/pinjam' ? 'text-gray-300 underline-offset-8' : 'text-white' }} hover:text-gray-300">
-                Pinjam
-            </a>
+            <a href="/User/beranda" class="text-md font-medium {{ $currentRoute == 'User/beranda' ? 'underline underline-offset-8' : 'text-black' }} hover:text-gray-600">
+                Beranda</a>
+            <a href="/User/buku" class="text-md font-medium {{ $currentRoute == 'User/buku' ? 'underline underline-offset-8' : 'text-black' }} hover:text-gray-600">
+              Daftar Buku</a>
+            <a href="/User/pinjam" class="text-md font-medium {{ $currentRoute == 'User/pinjam' ? 'underline underline-offset-8' : 'text-black' }} hover:text-gray-600">
+                Daftar Pinjam</a>
           </div>
         </div>
       </div>
@@ -65,7 +62,7 @@
         <div class="sm:hidden">
           <a href="/Auth/profile">
             <button type="button"
-              class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+              class="relative flex rounded-full bg-gray-800 text-sm"
             >
             @if ($user->foto)
               <img src="{{ asset('storage/' . $user->foto) }}" alt="Foto Profil" class="h-10 w-auto rounded-full">
@@ -80,7 +77,7 @@
         <div class="relative ml-3 max-sm:hidden">
           <div>
             <button type="button" @click="isProfileOpen = !isProfileOpen"
-              class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+              class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-cyan-300"
               id="user-menu-button"
               :aria-expanded="isProfileOpen"
               aria-haspopup="true"
@@ -107,7 +104,7 @@
             aria-labelledby="user-menu-button"
             tabindex="-1">
             <div class="flex items-center p-2">
-                <div class="bg-gradient-to-r from-blue-800 to-red-600 w-full rounded-md p-4 flex max-sm:flex-col items-center space-x-4">
+                <div class="bg-gradient-to-r from-purple-400 to-cyan-300 w-full rounded-md p-4 flex max-sm:flex-col items-center space-x-4">
                   @if ($user->foto)
                     <img src="{{ asset('storage/' . $user->foto) }}" alt="Foto Profil" class="max-sm:h-14 h-20 w-auto rounded-full">
                   @else
@@ -175,9 +172,9 @@
     <div x-show="isMenuOpen"
     @click.away="isMenuOpen = false" 
     class="space-y-1 px-2 pb-3 pt-2">
-      <a href="/User/beranda" class="max-sm:text-sm block px-3 py-2 text-base font-medium text-white hover:text-gray-400" aria-current="page">Beranda</a>
-      <a href="/User/buku" class="max-sm:text-sm block px-3 py-2 text-base font-medium text-white hover:text-gray-400">Buku</a>
-      <a href="/User/pinjam" class="max-sm:text-sm block px-3 py-2 text-base font-medium text-white hover:text-gray-400">Pinjam</a>
+      <a href="/User/beranda" class="max-sm:text-sm block px-3 py-2 text-base font-medium text-black hover:text-gray-600" aria-current="page">Beranda</a>
+      <a href="/User/buku" class="max-sm:text-sm block px-3 py-2 text-base font-medium text-black hover:text-gray-600">Daftar Buku</a>
+      <a href="/User/pinjam" class="max-sm:text-sm block px-3 py-2 text-base font-medium text-black hover:text-gray-600">Daftar Pinjam</a>
     </div>
   </div>
 </nav>

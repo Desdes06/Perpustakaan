@@ -19,7 +19,7 @@
         </div>
         @if($riwayat->isEmpty())
         <div class="items-center">
-            <p class="text-center text-xl">Belum ada riwayat peminjaman</p>
+            <p class="text-center text-xl">Tidak ada riwayat</p>
             <img class="p-12 mx-auto h-[60vh] w-auto hover:scale-105 transition-transform duration-300" src="{{ asset('img/d_art2.png')}}" alt="">
         </div>
         @else
@@ -28,21 +28,21 @@
             <div class="bg-[#413C88]/20 hover:shadow-xl">
                 <a href="{{ route('User.detail', ['id' => $r->buku->id]) }}">
                     <div class="flex h-full">
-                        <div class="h-auto w-1/4">
+                        <div class="h-full w-1/4">
                             @if($r->buku->foto)
                                 <img src="{{ asset('storage/' . $r->buku->foto) }}" alt="Cover Buku" class="w-full object-cover">
                             @else
-                                <div class="w-full h-full max-sm:h-32 max-md:h-60 bg-gray-400 flex justify-center items-center flex-col">
+                                <div class="w-full h-full bg-gray-400 flex justify-center items-center flex-col">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-card-image" viewBox="0 0 16 16">
                                         <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
                                         <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54L1 12.5v-9a.5.5 0 0 1 .5-.5z"/>
                                     </svg>
-                                    <p class="text-center text-white text-sm">Tidak Memiliki Cover</p>
+                                    <p class="text-center text-white text-xs">Tidak Memiliki Cover</p>
                                 </div>
                             @endif
                         </div>
-                        <div class="p-2 max-sm:p-1 w-3/4 h-auto flex flex-col justify-between">
-                            <container>
+                        <div class="p-2 max-sm:p-2 w-3/4 h-auto flex flex-col justify-between">
+                            <container class="">
                                 <div class="flex justify-between items-center">
                                     <h3 class="max-sm:text-sm font-semibold text-lg">{{ Str::limit($r->buku->judul_buku,'10') }}</h3>
                                     <p class="max-sm:text-sm text-md text-gray-700">{{ $r->tanggal_pinjam }}</p>

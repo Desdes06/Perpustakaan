@@ -14,7 +14,7 @@
     <x-navbar></x-navbar>
     <div class="px-12 py-6 space-y-6 min-h-screen max-sm:p-2">
         <div class="flex justify-between items-center max-sm:flex-col max-sm:space-y-2">
-            <h1 class="max-sm:text-xl max-md:text-3xl font-semibold text-4xl">Buku</h1>
+            <h1 class="max-sm:text-xl max-md:text-3xl font-semibold text-4xl">Daftar Buku</h1>
             <x-sortirpilih type='User/buku'>Cari judul buku</x-sortirpilih>
         </div>
         @if($bukuuser->isEmpty())

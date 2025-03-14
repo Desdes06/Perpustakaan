@@ -11,7 +11,7 @@
 </head>
 <body>
     <div class="flex max-md:flex-col max-md:justify-center max-md:h-screen max-md:items-center max-sm:mx-2 max-md:mx-20">
-        <div class="max-md:hidden bg-gradient-to-r from-blue-800 to-red-600 h-screen max-lg:w-1/2 w-3/5 relative text-white">
+        <div class="max-md:hidden bg-gradient-to-r from-purple-400 to-cyan-300 h-screen max-lg:w-1/2 w-3/5 relative text-white">
             <div class="bg-black/15 h-screen p-9">
                 <a href="/">
                     <svg xmlns="http://www.w3.org/2000/svg" 
