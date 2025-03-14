@@ -41,14 +41,29 @@ npm run dev
 ```
 ##  CSS 
 
-
-
 ```
 npm install
 ```
 
 catatan :
 node versi v21.6.1
+
+##  DB RUN Seeder
+
+```
+php artisan db:seed --class=Roleseeder
+```
+```
+php artisan db:seed --class=Adminseeder
+```
+```
+php artisan db:seed --class=Kategoriseeder
+```
+```
+php artisan db:seed --class=Penerbitseeder
+```
+
+
 
 <!-- ## Laravel Sponsors
 
