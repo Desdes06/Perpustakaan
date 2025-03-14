@@ -334,19 +334,6 @@ class BukuController extends Controller
         $path = explode('/', $currentPath)[0] . '/' . explode('/', $currentPath)[1];
         
         switch ($path) {
-            case 'Admin/listbuku':
-                $buku = Buku::with(['kategori','penerbit'])
-                            ->when($search, fn($query) => $query->where('judul_buku', 'like', "%{$search}%"))
-                            ->when($filter, fn($query) => $query->where('id_kategori', $filter)->orWhere('penulis', $filter))
-                            ->when(request('bulan'), function ($query) {
-                                return $query->whereMonth('created_at', request('bulan'))
-                                            ->whereYear('created_at', request('tahun', date('Y')));
-                            })
-                            ->latest('created_at')
-                            ->paginate(50);
-            
-                return view('Admin.listbuku', compact('buku'));
-
             case 'User/buku':
                 $bukuuser = Buku::with(['kategori','penerbit'])
                     ->when($search, function ($query) use ($search) {
@@ -364,7 +351,7 @@ class BukuController extends Controller
                 return view('User.buku', compact('bukuuser'));                
 
             case 'User/pinjam':
-                $pinjam = Pinjam::with(['buku', 'user'])
+                $pinjam = Pinjam::with(['buku.kategori', 'user'])
                     ->where('id_user', Auth::id())
                     ->where('status_buku', 'dipinjam') 
                     ->when($search, function ($query) use ($search) {
@@ -383,49 +370,69 @@ class BukuController extends Controller
             
                 return view('User.pinjam', compact('pinjam'));
 
-            case 'Admin/listpinjam':
-                $pinjam = Pinjam::with(['buku', 'user'])
-                    ->when($search, function ($query) use ($search) {
-                        $normalizedSearch = str_replace(' ', '', strtolower($search));
+                case 'Admin/listbuku':
+                    $buku = Buku::with(['kategori','penerbit'])
+                                ->when($search, fn($query) => $query->where('judul_buku', 'like', "%{$search}%"))
+                                ->when($filter, fn($query) => $query->where('id_kategori', $filter)->orWhere('penulis', $filter))
+                                ->when(request('bulan'), function ($query) {
+                                    return $query->whereMonth('created_at', request('bulan'))
+                                                ->whereYear('created_at', request('tahun', date('Y')));
+                                })
+                                ->latest('created_at')
+                                ->paginate(50);
+                
+                    return view('Admin.listbuku', compact('buku'));
 
-                        return $query->whereHas('buku', function ($q) use ($normalizedSearch) {
-                            $q->whereRaw("REPLACE(LOWER(judul_buku), ' ', '') LIKE ?", ["%{$normalizedSearch}%"])
-                            ->orWhereRaw("REPLACE(LOWER(status_buku), ' ', '') LIKE ?", ["%{$normalizedSearch}%"]);
-                        });
-                    })
-                    ->when($filter, function ($query) use ($filter) {
-                        return $query->whereHas('buku', function ($q) use ($filter) {
-                            $q->where('id_kategori', $filter)
-                            ->orWhere('penulis', $filter);
-                        });
-                    })
-                    ->when(request('bulan'), function ($query) {
-                        return $query->whereMonth('created_at', request('bulan'))
-                                    ->whereYear('created_at', request('tahun', date('Y')));
-                    })
-                    ->latest('created_at')
-                    ->paginate(50);
-            
-                return view('Admin.listpinjam', compact('pinjam'));                
+                case 'Admin/listpinjam':
+                    $pinjam = Pinjam::with(['buku.kategori', 'user'])
+                        ->when($search, function ($query, $search) {
+                            return $query->whereHas('buku', function ($q) use ($search) {
+                                $q->whereRaw("LOWER(judul_buku) LIKE ?", ["%".strtolower($search)."%"])
+                                  ->orWhereRaw("LOWER(status_buku) LIKE ?", ["%".strtolower($search)."%"]);
+                            });
+                        })
+                        ->when($filter, function ($query, $filter) {
+                            return $query->whereHas('buku', function ($q) use ($filter) {
+                                $q->where('id_kategori', $filter);
+                            });
+                        })
+                        ->when($filter, function ($query, $filter) {
+                            return $query->orWhereHas('buku', function ($q) use ($filter) {
+                                $q->where('penulis', $filter);
+                            });
+                        })
+                        ->when(request('bulan'), function ($query, $bulan) {
+                            return $query->whereMonth('created_at', $bulan);
+                        })
+                        ->when(request('tahun'), function ($query, $tahun) {
+                            return $query->whereYear('created_at', $tahun);
+                        })
+                        ->latest('created_at')
+                        ->paginate(50);                
+                
+                return view('Admin.listpinjam', compact('pinjam'));                                
 
-            case 'Admin/listpengembalian':
-                $pengembalian = Pengembalian::with(['buku', 'user'])
-                    ->when($search, function ($query) use ($search) {
-                        return $query->whereHas('buku', function ($q) use ($search) {
-                            $q->where('judul_buku', 'like', "%{$search}%");
-                        });
-                    })
-                    ->when($filter, function ($query) use ($filter) {
-                        return $query->whereHas('buku', function ($q) use ($filter) {
-                            $q->where('id_kategori', $filter)->orWhere('penulis', $filter);
-                        });
-                    })
-                    ->when(request('bulan'), function ($query) {
-                        return $query->whereMonth('created_at', request('bulan'))
-                                     ->whereYear('created_at', request('tahun', date('Y')));
-                    })
-                    ->latest('created_at')
-                    ->paginate(50);
+                case 'Admin/listpengembalian':
+                    $pengembalian = Pengembalian::with(['buku.kategori', 'user'])
+                        ->when($search, function ($query) use ($search) {
+                            return $query->whereHas('buku', function ($q) use ($search) {
+                                $q->where('judul_buku', 'like', "%{$search}%");
+                            });
+                        })
+                        ->when($filter, function ($query) use ($filter) {
+                            return $query->whereHas('buku', function ($q) use ($filter) {
+                                $q->where('id_kategori', $filter)
+                                    ->orWhere('penulis', $filter);
+                            });
+                        })
+                        ->when(request('bulan'), function ($query, $bulan) {
+                            return $query->whereMonth('created_at', $bulan);
+                        })
+                        ->when(request('tahun'), function ($query, $tahun) { 
+                            return $query->whereYear('created_at', $tahun);
+                        })
+                        ->latest('created_at')
+                        ->paginate(50);                
                 
             return view('Admin.listpengembalian', compact('pengembalian'));
         }

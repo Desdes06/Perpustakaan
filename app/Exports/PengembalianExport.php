@@ -19,28 +19,26 @@ class PengembalianExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        $query = Pengembalian::with(['user', 'buku']);
+        $query = Pengembalian::query()->with(['user', 'buku.kategori']);
 
-        // Terapkan filter jika ada bulan dan tahun
-        if ($this->bulan && $this->tahun) {
-            $query->whereMonth('created_at', $this->bulan)
-                  ->whereYear('created_at', $this->tahun);
-        }
+        $query->when($this->bulan, fn($q) => $q->whereMonth('created_at', $this->bulan))
+              ->when($this->tahun, fn($q) => $q->whereYear('created_at', $this->tahun));
 
         return $query->get()->map(function ($pengembalian) {
             return [
-                'Judul Buku'   => $pengembalian->buku->judul_buku,
-                'Kategori'     => $pengembalian->buku->kategori->nama_kategori,
-                'Penulis'      => $pengembalian->buku->penulis,
-                'Peminjam'     => $pengembalian->user->username,
-                'Email'        => $pengembalian->user->email,
-                'Tanggal Pinjam' => $pengembalian->created_at->format('Y-m-d'),
+                'Judul Buku'   => optional($pengembalian->buku)->judul_buku ?? 'Tidak ada',
+                'Kategori'     => optional($pengembalian->buku->kategori)->nama_kategori ?? 'Tidak ada',
+                'Penulis'      => optional($pengembalian->buku)->penulis ?? 'Tidak ada',
+                'Pengembali'   => optional($pengembalian->user)->username ?? 'Tidak ada',
+                'Email'        => optional($pengembalian->user)->email ?? '-',
+                'ISBN'         => optional($pengembalian->buku)->isbn ?? '-',
+                'Tanggal Pengembalian' => $pengembalian->created_at->format('Y-m-d'),
             ];
         });
     }
 
     public function headings(): array
     {
-        return ['Judul Buku', 'Kategori', 'Penulis', 'Pengembali', 'Email', 'Tanggal Pengembalian'];
+        return ['Judul Buku', 'Kategori', 'Penulis', 'Pengembali', 'Email', 'ISBN', 'Tanggal Pengembalian'];
     }
 }

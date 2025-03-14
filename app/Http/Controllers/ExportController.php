@@ -15,7 +15,7 @@ class ExportController extends Controller
     public function exportpinjam(Request $request)
     {
         $bulan = $request->query('bulan');
-        $tahun = $request->query('tahun', date('Y'));
+        $tahun = $request->query('tahun');
 
         return Excel::download(new PinjamExport($bulan, $tahun), 'list-pinjam.xlsx');
     }
@@ -23,7 +23,7 @@ class ExportController extends Controller
     public function exportpengembalian(Request $request)
     {
         $bulan = $request->query('bulan');
-        $tahun = $request->query('tahun', date('Y'));
+        $tahun = $request->query('tahun');
 
         return Excel::download(new PengembalianExport($bulan, $tahun), 'list-pengembalian.xlsx');
     }
@@ -31,19 +31,22 @@ class ExportController extends Controller
     public function pdfpinjam(Request $request)
     {
         $bulan = $request->query('bulan');
-        $tahun = $request->query('tahun', date('Y'));
+        $tahun = $request->query('tahun');
 
         $query = Pinjam::with(['user', 'buku']);
 
-        if ($bulan && $tahun) {
-            $query->whereMonth('created_at', $bulan)
-                ->whereYear('created_at', $tahun);
+        if ($tahun) {
+            $query->whereYear('created_at', $tahun);
+        }
+
+        if ($bulan) {
+            $query->whereMonth('created_at', $bulan);
         }
 
         $pinjamData = $query->get();
 
         $pdf = app('dompdf.wrapper');
-        $pdf->loadView('export.pinjam', ['pinjam' => $pinjamData]);
+        $pdf->loadView('export.pinjam', ['pinjam' => $pinjamData])->setPaper('a4','landscape');
 
         return $pdf->download('list-peminjaman.pdf');
     }
@@ -51,20 +54,24 @@ class ExportController extends Controller
     public function pdfpengembalian(Request $request)
     {
         $bulan = $request->query('bulan');
-        $tahun = $request->query('tahun', date('Y'));
+        $tahun = $request->query('tahun');
 
         $query = Pengembalian::with(['user', 'buku']);
 
-        if ($bulan && $tahun) {
-            $query->whereMonth('created_at', $bulan)
-                ->whereYear('created_at', $tahun);
+        if ($tahun) {
+            $query->whereYear('created_at', $tahun);
         }
 
-        $pinjamData = $query->get();
+        if ($bulan) {
+            $query->whereMonth('created_at', $bulan);
+        }
+
+        $pengembalianData = $query->get();
 
         $pdf = app('dompdf.wrapper');
-        $pdf->loadView('export.pengembalian', ['pengembalian' => $pinjamData]);
+        $pdf->loadView('export.pengembalian', ['pengembalian' => $pengembalianData])->setPaper('a4', 'landscape');
 
         return $pdf->download('list-pengembalian.pdf');
     }
+
 }

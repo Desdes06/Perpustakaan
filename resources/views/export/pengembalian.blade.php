@@ -37,6 +37,7 @@
                 <th>Penulis</th>
                 <th>Pengembali</th>
                 <th>Email</th>
+                <th>ISBN</th>
                 <th>Tanggal Pengembalian</th>
             </tr>
         </thead>
@@ -48,6 +49,7 @@
                     <td>{{ $item->buku->penulis }}</td>
                     <td>{{ $item->user->username }}</td>
                     <td>{{ $item->user->email }}</td>
+                    <td>{{ $item->buku->isbn }}</td>
                     <td>{{ $item->created_at->format('Y-m-d') }}</td>
                 </tr>
             @endforeach

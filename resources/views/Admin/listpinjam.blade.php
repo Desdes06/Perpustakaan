@@ -20,24 +20,45 @@
             <x-sortirpilih type='Admin/listpinjam'>Cari</x-sortirpilih>
         </div>
         <div class="flex space-x-2 mb-4">
-            <a href="{{ route('admin.listpinjam') }}"
-                class="px-4 py-2 rounded-lg text-sm font-medium transition
-                {{ request()->is('Admin/listpinjam*') && !request('bulan') ? 'bg-gray-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-500 hover:text-white' }}">
-                Semua Buku
-            </a>
             @php
                 use Carbon\Carbon;
                 Carbon::setLocale('id');
             @endphp
-            
-            @foreach(range(1, 12) as $m)
-                <a href="{{ route('admin.listpinjam', ['bulan' => $m, 'tahun' => request('tahun', date('Y'))]) }}"
-                    class="px-4 py-2 rounded-lg text-sm font-medium 
-                        {{ request('bulan') == $m ? 'bg-gray-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-500 hover:text-white' }}">
-                    {{ ucfirst(Carbon::createFromFormat('m', $m)->translatedFormat('F')) }}
-                </a>
-            @endforeach
-        </div>
+        
+            <form action="{{ route('admin.listpinjam') }}" method="GET">
+                <select name="tahun" id="tahun"
+                    class="px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300 hover:text-gray-500"
+                    onchange="this.form.submit()">
+                    <option value="{{ request('tahun') ? '' : 'selected' }}">Semua Tahun</option>
+                    @for ($i = date('Y'); $i >= 2000; $i--)
+                        <option value="{{ $i }}" {{ $i == request('tahun') ? 'selected' : '' }}>
+                            {{ $i }}
+                        </option>
+                    @endfor
+                </select>
+        
+                @if(request('bulan'))
+                    <input type="hidden" name="bulan" value="{{ request('bulan') }}">
+                @endif
+            </form>
+        
+            <form action="{{ route('admin.listpinjam') }}" method="GET">
+                <select name="bulan" id="bulan"
+                    class="px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300 hover:text-gray-500"
+                    onchange="this.form.submit()">
+                    <option value="{{ request('bulan') ? '' : 'selected' }}">Semua Bulan</option>
+                    @foreach(range(1, 12) as $m)
+                        <option value="{{ $m }}" {{ request('bulan') == $m ? 'selected' : '' }}>
+                            {{ ucfirst(Carbon::createFromFormat('m', $m)->translatedFormat('F')) }}
+                        </option>
+                    @endforeach
+                </select>
+        
+                @if(request('tahun'))
+                    <input type="hidden" name="tahun" value="{{ request('tahun') }}">
+                @endif
+            </form>
+        </div>       
         @if(session()->has('success'))
             <div id="alert-border" class="flex items-center p-4 mb-4 text-green-800 border border-green-300 rounded-lg bg-green-50" role="alert">
                 <svg class="flex-shrink-0 w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -69,7 +90,7 @@
                     </div>
                     <div class="flex space-x-1 items-center">
                         <img class="h-8" src="{{ asset('img/pdf.png') }}" alt="">
-                        <a href="{{ route('admin.export.pinjam.pdf', ['bulan' => request('bulan'), 'tahun' => request('tahun', date('Y'))]) }}" class="text-sm hover:text-red-500">
+                        <a href="{{ route('admin.export.pinjam.pdf', ['bulan' => request('bulan'), 'tahun' => request('tahun')]) }}" class="text-sm hover:text-red-500">
                             Export pdf
                         </a>  
                     </div>

@@ -19,29 +19,27 @@ class PinjamExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        $query = Pinjam::with(['user', 'buku']);
-
-        // Terapkan filter jika ada bulan dan tahun
-        if ($this->bulan && $this->tahun) {
-            $query->whereMonth('created_at', $this->bulan)
-                  ->whereYear('created_at', $this->tahun);
-        }
+        $query = Pinjam::with(['user', 'buku.kategori'])
+                       ->when($this->bulan, fn($q) => $q->whereMonth('created_at', $this->bulan))
+                       ->when($this->tahun, fn($q) => $q->whereYear('created_at', $this->tahun))
+                       ->latest('created_at');
 
         return $query->get()->map(function ($pinjam) {
             return [
-                'Judul Buku'   => $pinjam->buku->judul_buku,
-                'Kategori'     => $pinjam->buku->kategori->nama_kategori,
-                'Penulis'      => $pinjam->buku->penulis,
-                'Peminjam'     => $pinjam->user->username,
-                'Email'        => $pinjam->user->email,
+                'Judul Buku'   => optional($pinjam->buku)->judul_buku ?? 'Tidak ada',
+                'Kategori'     => optional($pinjam->buku->kategori)->nama_kategori ?? 'Tidak ada',
+                'Penulis'      => optional($pinjam->buku)->penulis ?? 'Tidak ada',
+                'Peminjam'     => optional($pinjam->user)->username ?? 'Tidak ada',
+                'Email'        => optional($pinjam->user)->email ?? '-',
+                'ISBN'         => optional($pinjam->buku)->isbn ?? '-',
                 'Tanggal Pinjam' => $pinjam->created_at->format('Y-m-d'),
-                'Status Buku' => $pinjam->status_buku
+                'Status Buku'  => $pinjam->status_buku ?? '-',
             ];
         });
     }
 
     public function headings(): array
     {
-        return ['Judul Buku', 'Kategori', 'Penulis', 'Peminjam', 'Email', 'Tanggal Pinjam', 'Status Buku'];
+        return ['Judul Buku', 'Kategori', 'Penulis', 'Peminjam', 'Email', 'ISBN', 'Tanggal Pinjam', 'Status Buku'];
     }
 }

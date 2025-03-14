@@ -37,6 +37,7 @@
                 <th>Penulis</th>
                 <th>Peminjam</th>
                 <th>Email</th>
+                <th>ISBN</th>
                 <th>Tanggal Pinjam</th>
                 <th>status</th>
             </tr>
@@ -49,6 +50,7 @@
                     <td>{{ $item->buku->penulis }}</td>
                     <td>{{ $item->user->username }}</td>
                     <td>{{ $item->user->email }}</td>
+                    <td>{{ $item->buku->isbn }}</td>
                     <td>{{ $item->created_at->format('Y-m-d') }}</td>
                     <td>{{ $item->status_buku }}</td>
                 </tr>
