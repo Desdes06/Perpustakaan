@@ -26,7 +26,7 @@ class UserViewController extends Controller
 
         // Mengambil semua buku dengan paginasi 6 per halaman
         $buku = Buku::with('kategori')
-                    ->paginate(6);
+                    ->get();
 
         return view('User.dashboard', compact('buku', 'bukuTerbaru', 'tanggalSekarang'));
     }
