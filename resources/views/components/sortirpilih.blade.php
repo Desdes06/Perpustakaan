@@ -3,12 +3,12 @@
   <div class="flex">
       <button id="dropdown-button" data-dropdown-toggle="dropdown" class="shrink-0 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100" type="button">
           Filter
-      <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-      </svg>
+        <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+        </svg>
       </button>
-    <div id="dropdown" class="z-10 hidden bg-white rounded-md shadow-md w-44 dark:bg-gray-700 h-80 overflow-y-auto">
-        @if($type === 'Admin/anggota')
+    @if($type === 'Admin/anggota')
+        <div id="dropdown" class="z-10 hidden bg-white rounded-md shadow-md w-44 dark:bg-gray-700 h-auto">
             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-button">
                 <li>
                     <a href="/{{ $type }}">
@@ -18,40 +18,42 @@
                     </a>
                 </li>
             </ul>
-        @else
-            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-button">
-                <h1 class="font-bold px-4">KATEGORI</h1>
+        </div>
+    @else
+    <div id="dropdown" class="z-10 hidden bg-white rounded-md shadow-md w-44 dark:bg-gray-700 h-80 overflow-y-auto">
+        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-button">
+            <h1 class="font-bold px-4">KATEGORI</h1>
+            <li>
+                <a href="/{{ $type }}">
+                    <button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                        Semua Kategori
+                    </button>
+                </a>
+            </li>
+            @foreach($kategori as $kategori)
                 <li>
-                    <a href="/{{ $type }}">
+                    <a href="/{{ $type }}/{{ $kategori->id }}">
                         <button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                            Semua Kategori
+                            {{ $kategori->nama_kategori }}
                         </button>
                     </a>
                 </li>
-                @foreach($kategori as $kategori)
-                    <li>
-                        <a href="/{{ $type }}/{{ $kategori->id }}">
-                            <button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                {{ $kategori->nama_kategori }}
-                            </button>
-                        </a>
-                    </li>
-                @endforeach
-            </ul>
-            <ul class="text-sm text-gray-700" aria-labelledby="dropdown-button">
-                <h1 class="font-bold px-4">PENULIS</h1>
-                @foreach($buku->pluck('penulis')->unique() as $penulis)
-                    <li>
-                        <a href="/{{ $type }}/{{ $penulis }}">
-                            <button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                {{ $penulis }}
-                            </button>
-                        </a>
-                    </li>
-                @endforeach
-            </ul>
-        @endif
-    </div>    
+            @endforeach
+        </ul>
+        <ul class="text-sm text-gray-700" aria-labelledby="dropdown-button">
+            <h1 class="font-bold px-4">PENULIS</h1>
+            @foreach($buku->pluck('penulis')->unique() as $penulis)
+                <li>
+                    <a href="/{{ $type }}/{{ $penulis }}">
+                        <button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                            {{ $penulis }}
+                        </button>
+                    </a>
+                </li>
+            @endforeach
+        </ul>
+    </div>
+    @endif    
       <div class="relative w-screen">
         <form action="/{{ $type }}/search" method="GET">
           <div class="relative">
