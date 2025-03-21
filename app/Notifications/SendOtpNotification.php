@@ -39,7 +39,6 @@ class SendOtpNotification extends Notification
                     ->subject('Kode Verifikasi')
                     ->line('Gunakan kode berikut untuk verifikasi akun Anda:')
                     ->line('**' . $this->otp . '**')
-                    ->line('Kode ini berlaku selama 10 menit.')
                     ->line('Jika Anda tidak mendaftar, abaikan email ini.');
     }
 

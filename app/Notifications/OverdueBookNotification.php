@@ -28,7 +28,7 @@ class OverdueBookNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail']; // Hanya kirim melalui email
+        return ['mail'];
     }
 
     /**
