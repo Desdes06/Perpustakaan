@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Middleware\HasAdminMiddleware;
@@ -115,3 +116,4 @@ Route::group(['prefix'=>'Auth', 'middleware' => ['guest']], function(){
 // kode otp
 Route::get('/email/verify', [VerificationController::class, 'show'])->name('verification.show')->middleware('guest');
 Route::post('/email/verify', [VerificationController::class, 'verify'])->name('verification.verify')->middleware('guest');
+Route::post('/resend-otp', [RegistrasiController::class, 'resendOtp'])->name('verification.resend')->middleware('guest');

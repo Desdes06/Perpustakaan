@@ -41,4 +41,24 @@ class RegistrasiController extends Controller
 
         return redirect()->route('verification.show', ['email' => $user->email]);
     }
+
+    public function resendOtp(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'Email tidak ditemukan.');
+        }
+
+        $otp = rand(100000, 999999);
+        $user->update(['otp' => $otp]);
+
+        $user->notify(new SendOtpNotification($otp));
+
+        return redirect()->back()->with('success', 'Kode OTP telah dikirim ulang.');
+    }
 }

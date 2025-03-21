@@ -39,14 +39,64 @@
             </button>
         </form>
 
-        {{-- <div class="mt-4 text-center">
+        <div class="mt-4 text-center">
             <p class="text-sm text-gray-600">Tidak menerima OTP? 
-                <a href="{{ route('verification.resend') }}" 
-                   class="font-medium text-blue-600 hover:underline">
-                   Kirim Ulang
-                </a>
+                <form method="POST" action="{{ route('verification.resend') }}" class="inline" id="resendForm">
+                    @csrf
+                    <input type="hidden" name="email" value="{{ request('email') }}">
+                    <button type="submit" id="resendButton" class="font-medium text-blue-600 hover:underline">
+                        Kirim Ulang
+                    </button>
+                </form>
             </p>
-        </div> --}}
+            <p id="countdownText" class="text-sm text-gray-500 mt-2 hidden"></p>
+        </div>        
     </div>
 </body>
 </html>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const resendButton = document.getElementById("resendButton");
+        const countdownText = document.getElementById("countdownText");
+        const cooldownTime = 25;
+        const cooldownKey = "otpCooldown";
+
+        function startCooldown(remainingTime) {
+            resendButton.disabled = true;
+            resendButton.classList.add("opacity-50", "cursor-not-allowed");
+            countdownText.classList.remove("hidden");
+
+            const interval = setInterval(() => {
+                countdownText.textContent = `Tunggu ${remainingTime} detik untuk kirim ulang`;
+                remainingTime--;
+
+                localStorage.setItem(cooldownKey, Date.now() + remainingTime * 1000);
+
+                if (remainingTime < 0) {
+                    clearInterval(interval);
+                    resendButton.disabled = false;
+                    resendButton.classList.remove("opacity-50", "cursor-not-allowed");
+                    countdownText.classList.add("hidden");
+                    localStorage.removeItem(cooldownKey);
+                }
+            }, 1000);
+        }
+
+        const savedCooldown = localStorage.getItem(cooldownKey);
+        if (savedCooldown) {
+            const remainingTime = Math.floor((savedCooldown - Date.now()) / 1000);
+            if (remainingTime > 0) {
+                startCooldown(remainingTime);
+            }
+        }
+
+        document.getElementById("resendForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const now = Date.now();
+            localStorage.setItem(cooldownKey, now + cooldownTime * 1000);
+            startCooldown(cooldownTime);
+            this.submit();
+        });
+    });
+</script>
