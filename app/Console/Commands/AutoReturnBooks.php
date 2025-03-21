@@ -25,19 +25,19 @@ class AutoReturnBooks extends Command
                             ->get();
 
         foreach ($peminjaman as $pinjam) {
-            // Ambil data user dan buku
+
             $user = User::find($pinjam->id_user);
             $buku = Buku::find($pinjam->id_buku);
 
             if ($user && $buku) {
-                // Tambahkan ke tabel pengembalian
+
                 Pengembalian::create([
                     'id_buku' => $pinjam->id_buku,
                     'id_user' => $pinjam->id_user,
                     'tanggal_pengembalian' => $today,
                 ]);
 
-                // Tambahkan ke riwayat
+
                 Riwayat::create([
                     'id_buku' => $pinjam->id_buku,
                     'id_user' => $pinjam->id_user,
@@ -45,11 +45,9 @@ class AutoReturnBooks extends Command
                     'tanggal_kembali' => $today,
                 ]);
 
-                // Update status buku
                 $pinjam->update(['status_buku' => 'dikembalikan']);
 
-                // Kirim notifikasi ke email user
-                $user->notify(new OverdueBookNotification($buku->judul, $today));
+                $user->notify(new OverdueBookNotification($buku->judul_buku, $today));
             }
         }
 
