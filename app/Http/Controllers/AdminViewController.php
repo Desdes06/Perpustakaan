@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Buku;
 use App\Models\Pengembalian;
+use App\Models\Pesans;
 use App\Models\Pinjam;
 use App\Models\User;
 use Carbon\Carbon;
@@ -64,5 +65,27 @@ class AdminViewController extends Controller
 
     public function anggota(){
         return view('Admin.anggota');
+    }
+
+    public function pesanadmin(){
+
+        $message = Pesans::with('user')->get();
+
+        return view('Admin.pesanadmin', compact('message'));
+    }
+
+    public function deletepesan($id){
+
+        $message = Pesans::find($id);
+
+        $message->delete();
+
+        return back()->with('success', 'Pesan berhasil dihapus.');
+    }
+
+    public function hapusSemuaPesan()
+    {
+        Pesans::truncate();
+        return redirect()->back()->with('success', 'Semua pesan berhasil dihapus.');
     }
 }

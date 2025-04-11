@@ -19,7 +19,7 @@
         </div>
         <div class="space-y-12 pb-12">
             <div class="flex justify-around items-center space-x-2 max-sm:space-x-0 px-20 max-sm:px-0">
-                <div class="max-lg:hidden p-6 rounded-lg shadow-md w-3/5 h-96 bg-[#413C88]">
+                <div class="max-lg:hidden p-6 rounded-lg shadow-md w-3/5 h-96 bg-gradient-to-r from-purple-600 to-red-300">
                     <h1 class="text-2xl text-white">Kalender</h1>
                     <div class="flex space-x-2 pt-2">
                         <div class="text-white text-4xl font-bold">{{ $tanggalSekarang->isoFormat('dddd') }}</div>
@@ -33,18 +33,18 @@
                         <!-- Carousel wrapper -->
                         <div class="relative h-56 overflow-hidden rounded-lg md:h-96 z-0">
                             <!-- Item 1 -->
-                            <div class="hidden duration-700 ease-in-out bg-indigo-200" data-carousel-item>
+                            <div class="hidden duration-700 ease-in-out bg-red-200" data-carousel-item>
                                 <img src="{{ asset('img/d_art.png') }}" class="absolute block max-md:h-[25vh] h-[40vh] w-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                             </div>
                             <!-- Item 2 -->
-                            <div class="hidden duration-700 ease-in-out bg-indigo-200" data-carousel-item>
+                            <div class="hidden duration-700 ease-in-out bg-red-200" data-carousel-item>
                                 <img src="{{ asset('img/d_art2.png') }}" class="absolute block max-md:h-[25vh] h-[40vh] w-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                             </div>
                             <!-- Item 3 -->
-                            <div class="hidden duration-700 ease-in-out bg-indigo-200" data-carousel-item>
+                            <div class="hidden duration-700 ease-in-out bg-red-200" data-carousel-item>
                                 <img src="{{ asset('img/d_art3.png') }}" class="absolute block max-md:h-[25vh] h-[40vh] w-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                             </div>
-                            <div class="hidden duration-700 ease-in-out bg-indigo-200" data-carousel-item>
+                            <div class="hidden duration-700 ease-in-out bg-red-200" data-carousel-item>
                                 <img src="{{ asset('img/d_art4.png') }}" class="absolute block max-md:h-[25vh] h-[40vh] w-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                             </div>
                         </div>

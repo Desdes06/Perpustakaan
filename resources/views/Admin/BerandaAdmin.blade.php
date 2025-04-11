@@ -77,9 +77,9 @@
             </div>
         
             <!-- Bagian Carousel -->
-            <div class="w-full md:w-1/2">
+            <div class="w-full h-full md:w-1/2">
                 <div id="default-carousel" class="relative w-full" data-carousel="slide">
-                    <div class="relative h-40 md:h-64 overflow-hidden rounded-lg">
+                    <div class="relative h-full md:h-64 overflow-hidden rounded-lg">
                         <div class="hidden duration-700 ease-in-out bg-indigo-200" data-carousel-item>
                             <img src="{{ asset('img/d_art.png') }}" class="absolute block h-full w-auto left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
                         </div>

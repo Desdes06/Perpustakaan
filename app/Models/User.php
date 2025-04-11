@@ -66,4 +66,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Pinjam::class, 'id_user');
     }
+
+    public function pesan()
+    {
+        return $this->hasMany(Pesans::class);
+    }
 }

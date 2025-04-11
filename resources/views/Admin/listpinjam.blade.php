@@ -146,7 +146,7 @@
         @endif      
     </div>
     {{-- modal delete --}}
-    <div id="deleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
+    <div id="deleteModal" class="modal fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden z-50">
         <div class="relative bg-white rounded-lg shadow-lg max-w-md w-full m-4">
             <div class="p-6">
                 <h3 class="text-lg font-semibold mb-4">Konfirmasi Penghapusan</h3>

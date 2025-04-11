@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Buku;
+use App\Models\Pesans;
 use App\Models\Riwayat;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -55,5 +56,19 @@ class UserViewController extends Controller
         $riwayat = Riwayat::where('id_user', $userId)->paginate(12);
 
         return view('User.riwayat', compact('riwayat'));
+    }
+
+    public function pesan(){
+        return view('user.pesan');
+    }
+
+    public function kirimpesan(Request $request){
+
+        Pesans::create([
+            'user_id' => Auth::id(),
+            'pesan' => $request->pesan,
+        ]);
+
+        return redirect()->route('User.pesan')->with('succes', 'Pesan Terkirim');
     }
 }

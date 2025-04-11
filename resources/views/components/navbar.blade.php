@@ -1,5 +1,5 @@
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-<nav class="bg-gradient-to-r from-purple-400 to-cyan-300" x-data="{ isMenuOpen: false, isProfileOpen: false, isSettingOpen: false }">
+<nav class="bg-gradient-to-r from-purple-600 to-red-300" x-data="{ isMenuOpen: false, isProfileOpen: false, isSettingOpen: false }">
   <div class="max-w-full p-2 sm:px-6 lg:px-8 mx-5">
     <div class="relative flex max-sm:h-14 h-20 items-center justify-between">
       <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -41,12 +41,29 @@
         <div class="absolute inset-x-0 flex justify-center">
           <div class="flex space-x-4 hidden sm:ml-6 sm:block">
             @php $currentRoute = request()->path(); @endphp
-            <a href="/User/beranda" class="text-md font-medium {{ $currentRoute == 'User/beranda' ? 'underline underline-offset-8' : 'text-black' }} hover:text-gray-600">
-                Beranda</a>
-            <a href="/User/buku" class="text-md font-medium {{ $currentRoute == 'User/buku' ? 'underline underline-offset-8' : 'text-black' }} hover:text-gray-600">
-              Daftar Buku</a>
-            <a href="/User/pinjam" class="text-md font-medium {{ $currentRoute == 'User/pinjam' ? 'underline underline-offset-8' : 'text-black' }} hover:text-gray-600">
-                Daftar Pinjam</a>
+              <a href="/User/beranda" 
+                 class="relative text-md font-medium transition-colors duration-300 {{ $currentRoute == 'User/beranda' ? 'text-black' : 'text-gray-700 hover:text-black' }}">
+                  Beranda
+                  <span class="absolute bottom-[-4px] left-1/2 h-[2px] bg-black rounded-full transition-all duration-300 ease-in-out transform -translate-x-1/2
+                        {{ $currentRoute == 'User/beranda' ? 'w-full' : 'w-2 opacity-50' }}">
+                  </span>
+              </a>
+          
+              <a href="/User/buku" 
+                 class="relative text-md font-medium transition-colors duration-300 {{ $currentRoute == 'User/buku' ? 'text-black' : 'text-gray-700 hover:text-black' }}">
+                  Daftar Buku
+                  <span class="absolute bottom-[-4px] left-1/2 h-[2px] bg-black rounded-full transition-all duration-300 ease-in-out transform -translate-x-1/2
+                        {{ $currentRoute == 'User/buku' ? 'w-full' : 'w-2 opacity-50' }}">
+                  </span>
+              </a>
+          
+              <a href="/User/pinjam" 
+                 class="relative text-md font-medium transition-colors duration-300 {{ $currentRoute == 'User/pinjam' ? 'text-black' : 'text-gray-700 hover:text-black' }}">
+                  Daftar Pinjam
+                  <span class="absolute bottom-[-4px] left-1/2 h-[2px] bg-black rounded-full transition-all duration-300 ease-in-out transform -translate-x-1/2
+                        {{ $currentRoute == 'User/pinjam' ? 'w-full' : 'w-2 opacity-50' }}">
+                  </span>
+              </a>          
           </div>
         </div>
       </div>
@@ -77,7 +94,7 @@
         <div class="relative ml-3 max-sm:hidden">
           <div>
             <button type="button" @click="isProfileOpen = !isProfileOpen"
-              class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-cyan-300"
+              class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-purple-600"
               id="user-menu-button"
               :aria-expanded="isProfileOpen"
               aria-haspopup="true"
@@ -104,7 +121,7 @@
             aria-labelledby="user-menu-button"
             tabindex="-1">
             <div class="flex items-center p-2">
-                <div class="bg-gradient-to-r from-purple-400 to-cyan-300 w-full rounded-md p-4 flex max-sm:flex-col items-center space-x-4">
+                <div class="bg-gradient-to-r from-purple-600 to-red-300 w-full rounded-md p-4 flex max-sm:flex-col items-center space-x-4">
                   @if ($user->foto)
                     <img src="{{ asset('storage/' . $user->foto) }}" alt="Foto Profil" class="max-sm:h-14 h-20 w-auto rounded-full">
                   @else
@@ -127,23 +144,35 @@
                         x-transition:leave="transition ease-in duration-75 transform"
                         x-transition:leave-start="opacity-100 scale-100"
                         x-transition:leave-end="opacity-0 scale-95"
-                        class="absolute right-4 z-10 mt-16 w-auto origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
+                        class="absolute right-4 z-10 mt-28 w-auto origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
                         role="menu"
                         aria-orientation="vertical"
                         aria-labelledby="user-menu-button"
                         tabindex="-1">
-                        <a href="/User/riwayat">
-                          <div class="p-2 text-center">
-                            <button class="flex space-x-2">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black" class="bi bi-clock-history" viewBox="0 0 16 16">
-                                <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022zm2.004.45a7 7 0 0 0-.985-.299l.219-.976q.576.129 1.126.342zm1.37.71a7 7 0 0 0-.439-.27l.493-.87a8 8 0 0 1 .979.654l-.615.789a7 7 0 0 0-.418-.302zm1.834 1.79a7 7 0 0 0-.653-.796l.724-.69q.406.429.747.91zm.744 1.352a7 7 0 0 0-.214-.468l.893-.45a8 8 0 0 1 .45 1.088l-.95.313a7 7 0 0 0-.179-.483m.53 2.507a7 7 0 0 0-.1-1.025l.985-.17q.1.58.116 1.17zm-.131 1.538q.05-.254.081-.51l.993.123a8 8 0 0 1-.23 1.155l-.964-.267q.069-.247.12-.501m-.952 2.379q.276-.436.486-.908l.914.405q-.24.54-.555 1.038zm-.964 1.205q.183-.183.35-.378l.758.653a8 8 0 0 1-.401.432z"/>
-                                <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0z"/>
-                                <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5"/>
-                              </svg>
-                              <p class="text-sm text-gray-700">Riwayat</p>
-                            </button>
+                          <div class="p-2 space-y-2">
+                              <div class="text-center">
+                                <a href="/User/riwayat">
+                                  <button class="flex space-x-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black" class="bi bi-clock-history" viewBox="0 0 16 16">
+                                      <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022zm2.004.45a7 7 0 0 0-.985-.299l.219-.976q.576.129 1.126.342zm1.37.71a7 7 0 0 0-.439-.27l.493-.87a8 8 0 0 1 .979.654l-.615.789a7 7 0 0 0-.418-.302zm1.834 1.79a7 7 0 0 0-.653-.796l.724-.69q.406.429.747.91zm.744 1.352a7 7 0 0 0-.214-.468l.893-.45a8 8 0 0 1 .45 1.088l-.95.313a7 7 0 0 0-.179-.483m.53 2.507a7 7 0 0 0-.1-1.025l.985-.17q.1.58.116 1.17zm-.131 1.538q.05-.254.081-.51l.993.123a8 8 0 0 1-.23 1.155l-.964-.267q.069-.247.12-.501m-.952 2.379q.276-.436.486-.908l.914.405q-.24.54-.555 1.038zm-.964 1.205q.183-.183.35-.378l.758.653a8 8 0 0 1-.401.432z"/>
+                                      <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0z"/>
+                                      <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5"/>
+                                    </svg>
+                                    <p class="text-sm text-gray-700">Riwayat</p>
+                                  </button>
+                                </a>
+                              </div>
+                              <div class="text-center">
+                                <a href="/User/pesan">
+                                  <button class="flex space-x-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                                      <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+                                    </svg>
+                                    <p class="text-sm text-gray-700">Hubungi Admin</p>
+                                  </button>
+                                </a>
+                              </div>
                           </div>
-                        </a>
                         </div>
                       </div>
                         <p class="max-sm:hidden text-sm text-gray-700 text-white pb-2">{{ Str::limit($user->email,'24') }}</p>
