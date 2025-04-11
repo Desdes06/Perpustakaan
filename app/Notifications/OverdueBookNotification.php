@@ -41,8 +41,6 @@ class OverdueBookNotification extends Notification
             ->greeting('Halo, ' . $notifiable->username . '!')
             ->line('Buku "' . $this->bookTitle . '" yang Anda pinjam telah melewati batas pengembalian pada ' . $this->dueDate . '.')
             ->line('Oleh karena itu, sistem telah mengembalikan buku ini secara otomatis.')
-            ->line('Silakan periksa riwayat peminjaman Anda.')
-            ->action('Cek Riwayat Peminjaman', url('/User/riwayat'))
             ->line('Terima kasih telah menggunakan layanan perpustakaan kami.');
     }
 }

@@ -6,10 +6,12 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
+use App\Models\Pesans;
 
-class sidebarAdmin extends Component
+class SidebarAdmin extends Component
 {
     public $user;
+    public $totalPesan; // Tambahkan properti untuk menyimpan jumlah pesan
 
     /**
      * Create a new component instance.
@@ -17,6 +19,7 @@ class sidebarAdmin extends Component
     public function __construct()
     {
         $this->user = Auth::user();
+        $this->totalPesan = Pesans::count(); // Hitung jumlah pesan langsung di sini
     }
 
     /**
@@ -24,6 +27,9 @@ class sidebarAdmin extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.sidebar-admin', ['user' => $this->user]);
+        return view('components.sidebar-admin', [
+            'user' => $this->user,
+            'totalPesan' => $this->totalPesan, // Kirim ke view
+        ]);
     }
 }

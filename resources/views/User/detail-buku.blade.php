@@ -13,7 +13,7 @@
 <body> 
     <div class="container mx-auto p-4 max-sm:p-2">
         <div class="bg-white shadow-md rounded-lg max-sm:p-4 p-6 w-full border relative">
-            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-800 to-red-600 rounded-t-lg"></div>
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-purple-600 to-red-300 rounded-t-lg"></div>
             <div class="flex flex-col space-y-2">
                 <div class="flex justify-between max-sm:space-x-4">
                     <div class="w-full flex space-x-4">
@@ -82,7 +82,7 @@
                         <p class="max-sm:text-sm text-gray-700 font-semibold">Penerbit
                         </p>
                         <p class="max-sm:text-sm text-gray-700">
-                            {{ $detail->penerbit->nama_penerbit }}
+                            {{ $detail->penerbit->nama_penerbit ?? 'Tidak diketahui' }}
                         </p>
                     </div>
                     <div class="space-y-2">

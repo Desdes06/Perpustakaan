@@ -20,6 +20,7 @@ Route::group(['middleware'=>['auth']], function(){
         Route::get('/anggota', ['as' => 'anggota', 'uses' => 'App\Http\Controllers\AdminViewController@anggota']);
         Route::get('/kategori', ['as' => 'viewkategori', 'uses' => 'App\Http\Controllers\KategoriController@kategoridata']);
         Route::get('/penerbit', ['as' => 'penerbit', 'uses' => 'App\Http\Controllers\PenerbitController@Penerbitdata']);
+        Route::get('/pesanadmin', ['as' => 'pesanadmin', 'uses' => 'App\Http\Controllers\AdminViewController@pesanadmin']);
         
 
         //route menampilkan data list user
@@ -36,6 +37,10 @@ Route::group(['middleware'=>['auth']], function(){
         Route::put('/updatekategori/{id}',['as' => 'updatekategori', 'uses' => 'App\Http\Controllers\KategoriController@update']);
         // route edit penerbit
         Route::put('/updatepenerbit/{id}',['as' => 'updatepenerbit', 'uses' => 'App\Http\Controllers\PenerbitController@update']);
+        // route hps pesan
+        Route::delete('/hapuspesan/{id}',['as' => 'hapuspesan', 'uses' => 'App\Http\Controllers\AdminViewController@deletepesan']);
+        // route hps semua pesan
+        Route::delete('/hapussemuapesan',['as' => 'hapussemuapesan', 'uses' => 'App\Http\Controllers\AdminViewController@HapusSemuaPesan']);
     });
 
     //route view halaman user
@@ -44,6 +49,7 @@ Route::group(['middleware'=>['auth']], function(){
         Route::get('/pinjam', ['as' => 'pinjam', 'uses' => 'App\Http\Controllers\UserViewController@halamanpinjam']);
         Route::get('/buku', ['as' => 'buku', 'uses' => 'App\Http\Controllers\UserViewController@buku']);
         Route::get('/riwayat', ['as' => 'riwayat', 'uses' => 'App\Http\Controllers\UserViewController@riwayat']);
+        Route::get('/pesan', ['as' => 'pesan', 'uses' => 'App\Http\Controllers\UserViewController@pesan']);
 
         // route pinjam buku
         Route::post('/pinjam', ['as' => 'pinjamcreate', 'uses' => 'App\Http\Controllers\BukuController@pinjam']);
@@ -56,6 +62,8 @@ Route::group(['middleware'=>['auth']], function(){
         Route::delete('/comment/{id}', ['as' => 'comment', 'uses' => 'App\Http\Controllers\BukuController@rmkomen']);
 
         Route::delete('/riwayat/{id}', ['as' => 'riwayat', 'uses' => 'App\Http\Controllers\BukuController@hpsriwayat']);
+
+        Route::post('/pesan', ['as' => 'kirimpesan', 'uses' => 'App\Http\Controllers\UserViewController@kirimpesan']);
     });
 
     //route view halaman profile

@@ -41,7 +41,7 @@ class Buku extends Model
 
     public function penerbit(): BelongsTo
     {
-        return $this->belongsTo(Penerbit::class, 'id');
+        return $this->belongsTo(Penerbit::class, 'penerbit_id');
     }
 
     public function scopeFilter(Builder $query): void
