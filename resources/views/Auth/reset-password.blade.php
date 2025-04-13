@@ -59,7 +59,7 @@
                     @enderror
                 </div>  
                 <div>
-                    <label for="password" class="max-sm:text-sm text-md p-4">Password</label><br>
+                    <label for="password" class="max-sm:text-sm text-md p-4">Password Baru</label><br>
                     <div class="relative">
                         <input type="password" name="password" id="password" class="max-sm:text-sm rounded-full p-4 w-full hover:bg-gray-400 hover:placeholder-white outline-none" placeholder="Password" required>
                         <button type="button" id="togglePassword" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-800 focus:outline-none">
