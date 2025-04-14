@@ -140,8 +140,8 @@
                     <div class="space-y-2">
                         <p class="text-gray-700 font-semibold">Ulasan</p>
                         @foreach($ratings as $rating)
-                        <div class="bg-gray-100 p-4 max-sm:p-2 rounded-lg mb-4">
-                            <div class="flex space-x-2 items-center">
+                        <div class="p-4 max-sm:p-2 rounded-lg mb-4">
+                            <div class="flex space-x-2 items-center pb-2">
                                 @if ($rating->user->foto)
                                 <img src="{{ asset('storage/' . $rating->user->foto) }}" alt="Foto Profil" class="h-12 w-auto rounded-full">
                                 @else
@@ -149,7 +149,8 @@
                                 @endif
                             <p class="max-sm:text-sm font-bold">{{ $rating->user->username }}</p>
                             </div>
-                            <div class="flex items-center pb-2">
+                            <hr>
+                            <div class="flex items-center pt-2">
                                 @for ($i = 1; $i <= 5; $i++)
                                     @if ($i <= $rating->rating)
                                         <svg class="max-sm:w-4 max-sm:h-4 w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
@@ -162,8 +163,7 @@
                                     @endif
                                 @endfor
                             </div>
-                            <hr>
-                            <p class="max-sm:text-sm text-gray-700 mt-2">{{ $rating->komentar }}</p>
+                            <p class="max-sm:text-sm text-gray-700 mt-1">{{ $rating->komentar }}</p>
                             <div class="mt-2">
                                 @if ($rating->user->id == Auth::id())
                                     <form action="{{ route('User.comment', ['id' => $rating->id])}}" method="POST" onsubmit="return confirm('Yakin ingin menghapus komentar ini?');">
