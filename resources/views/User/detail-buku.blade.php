@@ -107,32 +107,25 @@
                         </p>
                     </div>
                     <div class="flex space-x-1 items-center">
-                        <form action="/User/pinjam" method="POST" onsubmit="handleSubmit(event, this)">
-                            @csrf
-                            <input type="hidden" name="id_buku" value="{{ $detail->id }}">
-                            @php
-                                $isAlreadyBorrowed = \App\Models\Pinjam::where('id_user', auth()->id())
-                                    ->where('id_buku', $detail->id)
-                                    ->where('status_buku', 'dipinjam')
-                                    ->exists();
-                            @endphp
-                            @if($isAlreadyBorrowed)
-                                <a href="{{ route('User.baca.buku', ['id' => $detail->id]) }}" class="max-sm:text-sm px-4 py-2 bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br text-white rounded-md">
-                                    Baca
-                                </a>
-                            @else
-                                <button type="submit" id="pinjamButton" class="max-sm:text-sm px-4 py-2 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white rounded-md">
-                                    Pinjam
-                                </button>
-                            @endif
-                        </form>
+                        @php
+                            $isAlreadyBorrowed = \App\Models\Pinjam::where('id_user', auth()->id())
+                            ->where('id_buku', $detail->id)
+                            ->where('status_buku', 'dipinjam')
+                            ->exists();
+                        @endphp
                         @if($isAlreadyBorrowed)
-                            <form action="{{ route('kembalikanbuku', $detail->id) }}" method="POST" class="inline pl-2">
-                                @csrf
-                                <button type="submit" class="max-sm:text-sm bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white px-4 py-2 rounded-md transition duration-300">
-                                    Kembalikan
-                                </button>
-                            </form>
+                            <a href="{{ route('User.baca.buku', ['id' => $detail->id]) }}" class="max-sm:text-sm px-4 py-2 bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br text-white rounded-md">
+                                Baca
+                            </a>
+                        @else
+                            <button type="submit" id="pinjamButton" class="max-sm:text-sm px-4 py-2 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white rounded-md">
+                                Pinjam
+                            </button>
+                        @endif
+                        @if($isAlreadyBorrowed)
+                            <button type="submit" id="kembalikanButton" class="max-sm:text-sm bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white px-4 py-2 rounded-md transition duration-300">
+                                Kembalikan
+                            </button>
                         @endif
                     </div>
                 </div>
@@ -234,12 +227,55 @@
             </div>
         </div>
     </div>
+    <div id="pinjammodal" class="modal fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden z-50">   
+        <div class="relative bg-white rounded-lg shadow-lg max-w-md w-full m-4">
+            <div class="p-6">
+                <h3 class="text-lg font-semibold mb-4">Konfirmasi Pinjam</h3>
+                <p class="text-gray-600 mb-6">Apakah Anda yakin ingin meminjam buku ini ?</p>
+                <div class="flex justify-end space-x-4">
+                    <button id="cancelDelete" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">
+                        Batal
+                    </button>
+                    <div class="flex space-x-1 items-center">
+                        <form action="/User/pinjam" method="POST" onsubmit="handleSubmit(event, this)">
+                            @csrf
+                            <input type="hidden" name="id_buku" value="{{ $detail->id }}">
+                            <button type="submit" id="pinjamconfirm" class="max-sm:text-sm px-4 py-2 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white rounded-md">
+                                Pinjam
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="kembalikanmodal" class="modal fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden z-50">   
+        <div class="relative bg-white rounded-lg shadow-lg max-w-md w-full m-4">
+            <div class="p-6">
+                <h3 class="text-lg font-semibold mb-4">Konfirmasi Kembalikan</h3>
+                <p class="text-gray-600 mb-6">Apakah Anda yakin ingin kembalikan buku ini ?</p>
+                <div class="flex justify-end space-x-4">
+                    <button id="cancelkembalikan" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">
+                        Batal
+                    </button>
+                    <div class="flex space-x-1 items-center">
+                        <form action="{{ route('kembalikanbuku', $detail->id) }}" method="POST" class="inline pl-2">
+                            @csrf
+                            <button type="submit" class="max-sm:text-sm bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white px-4 py-2 rounded-md transition duration-300">
+                                Kembalikan
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
     function handleSubmit(event, form) {
         event.preventDefault();
 
-        let button = document.getElementById("pinjamButton");
+        let button = document.getElementById("pinjamconfirm");
         button.disabled = true;
         button.classList.add("opacity-50", "cursor-not-allowed");
         button.innerHTML = "Memproses...";
@@ -271,6 +307,66 @@
                 document.querySelectorAll('#rating svg')[i].classList.add('text-yellow-400');
             }
         });
+    });
+</script>
+<script>
+    function openPinjamModal() {
+        document.getElementById('pinjammodal').classList.remove('hidden');
+    }
+
+    function closePinjamModal() {
+        document.getElementById('pinjammodal').classList.add('hidden');
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const pinjamBtn = document.getElementById('pinjamButton');
+        if (pinjamBtn) {
+            pinjamBtn.addEventListener('click', openPinjamModal);
+        }
+
+        const cancelBtn = document.getElementById('cancelDelete');
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', closePinjamModal);
+        }
+
+        const modal = document.getElementById('pinjammodal');
+        if (modal) {
+            modal.addEventListener('click', function (event) {
+                if (event.target === modal) {
+                    closePinjamModal();
+                }
+            });
+        }
+    });
+</script>
+<script>
+    function openKembalikanModal() {
+        document.getElementById('kembalikanmodal').classList.remove('hidden');
+    }
+
+    function closeKembalikanModal() {
+        document.getElementById('kembalikanmodal').classList.add('hidden');
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const kembalikanBtn = document.getElementById('kembalikanButton');
+        if (kembalikanBtn) {
+            kembalikanBtn.addEventListener('click', openKembalikanModal);
+        }
+
+        const cancelBtn = document.getElementById('cancelkembalikan');
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', closeKembalikanModal);
+        }
+
+        const modal = document.getElementById('kembalikanmodal');
+        if (modal) {
+            modal.addEventListener('click', function (event) {
+                if (event.target === modal) {
+                    closeKembalikanModal();
+                }
+            });
+        }
     });
 </script>
 </body>
