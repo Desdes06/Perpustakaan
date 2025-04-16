@@ -195,7 +195,7 @@ class BukuController extends Controller
         return view('/User/baca-buku', compact('buku', 'path'));
     }
 
-    public function pinjam(Request $request) // fungsi untuk meminjam buku
+    public function pinjam(Request $request)
     {
         $request->validate([
             'id_buku' => 'required|exists:buku,id',
@@ -203,11 +203,27 @@ class BukuController extends Controller
 
         $user = Auth::user();
 
-        Pinjam::create([
-            'id_user' => $user->id,
-            'id_buku' => $request->id_buku, 
-            'tanggal_pinjam' => now()
-        ]);
+        // Cek apakah data dengan id_user, id_buku, dan tanggal_pinjam yang sama sudah ada
+        $existingPinjam = Pinjam::where('id_user', $user->id)
+            ->where('id_buku', $request->id_buku)
+            ->whereDate('tanggal_pinjam', now()->toDateString())
+            ->first();
+
+        if ($existingPinjam) {
+            // Jika ada, update status_buku
+            $existingPinjam->update([
+                'status_buku' => 'dipinjam',
+                'tanggal_kembali' => now()->addDays(5),
+            ]);
+        } else {
+            // Jika belum ada, buat baru
+            Pinjam::create([
+                'id_user' => $user->id,
+                'id_buku' => $request->id_buku,
+                'tanggal_pinjam' => now(),
+                'status_buku' => 'dipinjam', // Pastikan kamu menyimpan status juga
+            ]);
+        }
 
         return redirect()->back()->with('message', 'Buku berhasil dipinjam.');
     }
@@ -353,7 +369,10 @@ class BukuController extends Controller
             case 'User/pinjam':
                 $pinjam = Pinjam::with(['buku.kategori', 'user'])
                     ->where('id_user', Auth::id())
-                    ->where('status_buku', 'dipinjam') 
+                    ->where('status_buku', 'dipinjam')
+                    ->whereHas('buku', function($q){
+                        $q->whereNull('deleted_at');
+                    }) 
                     ->when($search, function ($query) use ($search) {
                         return $query->whereHas('buku', function ($q) use ($search) {
                             $q->where('judul_buku', 'like', "%{$search}%");
@@ -384,7 +403,11 @@ class BukuController extends Controller
                     return view('Admin.listbuku', compact('buku'));
 
                 case 'Admin/listpinjam':
-                    $pinjam = Pinjam::with(['buku.kategori', 'user'])
+                    $pinjam = Pinjam::with(['buku' => function ($query) {
+                        $query->withTrashed()->with('kategori');
+                        }, 
+                        'user'
+                        ])
                         ->when($search, function ($query, $search) {
                             return $query->whereHas('buku', function ($q) use ($search) {
                                 $q->whereRaw("LOWER(judul_buku) LIKE ?", ["%".strtolower($search)."%"])
