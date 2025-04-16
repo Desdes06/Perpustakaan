@@ -44,8 +44,10 @@
                         <div class="p-2 max-sm:p-2 w-3/4 h-auto flex flex-col justify-between">
                             <container class="">
                                 <div class="flex justify-between items-center">
-                                    <h3 class="max-sm:text-sm font-semibold text-lg">{{ Str::limit($r->buku->judul_buku,'10') }}</h3>
-                                    <p class="max-sm:text-sm text-md text-gray-700">{{ $r->tanggal_pinjam }}</p>
+                                    <h3 class="max-sm:text-sm font-semibold text-lg">{{ Str::limit($r->buku->judul_buku,'6') }}</h3>
+                                    <div>
+                                        <p class="max-sm:text-sm text-sm text-gray-700">{{ $r->tanggal_pinjam }} - {{ $r->tanggal_kembali }}</p>
+                                    </div>
                                 </div>
                                 <p class="max-sm:text-sm text-md text-gray-700">{{ Str::limit($r->buku->penulis,'20') }}</p>
                                 <p class="max-sm:text-sm text-md text-gray-700">Kategori : {{ Str::limit($r->buku->kategori->nama_kategori,'10') }}</p>
