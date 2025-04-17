@@ -65,6 +65,6 @@ class Pinjam extends Model
 
     public function buku(): BelongsTo
     {
-        return $this->belongsTo(Buku::class, 'id_buku');
+        return $this->belongsTo(Buku::class, 'id_buku')->withTrashed();
     }
 }

@@ -65,21 +65,25 @@
                                         <p class="text-lg">Email : <strong>{{ $a->email }}</strong></p>
                                         <h4 class="text-lg font-semibold mt-4">Buku yang Dipinjam:</h4>
                                         @if ($a->pinjam->where('status_buku', 'dipinjam')->isNotEmpty())
-                                            <ul class="list-disc pl-5">
-                                                @foreach ($a->pinjam->where('status_buku', 'dipinjam') as $p)
-                                                    <li><strong>{{ $p->buku->judul_buku }}</strong> ({{ $p->buku->penulis }}) - Dipinjam pada: {{ $p->tanggal_pinjam }}</li>
-                                                @endforeach
-                                            </ul>
+                                            <div class="overflow-y-auto h-60">
+                                                <ul class="list-disc pl-5">
+                                                    @foreach ($a->pinjam->where('status_buku', 'dipinjam') as $p)
+                                                        <li><strong>{{ $p->buku->judul_buku }}</strong> ({{ $p->buku->penulis }}) - Dipinjam pada: {{ $p->tanggal_pinjam }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
                                         @else
                                             <p class="text-red-500">Tidak ada buku yang sedang dipinjam.</p>
                                         @endif
                                         <h4 class="text-lg font-semibold mt-4">Buku yang Dikembalikan:</h4>
                                         @if ($a->pengembalian->isNotEmpty())
-                                            <ul class="list-disc pl-5">
-                                                @foreach ($a->pengembalian as $p)
-                                                    <li><strong>{{ $p->buku->judul_buku }}</strong> ({{ $p->buku->penulis }}) - Dikembalikan pada: {{ $p->created_at }}</li>
-                                                @endforeach
-                                            </ul>
+                                            <div class="overflow-y-auto h-60">
+                                                <ul class="list-disc pl-5">
+                                                    @foreach ($a->pengembalian as $p)
+                                                        <li><strong>{{ $p->buku->judul_buku }}</strong> ({{ $p->buku->penulis }}) - Dikembalikan pada: {{ $p->created_at }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
                                         @else
                                             <p class="text-red-500">Tidak ada buku yang sudah dikembalikan.</p>
                                         @endif

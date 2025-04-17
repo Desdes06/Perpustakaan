@@ -403,11 +403,7 @@ class BukuController extends Controller
                     return view('Admin.listbuku', compact('buku'));
 
                 case 'Admin/listpinjam':
-                    $pinjam = Pinjam::with(['buku' => function ($query) {
-                        $query->withTrashed()->with('kategori');
-                        }, 
-                        'user'
-                        ])
+                    $pinjam = Pinjam::with(['buku.kategori', 'user'])
                         ->when($search, function ($query, $search) {
                             return $query->whereHas('buku', function ($q) use ($search) {
                                 $q->whereRaw("LOWER(judul_buku) LIKE ?", ["%".strtolower($search)."%"])
