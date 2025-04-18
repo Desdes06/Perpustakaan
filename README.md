@@ -9,7 +9,7 @@
 
 ## PERPUS
 
-Perpus merupakan sebuah aplikasi perpustakaan online yang memberikan akses kepada pengguna untuk meminjam dan membaca buku secara online di, dan mempermudah dalam mengelola data perpustakan.
+Perpus merupakan sebuah aplikasi perpustakaan online yang memberikan akses kepada pengguna untuk meminjam dan membaca buku secara online, dan mempermudah dalam mengelola data perpustakan.
 
 <!-- - [Simple, fast routing engine](https://laravel.com/docs/routing).
 - [Powerful dependency injection container](https://laravel.com/docs/container).
