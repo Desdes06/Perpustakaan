@@ -9,7 +9,7 @@
 
 ## PERPUS
 
-Perpus merupakan sebuah aplikasi perpustakaan online yang memberikan akses kepada pengguna untuk meminjam dan membaca buku secara online di, dan mempermudah dalam mengelola data perpustakan.
+Perpus merupakan sebuah aplikasi perpustakaan online yang memberikan akses kepada pengguna untuk meminjam dan membaca buku secara online, dan mempermudah dalam mengelola data perpustakan.
 
 <!-- - [Simple, fast routing engine](https://laravel.com/docs/routing).
 - [Powerful dependency injection container](https://laravel.com/docs/container).
@@ -32,17 +32,38 @@ Mempermudah mengelola buku perpustakaan membuatnya menjadi lebih efisien dan mem
 
 Role : 
 
-o	anggota
-o	admin
+*	anggota
+*	admin
+
+## Fitur 
+
+* Anggota :
+    * registrasi dan login
+    * meminjam buku
+    * mengembalikan buku
+    * melihat list buku yang di pinjam oleh sendiri
+    * membaca buku yang di pinjam secara online dan gratis
+    * melihat rincian buku
+    * mencari buku berdasarkan judul, kategori dan penulis
+    * melihat profile sendiri
+
+* Admin :
+    * menambah, mengedit menghapus list buku yang dapat di baca
+    * melihat jumlah dan rincian anggota yg terdaftar
+    * melihat buku yang di pinjam oleh anggota 
+    * melihat rekap buku yang di pinjam perbulannya oleh anggota
+    * melihat rekap buku yang sudah di kembalikan
+    * melihat rekap jumlah buku yang ada pada aplikasi
+    * sortir daftar buku berdasarkan kategori, dan penulis, judul
 
 ## Tools 
 
 Tools yang di gunakan :
-o	desain wireframe (Figma)
-o	css (Tailwind css) 
-o	backend dan front-end (Laravel 11)
-o	web server (Laragon)
-o	database (mySQL)
+*	desain wireframe (Figma)
+*	css (Tailwind css) 
+*	backend dan front-end (Laravel 11)
+*	web server (Laragon)
+*	database (mySQL)
 
 ## Build 
 
@@ -85,7 +106,7 @@ php artisan db:seed --class=Adminseeder
 php artisan db:seed --class=Kategoriseeder
 ```
 ```
-php artisan db:seed --class=Penerbitseeder
+php artisan db:seed --class=Penerbitseede
 ```
 
 
