@@ -46,6 +46,7 @@ Role :
     * melihat rincian buku
     * mencari buku berdasarkan judul, kategori dan penulis
     * melihat profile sendiri
+    * melihat riwayat buku yang sudah pernah di pinjam
 
 * Admin :
     * menambah, mengedit menghapus list buku yang dapat di baca
