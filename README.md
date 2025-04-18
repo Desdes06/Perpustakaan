@@ -61,10 +61,12 @@ Role :
 
 Tools yang di gunakan :
 *	desain wireframe (Figma)
+*   asset icon (bootstrap)
 *	css (Tailwind css) 
 *	backend dan front-end (Laravel 11)
 *	web server (Laragon)
 *	database (mySQL)
+*   Node versi (22)
 
 ## Build 
 
