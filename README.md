@@ -106,7 +106,7 @@ php artisan db:seed --class=Adminseeder
 php artisan db:seed --class=Kategoriseeder
 ```
 ```
-php artisan db:seed --class=Penerbitseede
+php artisan db:seed --class=Penerbitseeder
 ```
 
 
