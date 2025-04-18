@@ -9,7 +9,7 @@
 
 ## PERPUS
 
-Aplikasi untuk meminjam dan membaca buku secara online, mempermudah literasi, mempermudah dalam mencatat data jumlah buku, peminjaman dan pengembalian buku
+Perpus merupakan sebuah aplikasi perpustakaan online yang memberikan akses kepada pengguna untuk meminjam dan membaca buku secara online di, dan mempermudah dalam mengelola data perpustakan.
 
 <!-- - [Simple, fast routing engine](https://laravel.com/docs/routing).
 - [Powerful dependency injection container](https://laravel.com/docs/container).
@@ -18,6 +18,31 @@ Aplikasi untuk meminjam dan membaca buku secara online, mempermudah literasi, me
 - Database agnostic [schema migrations](https://laravel.com/docs/migrations).
 - [Robust background job processing](https://laravel.com/docs/queues).
 - [Real-time event broadcasting](https://laravel.com/docs/broadcasting). -->
+
+
+## Latar Belakang
+
+Perpustakaan menjadi peran penting dalam mengelola data buku, seringkali menjadi kendala ketika mengelola buku secara manual dan kurang efisien.
+
+## Tujuan 
+
+Mempermudah mengelola buku perpustakaan membuatnya menjadi lebih efisien dan memberi akses kepada pengguna untuk memimjam buku secara online.
+
+## Peran Dalam Aplikasi
+
+Role : 
+
+o	anggota
+o	admin
+
+## Tools 
+
+Tools yang di gunakan :
+o	desain wireframe (Figma)
+o	css (Tailwind css) 
+o	backend dan front-end (Laravel 11)
+o	web server (Laragon)
+o	database (mySQL)
 
 ## Build 
 
