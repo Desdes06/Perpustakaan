@@ -47,8 +47,7 @@
                             <textarea
                                 name="nama_penerbit" 
                                 id="nama_penerbit" 
-                                class="mt-2 w-full rounded-md border-0 p-4 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm">
-                            </textarea>
+                                class="mt-2 w-full rounded-md border-0 p-4 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"></textarea>
                         </div>
                         <div class="flex justify-end space-x-2">
                             <button type="button" @click="open = false" class="rounded-md bg-gray-300 px-3 py-2 text-sm font-semibold text-gray-800 shadow-sm hover:bg-gray-400">

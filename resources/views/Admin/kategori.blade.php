@@ -14,6 +14,13 @@
 <body>
     <x-sidebar-admin></x-sidebar-admin>
     <div class="p-4 space-y-4 sm:ml-64">
+        {{-- @if()
+
+        @else
+            @error('nama_kategori')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+            @enderror
+        @endif --}}
         <h1 class="font-semibold text-2xl pb-2">Kategori</h1>
         <div x-data="{ open: false }">
             <!-- Button untuk membuka modal -->
@@ -47,8 +54,7 @@
                             <textarea
                                 name="deskripsi" 
                                 id="deskripsi" 
-                                class="mt-2 w-full rounded-md border-0 p-4 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm">
-                            </textarea>
+                                class="mt-2 w-full rounded-md border-0 p-4 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"></textarea>
                         </div>
                         <div class="flex justify-end space-x-2">
                             <button type="button" @click="open = false" class="rounded-md bg-gray-300 px-3 py-2 text-sm font-semibold text-gray-800 shadow-sm hover:bg-gray-400">

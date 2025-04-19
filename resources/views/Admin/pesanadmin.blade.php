@@ -55,7 +55,7 @@
     </div>
 
     <!-- Modal Pop-up Konfirmasi Hapus -->
-    <div id="modal" class="modal fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden z-50">
+    <div id="modal" class="hidden modal fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden z-50">
         <div class="bg-white rounded-lg p-6 w-96">
             <h3 class="text-lg font-semibold mb-4">Konfirmasi Penghapusan</h3>
             <p id="modalMessage" class="text-gray-600 mb-4"></p>
@@ -73,7 +73,7 @@
         </div>
     </div>
 
-    <div id="modalDeleteAll" class="modal fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden z-50">
+    <div id="modalDeleteAll" class="hidden modal fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden z-50">
         <div class="bg-white rounded-lg p-6 w-96">
             <h3 class="text-lg font-semibold mb-4">Konfirmasi Penghapusan</h3>
             <p class="text-gray-600 mb-4">Apakah Anda yakin ingin menghapus semua pesan?</p>
@@ -99,11 +99,13 @@
                 document.getElementById('idPesan').value = messageId;
                 document.getElementById('modalMessage').innerText = `Apakah Anda yakin ingin menghapus pesan ini? "${messageText}"`;
 
-                // Set action form dengan URL yang benar
                 document.getElementById('deleteForm').action = `/Admin/hapuspesan/${messageId}`;
 
                 document.getElementById('modal').classList.remove('hidden');
             });
+        });
+            document.getElementById('closeModalBtn').addEventListener('click', function () {
+            document.getElementById('modal').classList.add('hidden');
         });
     </script>
     <script>
