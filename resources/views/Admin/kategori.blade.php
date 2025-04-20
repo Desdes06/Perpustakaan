@@ -14,13 +14,6 @@
 <body>
     <x-sidebar-admin></x-sidebar-admin>
     <div class="p-4 space-y-4 sm:ml-64">
-        {{-- @if()
-
-        @else
-            @error('nama_kategori')
-                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-            @enderror
-        @endif --}}
         <h1 class="font-semibold text-2xl pb-2">Kategori</h1>
         <div x-data="{ open: false }">
             <!-- Button untuk membuka modal -->
