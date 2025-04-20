@@ -52,7 +52,7 @@
                         <div class="space-y-2">
                             <p class="max-sm:text-3xl max-sm:text-center max-lg:text-4xl text-5xl font-semibold">Selamat Datang !</p>
                             <p class="max-sm:text-sm max-sm:text-center max-lg:text-xl text-2xl font-light">
-                                Mau baca buku dan pinjam buku lebih gampang <br class="hidden lg:block"> di perpus 🌻🌻🌻
+                                Mau sewa buku lebih gampang <br class="hidden lg:block"> di perpus 🌻🌻🌻
                             </p>
                         </div>
                         <div>
