@@ -59,7 +59,7 @@
           
               <a href="/User/pinjam" 
                  class="relative text-md font-medium transition-colors duration-300 {{ $currentRoute == 'User/pinjam' ? 'text-black' : 'text-gray-700 hover:text-black' }}">
-                  Daftar Pinjam
+                  Daftar Sewa
                   <span class="absolute bottom-[-4px] left-1/2 h-[2px] bg-black rounded-full transition-all duration-300 ease-in-out transform -translate-x-1/2
                         {{ $currentRoute == 'User/pinjam' ? 'w-full' : 'w-2 opacity-50' }}">
                   </span>
@@ -203,7 +203,7 @@
     class="space-y-1 px-2 pb-3 pt-2">
       <a href="/User/beranda" class="max-sm:text-sm block px-3 py-2 text-base font-medium text-black hover:text-gray-600" aria-current="page">Beranda</a>
       <a href="/User/buku" class="max-sm:text-sm block px-3 py-2 text-base font-medium text-black hover:text-gray-600">Daftar Buku</a>
-      <a href="/User/pinjam" class="max-sm:text-sm block px-3 py-2 text-base font-medium text-black hover:text-gray-600">Daftar Pinjam</a>
+      <a href="/User/pinjam" class="max-sm:text-sm block px-3 py-2 text-base font-medium text-black hover:text-gray-600">Daftar Sewa</a>
     </div>
   </div>
 </nav>

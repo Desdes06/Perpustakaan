@@ -119,12 +119,12 @@
                             </a>
                         @else
                             <button type="submit" id="pinjamButton" class="max-sm:text-sm px-4 py-2 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white rounded-md">
-                                Pinjam
+                                Sewa
                             </button>
                         @endif
                         @if($isAlreadyBorrowed)
                             <button type="submit" id="kembalikanButton" class="max-sm:text-sm bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white px-4 py-2 rounded-md transition duration-300">
-                                Kembalikan
+                                Berhenti Sewa
                             </button>
                         @endif
                     </div>
@@ -230,8 +230,8 @@
     <div id="pinjammodal" class="modal fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden z-50">   
         <div class="relative bg-white rounded-lg shadow-lg max-w-md w-full m-4">
             <div class="p-6">
-                <h3 class="text-lg font-semibold mb-4">Konfirmasi Pinjam</h3>
-                <p class="text-gray-600 mb-6">Apakah Anda yakin ingin meminjam buku ini ?</p>
+                <h3 class="text-lg font-semibold mb-4">Konfirmasi Sewa</h3>
+                <p class="text-gray-600 mb-6">Apakah Anda yakin ingin sewa buku ini ?</p>
                 <div class="flex justify-end space-x-4">
                     <button id="cancelDelete" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">
                         Batal
@@ -241,7 +241,7 @@
                             @csrf
                             <input type="hidden" name="id_buku" value="{{ $detail->id }}">
                             <button type="submit" id="pinjamconfirm" class="max-sm:text-sm px-4 py-2 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white rounded-md">
-                                Pinjam
+                                Sewa
                             </button>
                         </form>
                     </div>
@@ -252,8 +252,8 @@
     <div id="kembalikanmodal" class="modal fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden z-50">   
         <div class="relative bg-white rounded-lg shadow-lg max-w-md w-full m-4">
             <div class="p-6">
-                <h3 class="text-lg font-semibold mb-4">Konfirmasi Kembalikan</h3>
-                <p class="text-gray-600 mb-6">Apakah Anda yakin ingin kembalikan buku ini ?</p>
+                <h3 class="text-lg font-semibold mb-4">Konfirmasi</h3>
+                <p class="text-gray-600 mb-6">Apakah Anda yakin ingin berhenti sewa buku ini ?</p>
                 <div class="flex justify-end space-x-4">
                     <button id="cancelkembalikan" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">
                         Batal
@@ -262,7 +262,7 @@
                         <form action="{{ route('kembalikanbuku', $detail->id) }}" method="POST" class="inline pl-2">
                             @csrf
                             <button type="submit" class="max-sm:text-sm bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white px-4 py-2 rounded-md transition duration-300">
-                                Kembalikan
+                                Berhenti Sewa
                             </button>
                         </form>
                     </div>

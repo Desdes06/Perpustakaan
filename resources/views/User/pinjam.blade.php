@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Pinjam</title>
+    <title>Sewa</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.0.0/dist/flowbite.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -15,13 +15,13 @@
     <x-navbar></x-navbar>
     <div class="px-12 py-6 space-y-6 min-h-screen max-sm:p-2"> 
         <div class="flex items-center justify-between max-sm:flex-col max-sm:space-y-2">
-            <h1 class="max-sm:text-xl max-md:text-3xl font-semibold text-4xl">Daftar Pinjam</h1>
+            <h1 class="max-sm:text-xl max-md:text-3xl font-semibold text-4xl">Daftar Sewa</h1>
             <x-sortirpilih type='User/pinjam'>Cari judul buku</x-sortirpilih>    
         </div>
         <div class="space-y-2">
             @if($pinjam->isEmpty())
                 <div class="items-center">
-                    <p class="text-center text-xl">Tidak ada buku yang di pinjam</p>
+                    <p class="text-center text-xl">Tidak ada buku yang di Sewa</p>
                     <img class="p-12 mx-auto h-[60vh] w-auto hover:scale-105 transition-transform duration-300" src="{{ asset('img/d_art2.png')}}" alt="">
                 </div>
             @else 
@@ -82,7 +82,7 @@
                                 <button type="button" 
                                         class="open-kembalikan-modal bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white px-3 py-2 rounded-md transition duration-300" 
                                         data-target="kembalikanmodal-{{ $p->buku->id }}" 
-                                        title="Kembalikan">
+                                        title="Berhenti Sewa">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd" d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708z"/>
                                     </svg>
@@ -93,8 +93,8 @@
                     <div id="kembalikanmodal-{{ $p->buku->id }}" class="modal fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden z-50">
                         <div class="relative bg-white rounded-lg shadow-lg max-w-md w-full m-4">
                             <div class="p-6">
-                                <h3 class="text-lg font-semibold mb-4">Konfirmasi Kembalikan</h3>
-                                <p class="text-gray-600 mb-6">Apakah Anda yakin ingin kembalikan buku ini?</p>
+                                <h3 class="text-lg font-semibold mb-4">Konfirmasi</h3>
+                                <p class="text-gray-600 mb-6">Apakah Anda yakin ingin berhenti sewa buku ini?</p>
                                 <div class="flex justify-end space-x-4">
                                     <button type="button" class="close-kembalikan-modal px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300" data-target="kembalikanmodal-{{ $p->buku->id }}">
                                         Batal
@@ -103,7 +103,7 @@
                                         <form action="{{ route('kembalikanbuku', $p->buku->id) }}" method="POST" class="inline pl-2">
                                             @csrf
                                             <button type="submit" class="max-sm:text-sm bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white px-4 py-2 rounded-md transition duration-300">
-                                                Kembalikan
+                                                Berhenti Sewa
                                             </button>
                                         </form>
                                     </div>

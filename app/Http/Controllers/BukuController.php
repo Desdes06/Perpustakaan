@@ -408,6 +408,8 @@ class BukuController extends Controller
                             return $query->whereHas('buku', function ($q) use ($search) {
                                 $q->whereRaw("LOWER(judul_buku) LIKE ?", ["%".strtolower($search)."%"])
                                   ->orWhereRaw("LOWER(status_buku) LIKE ?", ["%".strtolower($search)."%"]);
+                            })->orWhereHas('user', function ($qUser) use ($search) {
+                                $qUser->whereRaw("LOWER(username) LIKE ?", ["%" . strtolower($search) . "%"]);
                             });
                         })
                         ->when($filter, function ($query, $filter) {
@@ -436,6 +438,8 @@ class BukuController extends Controller
                         ->when($search, function ($query) use ($search) {
                             return $query->whereHas('buku', function ($q) use ($search) {
                                 $q->where('judul_buku', 'like', "%{$search}%");
+                            })->orWhereHas('user', function ($qUser) use ($search) {
+                                $qUser->whereRaw("LOWER(username) LIKE ?", ["%" . strtolower($search) . "%"]);
                             });
                         })
                         ->when($filter, function ($query) use ($filter) {

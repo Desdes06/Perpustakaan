@@ -39,21 +39,21 @@ Role :
 
 * Anggota :
     * registrasi dan login
-    * meminjam buku
-    * mengembalikan buku
-    * melihat list buku yang di pinjam oleh sendiri
-    * membaca buku yang di pinjam secara online dan gratis
+    * menyewa buku
+    * Berhenti sewa buku
+    * melihat list buku yang di sewa oleh sendiri
+    * membaca buku yang di sewa secara online dan gratis
     * melihat rincian buku
     * mencari buku berdasarkan judul, kategori dan penulis
     * melihat profile sendiri
-    * melihat riwayat buku yang sudah pernah di pinjam
+    * melihat riwayat buku yang sudah pernah di sewa
 
 * Admin :
     * menambah, mengedit menghapus list buku yang dapat di baca
     * melihat jumlah dan rincian anggota yg terdaftar
-    * melihat buku yang di pinjam oleh anggota 
-    * melihat rekap buku yang di pinjam perbulannya oleh anggota
-    * melihat rekap buku yang sudah di kembalikan
+    * melihat buku yang di sewa oleh anggota 
+    * melihat rekap buku yang di sewa perbulannya oleh anggota
+    * melihat rekap buku yang sudah berhenti di sewakan
     * melihat rekap jumlah buku yang ada pada aplikasi
     * sortir daftar buku berdasarkan kategori, dan penulis, judul
 
