@@ -55,9 +55,9 @@ Route::group(['middleware'=>['auth']], function(){
         Route::post('/pinjam', ['as' => 'pinjamcreate', 'uses' => 'App\Http\Controllers\BukuController@pinjam']);
         //route list buku dipinjam 
         Route::get('/pinjam', ['as' => 'pinjamlist', 'uses' => 'App\Http\Controllers\BukuController@listbukupinjam']);
-        Route::get('/bacabuku/{id}',  ['as' => 'baca.buku', 'uses' => 'App\Http\Controllers\BukuController@baca']);
+        Route::get('/bacabuku/{hash}',  ['as' => 'baca.buku', 'uses' => 'App\Http\Controllers\BukuController@baca']);
         
-        Route::get('/buku-detail/{id}', ['as' => 'detail', 'uses' => 'App\Http\Controllers\BukuController@detail']);
+        Route::get('/buku-detail/{hash}', ['as' => 'detail', 'uses' => 'App\Http\Controllers\BukuController@detail']);
         Route::post('/komentar', ['as' => 'komentar', 'uses' => 'App\Http\Controllers\BukuController@storekomen']);
         Route::delete('/comment/{id}', ['as' => 'comment', 'uses' => 'App\Http\Controllers\BukuController@rmkomen']);
 

@@ -26,7 +26,7 @@
             <div class="grid grid-cols-7 gap-12 max-sm:grid-cols-2 max-sm:gap-6 max-md:grid-cols-3 max-md:gap-5 max-lg:grid-cols-4 max-lg:gap-4">
                 @foreach($bukuuser as $b)
                 <div class="bg-[#413C88]/20 hover:shadow-xl">
-                    <a href="{{ route('User.detail', ['id' => $b->id]) }}">
+                    <a href="{{ route('User.detail', ['hash' => \Vinkla\Hashids\Facades\Hashids::encode($b->id)]) }}">
                         <div class="h-auto">
                             @if($b->foto)
                                 <img src="{{ asset('storage/' . $b->foto) }}" alt="Cover Buku" class="w-full object-cover">
