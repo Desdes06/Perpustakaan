@@ -231,7 +231,7 @@
         <div class="relative bg-white rounded-lg shadow-lg max-w-md w-full m-4">
             <div class="p-6">
                 <h3 class="text-lg font-semibold mb-4">Konfirmasi Sewa</h3>
-                <p class="text-gray-600 mb-6">Apakah Anda yakin ingin meminjam buku ini ?</p>
+                <p class="text-gray-600 mb-6">Apakah Anda yakin ingin sewa buku ini ?</p>
                 <div class="flex justify-end space-x-4">
                     <button id="cancelDelete" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">
                         Batal
