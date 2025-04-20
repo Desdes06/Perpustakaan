@@ -39,8 +39,8 @@ class OverdueBookNotification extends Notification
         return (new MailMessage)
             ->subject('Peminjaman Buku Melebihi Batas Waktu')
             ->greeting('Halo, ' . $notifiable->username . '!')
-            ->line('Buku "' . $this->bookTitle . '" yang Anda pinjam telah melewati batas pengembalian pada ' . $this->dueDate . '.')
-            ->line('Oleh karena itu, sistem telah mengembalikan buku ini secara otomatis.')
+            ->line('Buku "' . $this->bookTitle . '" yang Anda sewa telah melewati batas waktu pada ' . $this->dueDate . '.')
+            ->line('Oleh karena itu, sistem telah memberhentikan sewa buku ini secara otomatis.')
             ->line('Terima kasih telah menggunakan layanan perpustakaan kami.');
     }
 }

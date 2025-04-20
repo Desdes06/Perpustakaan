@@ -17,7 +17,7 @@
     <x-sidebar-admin></x-sidebar-admin>
     <div class="p-4 space-y-4 sm:ml-64"> 
         <div class="flex justify-between items-center mb-4">
-            <h2 class="text-2xl font-semibold">Daftar Pengembalian</h2>
+            <h2 class="text-2xl font-semibold">Daftar Berhenti di Sewakan</h2>
             <x-sortirpilih type='Admin/listpengembalian'>Cari judul buku</x-sortirpilih>
         </div>
         <div class="flex space-x-2 mb-4">
@@ -79,7 +79,7 @@
             </div>
         @endif
         @if($pengembalian->isEmpty())
-            <p class="text-black text-center py-4">Tidak ada buku yang dikembalikan.</p>
+            <p class="text-black text-center py-4">Tidak ada buku yang disewakan.</p>
         @else    
             <div class="space-y-1 w-full">
                 <p class="text-sm font-semibold">Simpan Data : </p>

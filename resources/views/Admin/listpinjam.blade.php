@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>List Pinjam</title>
+    <title>List Sewa</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.0.0/dist/flowbite.min.js"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -16,7 +16,7 @@
     <x-sidebar-admin></x-sidebar-admin>
     <div class="p-4 space-y-4 sm:ml-64">
         <div class="flex justify-between items-center mb-4">
-            <h2 class="text-2xl font-semibold">Daftar Pinjam</h2>
+            <h2 class="text-2xl font-semibold">Daftar Sewa</h2>
             <x-sortirpilih type='Admin/listpinjam'>Cari</x-sortirpilih>
         </div>
         <div class="flex space-x-2 mb-4">
@@ -77,7 +77,7 @@
             </div>
         @endif
         @if($pinjam->isEmpty())
-            <p class="text-black text-center py-4">Tidak ada buku yang sedang dipinjam.</p>
+            <p class="text-black text-center py-4">Tidak ada buku yang sedang disewa.</p>
         @else
             <div class="space-y-1 w-full">
                 <p class="text-sm font-semibold">Simpan Data : </p>
@@ -116,7 +116,7 @@
                         <th scope="col" class="px-6 py-3">Penulis</th>
                         <th scope="col" class="px-6 py-3">Peminjam</th>
                         <th scope="col" class="px-6 py-3">Email</th>
-                        <th scope="col" class="px-6 py-3">Tanggal Pinjam</th>
+                        <th scope="col" class="px-6 py-3">Tanggal Sewa</th>
                         <th scope="col" class="px-6 py-3">Status</th>
                     </tr>
                 </thead>
@@ -150,7 +150,7 @@
         <div class="relative bg-white rounded-lg shadow-lg max-w-md w-full m-4">
             <div class="p-6">
                 <h3 class="text-lg font-semibold mb-4">Konfirmasi Penghapusan</h3>
-                <p class="text-gray-600 mb-6">Apakah Anda yakin ingin menghapus data pinjam yang dipilih?</p>
+                <p class="text-gray-600 mb-6">Apakah Anda yakin ingin menghapus data sewa yang dipilih?</p>
                 <div class="flex justify-end space-x-4">
                     <button id="cancelDelete" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">
                         Batal

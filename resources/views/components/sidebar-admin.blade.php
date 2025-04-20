@@ -49,10 +49,10 @@
                      <a href="/Admin/listbuku" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-700 dark:text-white dark:hover:bg-gray-700">Daftar Buku</a>
                   </li>
                   <li>
-                     <a href="/Admin/listpinjam" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-700 dark:text-white dark:hover:bg-gray-700">Daftar Pinjam</a>
+                     <a href="/Admin/listpinjam" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-700 dark:text-white dark:hover:bg-gray-700">Daftar Sewa</a>
                   </li>
                   <li>
-                     <a href="/Admin/listpengembalian" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-700 dark:text-white dark:hover:bg-gray-700">Daftar Pengembalian</a>
+                     <a href="/Admin/listpengembalian" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-700 dark:text-white dark:hover:bg-gray-700">Daftar Berhenti di Sewakan</a>
                   </li>
             </ul>
          </li>
