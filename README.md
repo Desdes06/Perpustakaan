@@ -22,11 +22,11 @@ Perpus merupakan sebuah aplikasi perpustakaan online yang memberikan akses kepad
 
 ## Latar Belakang
 
-Perpustakaan menjadi peran penting dalam mengelola data buku, seringkali menjadi kendala ketika mengelola buku secara manual dan kurang efisien.
+Seringkali pembaca buku ingin membaca buku secara praktis dan gratis untuk beberapa buku, perpus hadir untuk memenuhi keinginan tersebut dengan memberikan akses sewa buku selama 5 hari.
 
 ## Tujuan 
 
-Mempermudah mengelola buku perpustakaan membuatnya menjadi lebih efisien dan memberi akses kepada pengguna untuk memimjam buku secara online.
+Mempermudah mengelola buku perpustakaan membuatnya menjadi lebih efisien dan memberi akses kepada pengguna untuk meminjam buku secara online seperti trial buku selama 5 hari.
 
 ## Peran Dalam Aplikasi
 
@@ -61,19 +61,22 @@ Role :
 
 Tools yang di gunakan :
 *	desain wireframe (Figma)
-*   asset icon (bootstrap)
-*	css (Tailwind css) 
-*	backend dan front-end (Laravel 11)
+*   Asset icon (bootsrap)
+*	css (Tailwind css versi 3.4.14 dan flowbite untuk component dan js) 
+*	framework (Laravel 11)
 *	web server (Laragon)
 *	database (mySQL)
-*   Node versi (22)
+*	versi Node (node versi v21.6.1)
+*	package export pdf (barryvdh/laravel-dompdf)
+*	package export exel (maatwebsite/exel)
+*	php (PHP versi 8.4.3)
+*   email (goodle smtp)
 
 ## Build 
 
 ```
 composer install
 ```
-catatan : PHP versi 8.4.3
 
 ```
 copy paste .env dan hapus .example atau hapus saja .example
@@ -94,9 +97,6 @@ npm run dev
 npm install
 ```
 
-catatan :
-node versi v21.6.1
-
 ##  DB RUN Seeder
 
 ```
@@ -110,6 +110,17 @@ php artisan db:seed --class=Kategoriseeder
 ```
 ```
 php artisan db:seed --class=Penerbitseeder
+```
+## Migrasi database
+
+Sebelum menjalan migrasi command terlebih dahulu code yang ada di 
+```
+Perpustakaan\app\Providers\ViewServiceProvider.php
+```
+
+Lalu jalan kan migrasi dengam peritah 
+```
+php artisan migrate
 ```
 
 
