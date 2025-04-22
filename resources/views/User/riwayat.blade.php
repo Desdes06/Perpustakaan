@@ -26,7 +26,7 @@
         <div class="grid grid-cols-4 gap-12 max-sm:grid-cols-1 max-sm:gap-4 max-md:grid-cols-1 max-md:gap-4 max-lg:grid-cols-2 max-lg:gap-4">
             @foreach($riwayat as $r)
             <div class="bg-[#413C88]/20 hover:shadow-xl">
-                <a href="{{ route('User.detail', ['id' => $r->buku->id]) }}">
+                <a href="{{ route('User.detail', ['hash' => \Vinkla\Hashids\Facades\Hashids::encode($r->buku->id)]) }}">
                     <div class="flex h-full">
                         <div class="h-full w-1/4">
                             @if($r->buku->foto)

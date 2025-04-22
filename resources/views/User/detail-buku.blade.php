@@ -114,7 +114,7 @@
                             ->exists();
                         @endphp
                         @if($isAlreadyBorrowed)
-                            <a href="{{ route('User.baca.buku', ['id' => $detail->id]) }}" class="max-sm:text-sm px-4 py-2 bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br text-white rounded-md">
+                            <a href="{{ route('User.baca.buku', ['hash' => \Vinkla\Hashids\Facades\Hashids::encode($detail->id)]) }}" class="max-sm:text-sm px-4 py-2 bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br text-white rounded-md">
                                 Baca
                             </a>
                         @else

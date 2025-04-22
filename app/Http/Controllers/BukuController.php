@@ -11,6 +11,7 @@ use App\Models\Riwayat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Vinkla\Hashids\Facades\Hashids;
 
 class BukuController extends Controller
 {
@@ -169,8 +170,16 @@ class BukuController extends Controller
         return redirect()->back()->with('success', 'Data pinjam berhasil dihapus');
     }
 
-    public function baca($id) // fungsi untuk membuka file buku
+    public function baca($hash) // fungsi untuk membuka file buku
     {
+        $id = Hashids::decode($hash);
+
+        if (empty($id)) {
+            abort(404); 
+        }
+
+        $id = $id[0];
+
         $user = Auth::user();
 
         $buku = Buku::find($id);
@@ -266,8 +275,16 @@ class BukuController extends Controller
         return redirect()->back()->with('success', 'Buku berhasil dikembalikan.');
     }
 
-    public function detail($id) // fungsi detail buku
+    public function detail($hash) // fungsi detail buku
     {
+        $id = Hashids::decode($hash);
+
+        if (empty($id)) {
+            abort(404); 
+        }
+
+        $id = $id[0];
+
         $userId = Auth::id();
 
         $detail = Buku::with(['kategori','penerbit'])->findOrFail($id);
