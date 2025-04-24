@@ -78,8 +78,12 @@ Tools yang di gunakan :
 composer install
 ```
 
-```
+untuk enviroment
 copy paste .env dan hapus .example atau hapus saja .example
+
+Lalu jalankan perintah ini untuk membuat app key :
+```
+php artisan key:generate
 ```
 
 ## Run  
