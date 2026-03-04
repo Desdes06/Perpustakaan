@@ -6,6 +6,7 @@ use App\Models\Buku;
 use App\Models\Pengembalian;
 use App\Models\Pesans;
 use App\Models\Pinjam;
+use App\Models\PinjamOffline;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -65,6 +66,13 @@ class AdminViewController extends Controller
 
     public function anggota(){
         return view('Admin.anggota');
+    }
+
+    public function permintaannadmin(){
+
+        $pinjamoffline = PinjamOffline::with('buku')->get();
+
+        return view('Admin.PermintaanPinjam', compact('pinjamoffline'));
     }
 
     public function pesanadmin(){

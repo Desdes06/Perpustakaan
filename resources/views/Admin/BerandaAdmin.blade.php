@@ -54,8 +54,8 @@
                 </div>
                 <!-- Card Pinjam -->
                 <div class="p-4 bg-white border border-gray-300 rounded-lg shadow-sm">
-                    <h5 class="mb-1 text-xl font-semibold text-gray-900">Pinjam</h5>
-                    <p class="text-md text-gray-700">{{ $jumlahpinjam }} Buku Dipinjam</p>
+                    <h5 class="mb-1 text-xl font-semibold text-gray-900">Sewa</h5>
+                    <p class="text-md text-gray-700">{{ $jumlahpinjam }} Buku Sewa</p>
                     <a href="/Admin/listpinjam" class="inline-flex items-center mt-2 px-2 py-1 text-md text-white bg-blue-700 rounded hover:bg-blue-800">
                         Lihat Detail
                         <svg class="w-3 h-3 ml-1" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="2">
@@ -65,8 +65,8 @@
                 </div>
                 <!-- Card Pengembalian -->
                 <div class="p-4 bg-white border border-gray-300 rounded-lg shadow-sm">
-                    <h5 class="mb-1 text-xl font-semibold text-gray-900">Pengembalian</h5>
-                    <p class="text-md text-gray-700">{{ $pengembalian }} Buku Dikembalikan</p>
+                    <h5 class="mb-1 text-xl font-semibold text-gray-900">Berhenti Sewa</h5>
+                    <p class="text-md text-gray-700">{{ $pengembalian }} Buku Berhenti di Sewakan</p>
                     <a href="/Admin/listpengembalian" class="inline-flex items-center mt-2 px-2 py-1 text-md text-white bg-blue-700 rounded hover:bg-blue-800">
                         Lihat Detail
                         <svg class="w-3 h-3 ml-1" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="2">

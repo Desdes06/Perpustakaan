@@ -41,6 +41,8 @@ Route::group(['middleware'=>['auth']], function(){
         Route::delete('/hapuspesan/{id}',['as' => 'hapuspesan', 'uses' => 'App\Http\Controllers\AdminViewController@deletepesan']);
         // route hps semua pesan
         Route::delete('/hapussemuapesan',['as' => 'hapussemuapesan', 'uses' => 'App\Http\Controllers\AdminViewController@HapusSemuaPesan']);
+
+        Route::put('/konfirmasi/{id}', ['as' => 'konfirmasi', 'uses' => 'App\Http\Controllers\AdminViewController@konfirmasi']);
     });
 
     //route view halaman user
@@ -64,6 +66,10 @@ Route::group(['middleware'=>['auth']], function(){
         Route::delete('/riwayat/{id}', ['as' => 'riwayat', 'uses' => 'App\Http\Controllers\BukuController@hpsriwayat']);
 
         Route::post('/pesan', ['as' => 'kirimpesan', 'uses' => 'App\Http\Controllers\UserViewController@kirimpesan']);
+
+        Route::post('/pinjamoffline', ['as' => 'pinjam.offline', 'uses' => 'App\Http\Controllers\PinjamofflineController@store']);
+
+        Route::put('/pinjamoffline/{id}', ['as' => 'pinjam.offline.update', 'uses' => 'App\Http\Controllers\PinjamofflineController@update']);
     });
 
     //route view halaman profile

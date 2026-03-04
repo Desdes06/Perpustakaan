@@ -44,6 +44,11 @@ class Buku extends Model
         return $this->hasMany(Pinjam::class, 'id_buku');
     }
 
+    public function pinjamoffline(): HasMany
+    {
+        return $this->hasMany(PinjamOffline::class, 'id_buku');
+    }
+
     public function penerbit(): BelongsTo
     {
         return $this->belongsTo(Penerbit::class, 'penerbit_id');

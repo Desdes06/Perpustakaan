@@ -6,6 +6,7 @@ use App\Models\Buku;
 use App\Models\Penerbit;
 use App\Models\Pengembalian;
 use App\Models\Pinjam;
+use App\Models\PinjamOffline;
 use App\Models\Rating;
 use App\Models\Riwayat;
 use Illuminate\Http\Request;
@@ -212,14 +213,12 @@ class BukuController extends Controller
 
         $user = Auth::user();
 
-        // Cek apakah data dengan id_user, id_buku, dan tanggal_pinjam yang sama sudah ada
         $existingPinjam = Pinjam::where('id_user', $user->id)
             ->where('id_buku', $request->id_buku)
             ->whereDate('tanggal_pinjam', now()->toDateString())
             ->first();
 
         if ($existingPinjam) {
-            // Jika ada, update status_buku
             $existingPinjam->update([
                 'status_buku' => 'dipinjam',
                 'tanggal_kembali' => now()->addDays(5),
@@ -230,7 +229,7 @@ class BukuController extends Controller
                 'id_user' => $user->id,
                 'id_buku' => $request->id_buku,
                 'tanggal_pinjam' => now(),
-                'status_buku' => 'dipinjam', // Pastikan kamu menyimpan status juga
+                'status_buku' => 'dipinjam', 
             ]);
         }
 
@@ -289,13 +288,19 @@ class BukuController extends Controller
 
         $detail = Buku::with(['kategori','penerbit'])->findOrFail($id);
 
+        $pinjamoff = PinjamOffline::where('id_user', Auth::id())
+        ->where('id_buku', $detail->id)
+        ->whereIn('status', ['Pending', 'Dipinjam'])
+        ->latest()
+        ->first();
+
         $ratings = Rating::with('user')
             ->where('id_buku', $id)
             ->orderByRaw("CASE WHEN id_user = ? THEN 0 ELSE 1 END", [$userId])
             ->orderBy('created_at', 'desc')
             ->paginate(5);
 
-        return view('User.detail-buku', compact('detail', 'ratings'));
+        return view('User.detail-buku', compact('detail', 'ratings', 'pinjamoff'));
     }
 
     public function hpsriwayat($id) // fungsi hps riwayat

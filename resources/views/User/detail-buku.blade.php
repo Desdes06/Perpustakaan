@@ -106,26 +106,52 @@
                             {{ $detail->deskripsi }}
                         </p>
                     </div>
-                    <div class="flex space-x-1 items-center">
-                        @php
-                            $isAlreadyBorrowed = \App\Models\Pinjam::where('id_user', auth()->id())
-                            ->where('id_buku', $detail->id)
-                            ->where('status_buku', 'dipinjam')
-                            ->exists();
-                        @endphp
-                        @if($isAlreadyBorrowed)
-                            <a href="{{ route('User.baca.buku', ['hash' => \Vinkla\Hashids\Facades\Hashids::encode($detail->id)]) }}" class="max-sm:text-sm px-4 py-2 bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br text-white rounded-md">
-                                Baca
-                            </a>
+                    <div class="flex items-center justify-between">
+                        <div class="flex space-x-1 items-center">
+                            @php
+                                $isAlreadyBorrowed = \App\Models\Pinjam::where('id_user', auth()->id())
+                                ->where('id_buku', $detail->id)
+                                ->where('status_buku', 'dipinjam')
+                                ->exists();
+                            @endphp
+                            @if($isAlreadyBorrowed)
+                                <a href="{{ route('User.baca.buku', ['hash' => \Vinkla\Hashids\Facades\Hashids::encode($detail->id)]) }}" class="max-sm:text-sm px-4 py-2 bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br text-white rounded-md">
+                                    Baca
+                                </a>
+                            @else
+                                <button type="submit" id="pinjamButton" class="max-sm:text-sm px-4 py-2 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white rounded-md">
+                                    Sewa
+                                </button>
+                            @endif
+                            @if($isAlreadyBorrowed)
+                                <button type="submit" id="kembalikanButton" class="max-sm:text-sm bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white px-4 py-2 rounded-md">
+                                    Berhenti Sewa
+                                </button>
+                            @endif
+                        </div>
+                        @if ($pinjamoff)
+                            @if ($pinjamoff->status === 'Pending')
+                                <p class="text-sm text-red-600 font-semibold">
+                                    Status : {{ $pinjamoff->status }}
+                                </p>
+                            @elseif ($pinjamoff->status === 'Dipinjam')
+                                <div class="items-center space-y-1">
+                                    <p class="text-sm text-green-600 font-semibold">
+                                        Status : {{ $pinjamoff->status }}
+                                    </p>
+                                    <form action="{{ route('User.pinjam.offline.update', $pinjamoff->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit" id="alert" class="max-sm:text-sm bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white px-4 py-2 rounded-md">
+                                            Kembalikan
+                                        </button>
+                                    </form>
+                                </div> 
+                            @endif
                         @else
-                            <button type="submit" id="pinjamButton" class="max-sm:text-sm px-4 py-2 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white rounded-md">
-                                Sewa
-                            </button>
-                        @endif
-                        @if($isAlreadyBorrowed)
-                            <button type="submit" id="kembalikanButton" class="max-sm:text-sm bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white px-4 py-2 rounded-md transition duration-300">
-                                Berhenti Sewa
-                            </button>
+                        <button id="formdata" class="max-sm:text-sm bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white px-4 py-2 rounded-md ">
+                            Pinjam Buku Fisik
+                        </button>
                         @endif
                     </div>
                 </div>
@@ -270,6 +296,54 @@
             </div>
         </div>
     </div>
+    <div id="formidentitas" class="hidden fixed bg-black bg-opacity-30 inset-0 min-h-screen flex items-center justify-center">
+        <div class="relative bg-white rounded-md">
+            <div class="justify-self-end px-2 pt-2">
+                <button id="closeform">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                    </svg>
+                </button>
+            </div>
+            <form action="{{ route('User.pinjam.offline') }}" method="POST">
+                @csrf
+                <div class="space-y-4 px-8 pb-4">
+                    <div class="mb-3">
+                        <p class="text-xl font-bold">Form Identitas</p>
+                        <p class="text-md text-gray-500">Harap lengkapi data terlebih dahulu sebelum meminjam !</p>
+                    </div>
+                    <div class="space-y-1">
+                        <label for="nama_lengkap" class="font-semibold">Nama Lengkap</label>
+                        <input type="text" name="nama_lengkap" class="w-full border-gray-300 rounded-md">
+                    </div>
+                    <div class="space-y-1">
+                        <label for="email" class="font-semibold">Email</label>
+                        <input type="text" name="email" class="w-full border-gray-300 rounded-md">
+                    </div>
+                    <div class="space-y-1">
+                        <label for="no_tel" class="font-semibold">No Tel</label>
+                        <input type="text" name="no_tel" class="w-full border-gray-300 rounded-md">
+                    </div>
+                    <div class="space-y-1">
+                        @php
+                            $today = date('Y-m-d');
+                            $max = date('Y-m-d', strtotime('+7 days'));
+                        @endphp
+                        <label for="tanggal_pinjam" class="font-semibold">Tanggal Pinjam</label>
+                        <input type="date" name="tanggal_pinjam" min="{{ $today }}" class="w-full border-gray-300 rounded-md">
+                    </div>
+                    <div class="space-y-1">
+                        <label for="tanggal_kembali" class="font-semibold">Tanggal di Kembalikan</label>
+                        <input type="date" name="tanggal_kembali" min="{{ $today }}" max="{{ $max }}" class="w-full border-gray-300 rounded-md">
+                    </div>
+                    <div class="justify-self-end">
+                        <input type="hidden" name="id_buku" value="{{ $detail->id }}">
+                        <button type="submit" class="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br text-white px-4 py-2 rounded-md">Simpan</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 <script>
     function handleSubmit(event, form) {
@@ -338,8 +412,7 @@
             });
         }
     });
-</script>
-<script>
+
     function openKembalikanModal() {
         document.getElementById('kembalikanmodal').classList.remove('hidden');
     }
@@ -366,6 +439,26 @@
                     closeKembalikanModal();
                 }
             });
+        }
+    });
+
+    function openformidentitas(){
+        document.getElementById('formidentitas').classList.remove('hidden')
+    }
+
+    function closeformidentitas() {
+        document.getElementById('formidentitas').classList.add('hidden')
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const open = document.getElementById('formdata');
+        if (open) {
+            open.addEventListener('click', openformidentitas);
+        }
+
+        const close = document.getElementById('closeform');
+        if (close) {
+            close.addEventListener('click', closeformidentitas);
         }
     });
 </script>

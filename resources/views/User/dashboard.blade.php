@@ -149,7 +149,7 @@
                     <div class=" grid grid-flow-col auto-cols-max gap-12 max-sm:gap-8">
                         @foreach($buku as $b)
                         <div class="h-92 w-56 max-sm:w-[11.75rem] bg-[#413C88]/20 hover:shadow-xl">
-                            <a href="{{ route('User.detail', ['hash' => \Vinkla\Hashids\Facades\Hashids::encode($br->id)]) }}">
+                            <a href="{{ route('User.detail', ['hash' => \Vinkla\Hashids\Facades\Hashids::encode($b->id)]) }}">
                                 <div class="h-auto">
                                     @if($b->foto)
                                         <img src="{{ asset('storage/' . $b->foto) }}" alt="Cover Buku" class="w-full object-cover">
